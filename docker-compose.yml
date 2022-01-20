@@ -2,7 +2,9 @@ version: '3.7'
 
 services:
   client:
-    build: .
+    build: 
+      context: .
+      target: development
     env_file: ./.env
     ports:
       - $HOST_PORT:$CONTAINER_PORT
