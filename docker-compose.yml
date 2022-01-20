@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  client:
+    build: .
+    env_file: ./.env
+    ports:
+      - $HOST_PORT:$CONTAINER_PORT
+    volumes:
+      - ./:/app
+    command: sh -c "npm run serve"
