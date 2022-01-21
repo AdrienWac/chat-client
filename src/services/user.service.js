@@ -6,7 +6,7 @@ class UserService {
 
         return axios.post(`${process.env.API_URL}/user`, user)
             .then(response => {
-                // Si le code reponse n'est pas 200 => On lève une erreur
+                // Si le code reponse n'est pas 20* => On lève une erreur
                 if (response.code !== 200) {
                     throw new Error(`Erreur lors de la création de l'utilisateur. ${response.message}`);
                 }

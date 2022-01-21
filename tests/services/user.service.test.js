@@ -4,16 +4,14 @@ import UserService from '../../src/services/user.service';
 
 jest.mock('axios');
 
-describe(`Create user request to API`, () => {
+describe(`User Service: create user`, () => {
 
-    console.log(axios.post);
-    
     it('should return response data', () => {
         
         const response = { code: 200, message: null, data: { username: 'JDoe' } };
-        
-        axios.post.mockResolvedValueOnce(Promise.resolve(response));
 
+        axios.post.mockImplementationOnce((url, data) => Promise.resolve(response))
+        
         return UserService.createUser({username: 'JDoe'}).then(user => expect(user).toEqual({username: 'JDoe'}));
 
     });
@@ -27,6 +25,9 @@ describe(`Create user request to API`, () => {
         UserService.createUser({ username: 'JDoe' }).catch(error => expect(error).toMatch(`Erreur lors de la création de l'utilisateur.`))
 
     });
+
+    // TODO Test d'intégrations avec le module user du store. Tester que l'appel du module du store lance bien un appel du service
+
 
 });
 
