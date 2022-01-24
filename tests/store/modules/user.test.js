@@ -11,6 +11,10 @@ describe('Test user module from Store', () => {
 
     describe('Test to create user', () => {
 
+        beforeEach(() => {
+            localStorage.clear();
+        });
+
         it('Should add user information in store and in local storage', async () => {
 
             const response = {username: "JDoe"};
@@ -33,6 +37,23 @@ describe('Test user module from Store', () => {
         });
 
         // Test si la méthode de UserService retourne une erreur
+        it('Should have an empty localStorage because of an error', async () => {
+
+            const request = { username: 'JDoe' };
+            
+            // Mock UserService
+            UserService.createUser.mockImplementationOnce((request) => {throw new Error(`Impossiblqsqsqe de créer l'utilisateur`)});
+
+            const context = { commit: jest.fn() };
+            try {
+                await userStoreModule.actions.create(context, request);
+            } catch (error) {
+                expect(error.message).toMatch(`Impossiblqsqsqe de créer l'utilisateur`);
+            } finally {
+                expect(localStorage.getItem('user')).toBeNull();
+            }
+
+        });
 
     });
 
