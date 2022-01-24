@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import UserService from "../../../src/services/user.service";
-import { userStoreModule } from "../../../src/store/user.module";
+import UserService from "../../../../src/services/user.service";
+import { userStoreModule } from "../../../../src/store/user.module";
 import Vuex from 'vuex'
 import { cloneDeep } from 'lodash'
 
