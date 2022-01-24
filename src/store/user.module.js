@@ -11,15 +11,16 @@ export const userStoreModule = {
         }
     },
     actions: {
-        create({ commit }, request) {
-            return UserService.createUser(request).then(user => {
-                // On ajoute le user au LocalStorage 
-                localStorage.setItem('user', JSON.stringify(user));
-                // On met à jour le store
-                commit('SET_USER', user);
-                // On return le result
-                return Promise.resolve(user);
-            });
+        async create({ commit }, request) {
+
+            const user = await UserService.createUser(request);
+
+            localStorage.setItem('user', JSON.stringify(user));
+
+            commit('SET_USER', user);
+
+            return user;
+
         }
     }
 };

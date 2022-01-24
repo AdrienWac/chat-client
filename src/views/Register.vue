@@ -15,7 +15,8 @@ export default {
     data: () => ({
         form: {
             username: null
-        }
+        },
+        alert: null
     }),
     computed: {
         isValidUsername() {
@@ -23,8 +24,21 @@ export default {
         }
     },
     methods: {
-        createUsername() {
+        async createUsername() {
             console.log('createUsername', this.form);
+            try {
+
+                const user = await this.$store.dispatch('user/create', this.form);
+                
+            } catch (error) {
+
+                this.alert = {
+                    type: error,
+                    message: `Erreur lors de l'enregistrement de l'utilisateur. ${error}.`
+                };
+
+            }
+
         }
     }
 }
