@@ -1,13 +1,19 @@
 import UserService from '../services/user.service';
 
-const user = JSON.parse(localStorage.getItem('user'));
+const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
 
 export const userStoreModule = {
     namespaced: true,
-    state: user ? user : null,
+    state: () => ({
+        user: userFromLocalStorage ? userFromLocalStorage : null
+    }),
     mutations: {
         SET_USER(state, user) {
-            state.user = user;
+            if (state ) {
+                state.user = user;
+            } else {
+                state = user;
+            }
         }
     },
     actions: {
@@ -21,6 +27,14 @@ export const userStoreModule = {
 
             return user;
 
+        }
+    },
+    getters: {
+        username: () => {
+            if (state?.user?.username) {
+                return state.user.username;
+            }
+            return null;
         }
     }
 };
