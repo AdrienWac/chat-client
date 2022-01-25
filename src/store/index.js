@@ -9,13 +9,6 @@ export default createStore({
   actions: {
   },
   modules: {
-    user: {
-      namespaced: true,
-      actions: {
-        create({ commit }, request) {
-          console.log('laaaaa Module.actiions.create');
-        }
-      },
-    }
+    user: userStoreModule
   }
 })

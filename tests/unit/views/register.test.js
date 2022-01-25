@@ -8,55 +8,141 @@ import { userStoreModule } from "../../../src/store/user.module";
 import { cloneDeep } from 'lodash'
 
 describe('Register user', () => {
-    let actions;
-    let mockUserStoreModule;
-    let store;
 
     it(`Should call store actions`, async () => {
         
         const mockUserStoreModule = cloneDeep(userStoreModule);
 
-        mockUserStoreModule.actions.create = ({ commit }, request) => {
-            console.log('ouioui');
-        };
+        mockUserStoreModule.actions.create = jest.fn();
 
-        const store = new Vuex.Store({
-            modules: { user: mockUserStoreModule} 
+        const $store = new Vuex.Store({
+            modules: { user: mockUserStoreModule }
+        });
+        
+        const wrapper = shallowMount(Register, {
+            data() {
+                return {
+                    form: {
+                        username: ''
+                    },
+                    alert: null
+                }
+            },
+            global: {
+                mocks: {
+                    $store
+                }
+            }
         });
 
-        const spy = jest.spyOn(mockUserStoreModule.actions, 'create');
+        const usernameValue = 'Jdoe';
+
+
+        await wrapper.find('input[type="text"]').setValue(usernameValue);
+        await wrapper.find('form').trigger('submit.prevent');
+        expect(mockUserStoreModule.actions.create).toHaveBeenCalled();
+        
+    });
+
+    it(`Should set computed isValidUsername value`, async () => {
 
         const wrapper = shallowMount(Register, {
             data() {
                 return {
                     form: {
-                        username: 'JDoe'
+                        username: ''
+                    },
+                    alert: null
+                }
+            }
+        });
+
+        expect(wrapper.vm.isValidUsername).toBe(false);
+        await wrapper.find('input[type="text"]').setValue('Jdoe');
+        expect(wrapper.vm.isValidUsername).toBe(true);
+
+    });
+
+    it(`Should set alert data`, async () => {
+
+        const context = { commit: jest.fn() };
+
+        const request = {username: 'Jdoe'};
+
+        const mockUserStoreModule = cloneDeep(userStoreModule);
+
+        mockUserStoreModule.actions.create = jest.fn((context, request) => { throw new Error(`Impossible de créer l'utilisateur`) });
+
+        const $store = new Vuex.Store({
+            modules: { user: mockUserStoreModule }
+        });
+
+        const wrapper = shallowMount(Register, {
+            data() {
+                return {
+                    form: {
+                        username: ''
                     },
                     alert: null
                 }
             },
-            store
+            global: {
+                mocks: {
+                    $store
+                }
+            }
         });
 
-        const form = wrapper.find('form');
+        const usernameValue = 'Jdoe';
 
-        form.trigger('submit');
-        wrapper.vm.$nextTick(() => {
-            expect(spy).toHaveBeenCalled();
-            done()
-        })
-        
-        // Tester que l'action du store est bien appelée
-        
+        expect(wrapper.vm.alert).toBeNull();
+        await wrapper.find('input[type="text"]').setValue(usernameValue);
+        await wrapper.find('form').trigger('submit.prevent');
+        expect(wrapper.vm.alert.message).toMatch(`Impossible de créer l'utilisateur`);
+       
         
     });
 
-    // it(`Should disabled submit button`, () => {
+    // TODO Ceci est un test d'intégration pas unitaire.
+    it(`Should display alert message`, async () => {
 
-    // });
+        const context = { commit: jest.fn() };
 
-    // it(`Should display error alert`, () => {
+        const request = { username: 'Jdoe' };
 
-    // });
+        const mockUserStoreModule = cloneDeep(userStoreModule);
+
+        mockUserStoreModule.actions.create = jest.fn((context, request) => { throw new Error(`Impossible de créer l'utilisateur`) });
+
+        const $store = new Vuex.Store({
+            modules: { user: mockUserStoreModule }
+        });
+
+        const wrapper = shallowMount(Register, {
+            data() {
+                return {
+                    form: {
+                        username: ''
+                    },
+                    alert: null
+                }
+            },
+            global: {
+                mocks: {
+                    $store
+                }
+            }
+        });
+
+        const usernameValue = 'Jdoe';
+
+        expect(wrapper.find('.alert').exists()).toBe(false);
+        await wrapper.find('input[type="text"]').setValue(usernameValue);
+        await wrapper.find('form').trigger('submit.prevent');
+        expect(wrapper.find('.alert').exists()).toBe(true);
+
+    });
+
+    // TODO tester le contenu de l'alert dans le test du composant alert
 
 });

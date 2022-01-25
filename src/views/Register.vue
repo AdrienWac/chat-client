@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <form @submit.prevent="createUsername">
+        <form @submit="createUsername">
             <div class="form-group">
                 <input v-model="form.username" type="text" placeholder="Renseigner un nom d'utilisateur"/>
             </div>
@@ -14,7 +14,7 @@ export default {
     name: 'Register',
     data: () => ({
         form: {
-            username: null
+            username: ''
         },
         alert: null
     }),
@@ -25,15 +25,17 @@ export default {
     },
     methods: {
         async createUsername() {
-
+            
             try {
+
                 const user = await this.$store.dispatch('user/create', this.form);
-                console.log('iciicicicicici Register.createUserName', user);
-                
+
             } catch (error) {
 
+                console.log('error', error.message);
+
                 this.alert = {
-                    type: error,
+                    type: 'error',
                     message: `Erreur lors de l'enregistrement de l'utilisateur. ${error}.`
                 };
 
