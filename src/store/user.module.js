@@ -18,7 +18,7 @@ export const userStoreModule = {
     },
     actions: {
         async create({ commit }, request) {
-
+            console.log('laaaaa Module.actiions.create');
             const user = await UserService.createUser(request);
 
             localStorage.setItem('user', JSON.stringify(user));

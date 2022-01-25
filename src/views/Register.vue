@@ -20,15 +20,15 @@ export default {
     }),
     computed: {
         isValidUsername() {
-            return this.form.username.length > 2;
+            return this.form.username.trim().length > 2;
         }
     },
     methods: {
         async createUsername() {
-            console.log('createUsername', this.form);
-            try {
 
+            try {
                 const user = await this.$store.dispatch('user/create', this.form);
+                console.log('iciicicicicici Register.createUserName', user);
                 
             } catch (error) {
 

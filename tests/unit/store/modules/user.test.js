@@ -6,7 +6,7 @@ import { userStoreModule } from "../../../../src/store/user.module";
 import Vuex from 'vuex'
 import { cloneDeep } from 'lodash'
 
-jest.mock('../../../src/services/user.service');
+jest.mock('../../../../src/services/user.service');
 
 
 describe('Test create user into user module store', () => {
@@ -39,7 +39,7 @@ describe('Test create user into user module store', () => {
             const request = { username: 'JDoe' };
             
             // Mock UserService
-            UserService.createUser.mockImplementationOnce((request) => {throw new Error(`Impossiblqsqsqe de créer l'utilisateur`)});
+            UserService.createUser.mockImplementationOnce((request) => {throw new Error(`Impossible de créer l'utilisateur`)});
 
             const context = { commit: jest.fn() };
             try {

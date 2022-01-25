@@ -6,7 +6,7 @@ class UserService {
 
         try {
 
-            const result = await axios.post(`${process.env.API_URL}/user`, user);
+            const response = await axios.post(`${process.env.API_URL}/user`, user);
             
             if (response.code !== 200) {
                 throw new Error(`Erreur lors de la création de l'utilisateur. ${response.message}`);

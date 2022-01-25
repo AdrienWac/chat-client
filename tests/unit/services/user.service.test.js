@@ -6,14 +6,24 @@ jest.mock('axios');
 
 describe(`User Service: create user`, () => {
 
-    it('should return response data', () => {
+    it('should return response data', async () => {
         
         const response = { code: 200, message: null, data: { username: 'JDoe' } };
 
-        axios.post.mockImplementationOnce((url, data) => Promise.resolve(response))
+        axios.post.mockImplementationOnce((url, data) => Promise.resolve(response));
         
-        return UserService.createUser({username: 'JDoe'}).then(user => expect(user).toEqual({username: 'JDoe'}));
+        try {
 
+            const user = await UserService.createUser({ username: 'JDoe' });
+            
+            expect(user).toEqual(response.data);
+
+        } catch (error) {
+
+            throw new Error(`Erreur lors du test de la création d'un utilisateur. ${error.message}`);
+
+        }
+        
     });
 
     it('should throw an exception due to the return code', () => {

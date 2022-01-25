@@ -43,6 +43,18 @@
     },
     "rules": {}
   },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
