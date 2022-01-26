@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "jest",
-    "test:custom": "./node_modules/.bin/jest unit/views/register.test --detectOpenHandles"
+    "test:custom": "./node_modules/.bin/jest unit/components/alert.test --detectOpenHandles"
   },
   "dependencies": {
     "axios": "^0.25.0",
