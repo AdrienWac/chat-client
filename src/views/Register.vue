@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        <alert v-if="alert" @close="clearAlert" :type="alert.type" :message="alert.message"/>
         <form @submit="createUsername">
             <div class="form-group">
                 <input v-model="form.username" type="text" placeholder="Renseigner un nom d'utilisateur"/>
@@ -10,8 +11,14 @@
 </template>
 
 <script>
+
+import Alert from '@/components/Alert.vue';
+
 export default {
     name: 'Register',
+    components: {
+        Alert
+    },
     data: () => ({
         form: {
             username: ''
@@ -41,7 +48,12 @@ export default {
 
             }
 
+        },
+        clearAlert() {
+            this.alert.type = null;
+            this.alert.message = '';
         }
+        
     }
 }
 </script>

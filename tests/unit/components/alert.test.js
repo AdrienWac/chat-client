@@ -29,16 +29,25 @@ describe(`Alert component`, () => {
 
     });
 
-    // it(`Should close alert`, async() => {
+    it(`Should close alert`, async() => {
         
-    //     // ShallowMount avec props type et message
+        // ShallowMount avec props type et message
+        const wrapper = shallowMount(Alert, {
+            props: {
+                type: 'danger',
+                message: 'Test message alert'
+            }
+        });
 
-    //     // Test que le rendu html contient bien la balise .alert et que la computed visible est à true
+        // Test que le rendu html contient bien la balise .alert et que la computed visible est à true
+        expect(wrapper.find('.alert-danger').exists()).toBe(true);
 
-    //     // Find button close et trigger click
+        // Find button close et trigger click
+        await wrapper.find('button').trigger('click');
 
-    //     // Test que la computed visible est bien passée à false et que le rendu html ne contient plus la balise .alert
+        // Test que l'événement close
+        expect(wrapper.emitted()).toHaveProperty('close');
 
-    // });
+    });
 
 });
