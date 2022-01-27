@@ -14,6 +14,8 @@
 
 import Alert from '@/components/Alert.vue';
 
+console.log(process.env.VUE_APP_URL_API);
+
 export default {
     name: 'Register',
     components: {
