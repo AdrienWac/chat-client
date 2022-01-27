@@ -5,14 +5,14 @@ class UserService {
     async createUser(user) {
 
         try {
-
-            const response = await axios.post(`${process.env.API_URL}/user`, user);
             
-            if (response.code !== 200) {
+            const response = await axios.post(`http://localhost:3000/user`, user);
+
+            if (response.status !== 201) {
                 throw new Error(response.message);
             }
 
-            return response.data;
+            return response.data.result;
 
         } catch (error) {
 

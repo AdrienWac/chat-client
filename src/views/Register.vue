@@ -39,6 +39,7 @@ export default {
             try {
 
                 const user = await this.$store.dispatch('user/create', this.form);
+                this.$router.push({name: 'Home'});
 
             } catch (error) {
 
