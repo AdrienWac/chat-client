@@ -1,6 +1,6 @@
 <template>
     <div v-show="visible" :class="`alert alert-${type}`" role="alert">
-        <span>{{ messsage }}</span>
+        {{message}}
         <button type="close" @click="close">Close</button>
     </div>
 </template>
@@ -19,7 +19,6 @@ export default {
         },
         message: {
             type: String,
-            required: true,
             default() {
                 return '';
             }

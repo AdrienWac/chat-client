@@ -14,7 +14,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-
+console.log(sessionStorage);
 export default {
   name: 'Home',
   data: () => ({

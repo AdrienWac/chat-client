@@ -12,7 +12,7 @@ jest.mock('../../../../src/services/user.service');
 describe('Test create user into user module store', () => {
 
     beforeEach(() => {
-        localStorage.clear();
+        sessionStorage.clear();
     });
 
     describe('Test Actions', () => {
@@ -28,13 +28,13 @@ describe('Test create user into user module store', () => {
             
             await userStoreModule.actions.create(context, request);
 
-            expect(JSON.parse(localStorage.getItem('user'))).not.toBeNull();
+            expect(JSON.parse(sessionStorage.getItem('user'))).not.toBeNull();
             
             expect(context.commit).toHaveBeenCalledWith('SET_USER', response);
 
         });
 
-        it('Should have an empty localStorage because of an error in user service', async () => {
+        it('Should have an empty sessionStorage because of an error in user service', async () => {
 
             const request = { username: 'JDoe' };
             
@@ -47,7 +47,7 @@ describe('Test create user into user module store', () => {
             } catch (error) {
                 expect(error.message).toMatch(`Impossiblqsqsqe de créer l'utilisateur`);
             } finally {
-                expect(localStorage.getItem('user')).toBeNull();
+                expect(sessionStorage.getItem('user')).toBeNull();
             }
 
         });

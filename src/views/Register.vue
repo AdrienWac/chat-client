@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <alert v-if="alert" @close="clearAlert" :type="alert.type" :message="alert.message"/>
-        <form @submit="createUsername">
+        <form @submit.prevent="createUsername">
             <div class="form-group">
                 <input v-model="form.username" type="text" placeholder="Renseigner un nom d'utilisateur"/>
             </div>
@@ -23,7 +23,10 @@ export default {
         form: {
             username: ''
         },
-        alert: null
+        alert: {
+            type: null,
+            message: ''
+        }
     }),
     computed: {
         isValidUsername() {
@@ -41,11 +44,8 @@ export default {
 
                 console.log('error', error.message);
 
-                this.alert = {
-                    type: 'error',
-                    message: `Erreur lors de l'enregistrement de l'utilisateur. ${error}.`
-                };
-
+                this.alert.type = 'danger';
+                this.alert.message = `Erreur lors de l'enregistrement de l'utilisateur. ${error.message}.`;
             }
 
         },
