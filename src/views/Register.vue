@@ -59,5 +59,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    label{display:block;font-size: 12px;color: $red;}
+    .home{background: $blue;}
+    label{display:block;font-size: 12px;}
 </style>
