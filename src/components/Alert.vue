@@ -45,7 +45,7 @@ export default {
     .alert{
 
         display: grid;
-        grid-template-columns: 9fr 3fr;
+        grid-template-columns: 9fr 1fr;
         padding: .75rem 1.25rem;
 
         .alert__container-button {

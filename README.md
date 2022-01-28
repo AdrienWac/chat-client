@@ -1,24 +1,4 @@
-# client
+# Client du chat
 
-## Project setup
-```
-npm install
-```
+> Il y a beaucoup de noms de classe inutile. C'est juste pour m'entrainer à la syntaxe BEM.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -6,7 +6,7 @@ class UserService {
 
         try {
             
-            const response = await axios.post(`http://localhost:3000/user`, user);
+            const response = await axios.post(`${process.env.VUE_APP_URL_API}/user`, user);
 
             if (response.status !== 201) {
                 throw new Error(response.message);

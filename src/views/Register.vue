@@ -25,8 +25,8 @@ export default {
             username: ''
         },
         alert: {
-            type: 'danger',
-            message: '<p>sqdsklksqjkqjsqkjskqjkqjskqsjkqjsqk</p><ul><li>Test message d\'erreur</li><li>Test message d\'erreur</li></ul>'
+            type: null,
+            message: ''
         }
     }),
     computed: {
@@ -59,6 +59,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
     .container{
         background: map-get($colors, primary);
         font-family: $oswald;
@@ -95,11 +96,14 @@ export default {
             button[type="submit"] {
                 grid-area: 3 / 4 / 4 / 5;
                 background: map-get($colors, second);
+                border: none;
                 font-weight: bold;
                 text-transform: uppercase;
                 color: map-get($colors, white);
             }
-        }
 
+            button[type="submit"]:hover {cursor: pointer;background: darken(map-get($colors, second), 5%);}
+        }
     }
+
 </style>
