@@ -5,7 +5,6 @@ module.exports = {
             sass: {
                 additionalData: `
                     @import "@/assets/scss/_variables.scss";
-                    @import "@/assets/scss/knacss.scss";
                 `
             }
         }

@@ -1,4 +1,3 @@
-console.log('"isdhjkjsqhdksqhdjksqhdjqhsdjhjsqhdsqkjhdqjqdhsjdsqhdsqj');
 module.exports = {
     module: {
         rules: [
