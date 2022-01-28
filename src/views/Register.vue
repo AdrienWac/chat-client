@@ -25,8 +25,8 @@ export default {
             username: ''
         },
         alert: {
-            type: null,
-            message: ''
+            type: 'danger',
+            message: '<p>sqdsklksqjkqjsqkjskqjkqjskqsjkqjsqk</p><ul><li>Test message d\'erreur</li><li>Test message d\'erreur</li></ul>'
         }
     }),
     computed: {
@@ -59,6 +59,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .home{background: $blue;font-family: $oswald;}
+    .home{
+        background: $blue;
+        font-family: $oswald;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
     label{display:block;font-size: 12px;}
 </style>
