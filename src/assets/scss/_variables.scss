@@ -2,8 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;600&display=swap');
 
 // Colors
-$blue: #0183DA;
-$green: #04902f;
+$colors: (primary: #0183DA, second: #04902f, white: #fff, black: #000);;
 $alertColorsByType: ( "success", #28a745) , ("danger", #dc3545), ("warning", #fd7e14), ("info", #007bff);
 
 // Fonts

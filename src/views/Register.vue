@@ -1,13 +1,13 @@
 <template>
-    <div class="home">
-        <alert v-if="alert" @close="clearAlert" :type="alert.type" :message="alert.message"/>
-        <form @submit.prevent="createUsername">
-            <div class="form-group">
-                <label for="username">Renseigner votre nom d'utilisateur</label>
-                <input v-model="form.username" name="username" type="text" placeholder="Jdoe"/>
-            </div>
-            <button :disabled="!isValidUsername" type="submit">Envoyer</button>
-        </form>
+    <div class="container">
+        <div class="container__register">
+            <alert v-if="alert" @close="clearAlert" :type="alert.type" :message="alert.message"/>
+            <form @submit.prevent="createUsername" class="register__form">
+                <label class="form__label--username" for="username">Renseigner votre nom d'utilisateur</label>
+                    <input class="form__input--username" v-model="form.username" name="username" type="text" placeholder="Jdoe"/>
+                    <button class="form__button--submit" :disabled="!isValidUsername" type="submit">Envoyer</button>
+            </form>
+        </div>
     </div>  
 </template>
 
@@ -59,14 +59,47 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .home{
-        background: $blue;
+    .container{
+        background: map-get($colors, primary);
         font-family: $oswald;
         height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 2fr 8fr 2fr;
+        grid-template-rows: 2fr 8fr 2fr;
+
+        .container__register {
+            // grid-row-start / grid-column-start / grid-row-end / grid-column-end:
+            grid-area: 2 / 2 / 3 / 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        form {
+            
+            display: grid;
+            grid-template-columns: 3fr 3fr 3fr 3fr;
+            grid-template-rows: 6fr 1fr 6fr;
+
+            label[for="username"] {
+                grid-area: 1 / 1 / 2 / 5;
+                font-size: 3rem;
+                color: map-get($colors, second);
+            }
+
+            input[name="username"] {
+                grid-area: 3 / 1 / 4 / 4; 
+                border: 1px solid map-get($colors, second);
+            }
+
+            button[type="submit"] {
+                grid-area: 3 / 4 / 4 / 5;
+                background: map-get($colors, second);
+                font-weight: bold;
+                text-transform: uppercase;
+                color: map-get($colors, white);
+            }
+        }
+
     }
-    label{display:block;font-size: 12px;}
 </style>
