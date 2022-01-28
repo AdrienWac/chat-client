@@ -3,7 +3,8 @@
         <alert v-if="alert" @close="clearAlert" :type="alert.type" :message="alert.message"/>
         <form @submit.prevent="createUsername">
             <div class="form-group">
-                <input v-model="form.username" type="text" placeholder="Renseigner un nom d'utilisateur"/>
+                <label for="username">Renseigner votre nom d'utilisateur</label>
+                <input v-model="form.username" name="username" type="text" placeholder="Jdoe"/>
             </div>
             <button :disabled="!isValidUsername" type="submit">Envoyer</button>
         </form>
@@ -13,8 +14,6 @@
 <script>
 
 import Alert from '@/components/Alert.vue';
-
-console.log(process.env.VUE_APP_URL_API);
 
 export default {
     name: 'Register',
@@ -45,10 +44,8 @@ export default {
 
             } catch (error) {
 
-                console.log('error', error.message);
+                this.alert = {type: 'danger', message: `Erreur lors de l'enregistrement de l'utilisateur. ${error.message}.`};
 
-                this.alert.type = 'danger';
-                this.alert.message = `Erreur lors de l'enregistrement de l'utilisateur. ${error.message}.`;
             }
 
         },
@@ -60,3 +57,7 @@ export default {
     }
 }
 </script>
+
+<style scoped lang="scss">
+    label{display:block;font-size: 12px;}
+</style>
