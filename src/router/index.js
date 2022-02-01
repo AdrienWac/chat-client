@@ -5,9 +5,8 @@ import Register from '../views/Register.vue'
 
 
 function requireRegistering(to, from, next) {
-  console.log('store', store.state.user.user);
-  if (store.state.user.user) {
-    return next();
+  if (Object.keys(store.getters['user/user']).length) {
+      return next();
   }
   return next({path: '/register'});
 }
