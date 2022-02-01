@@ -2,13 +2,16 @@ import axios from 'axios';
 
 class UserService {
 
+
     async createUser(user) {
 
         try {
             
             const response = await axios.post(`${process.env.VUE_APP_URL_API}/user`, user);
 
-            if (response.status !== 201) {
+            const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
+
+            if (!regexHtppSuccessStatus.test(response.status)) {
                 throw new Error(response.message);
             }
 
@@ -23,5 +26,7 @@ class UserService {
     }
 
 }
+
+
 
 export default new UserService();

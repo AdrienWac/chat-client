@@ -4,16 +4,16 @@ const userFromSessionStorage = JSON.parse(sessionStorage.getItem('user'));
 
 export const userStoreModule = {
     namespaced: true,
-    state: () => ({
-        user: userFromSessionStorage ? userFromSessionStorage : null
-    }),
+    state: userFromSessionStorage ? () => ({ userFromSessionStorage }) : () => ({}),
     mutations: {
         SET_USER(state, user) {
-            if (state ) {
-                state.user = user;
-            } else {
-                state = user;
-            }
+            // TODO Ici bypass de la clé user => directement username (destructuration ?)
+            Object.assign(state, user);
+            // if (state ) {
+            //     state.user = user;
+            // } else {
+            //     state = user;
+            // }
         }
     },
     actions: {
@@ -29,5 +29,9 @@ export const userStoreModule = {
 
         }
     },
-    getters: {}
+    getters: {
+        user(state) {
+            return state;
+        }
+    }
 };

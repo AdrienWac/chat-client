@@ -8,7 +8,9 @@ describe(`User Service: create user`, () => {
 
     it('should return response data', async () => {
         
-        const response = { code: 200, message: null, data: { username: 'JDoe' } };
+        const statusCode = 208;
+
+        const response = { status: statusCode, data : {code: statusCode, message: null, result: { username: 'JDoe' } }};
 
         axios.post.mockImplementationOnce((url, data) => Promise.resolve(response));
         
@@ -16,7 +18,7 @@ describe(`User Service: create user`, () => {
 
             const user = await UserService.createUser({ username: 'JDoe' });
             
-            expect(user).toEqual(response.data);
+            expect(user).toEqual(response.data.result);
 
         } catch (error) {
 
@@ -24,6 +26,16 @@ describe(`User Service: create user`, () => {
 
         }
         
+    });
+
+    it('should throw an exeception due to the return code is 209', () => {
+
+        const response = { code: 209, message: 'Impossible de récupérer l\'utilisateur', data: null };
+
+        axios.post.mockResolvedValueOnce(Promise.resolve(response));
+
+        UserService.createUser({ username: 'JDoe' }).catch(error => expect(error).toMatch(`Erreur lors de la création de l'utilisateur.`))
+
     });
 
     it('should throw an exception due to the return code', () => {
