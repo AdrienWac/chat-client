@@ -103,6 +103,7 @@ export default {
             }
 
             button[type="submit"]:hover {cursor: pointer;background: darken(map-get($colors, second), 5%);}
+            button[type="submit"]:disabled {background: rgba(map-get($colors, second), 0.4);cursor: not-allowed;}
         }
     }
 
