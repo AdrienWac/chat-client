@@ -7,13 +7,7 @@ export const userStoreModule = {
     state: userFromSessionStorage ? () => ({ userFromSessionStorage }) : () => ({}),
     mutations: {
         SET_USER(state, user) {
-            // TODO Ici bypass de la clé user => directement username (destructuration ?)
             Object.assign(state, user);
-            // if (state ) {
-            //     state.user = user;
-            // } else {
-            //     state = user;
-            // }
         }
     },
     actions: {
