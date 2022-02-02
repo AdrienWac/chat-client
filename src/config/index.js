@@ -5,7 +5,7 @@ const config = {
         API_URL: process.env.VUE_APP_URL_API
     },
     production: {
-        API_URL: 'https://HEROKUAPP.heroku.com'
+        API_URL: 'https://a1234545648452121542122145.herokuapp.com'
     },
     test: {
         API_URL: process.env.VUE_APP_URL_API
