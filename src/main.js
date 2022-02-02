@@ -5,6 +5,9 @@ import store from './store'
 
 
 console.log('process.env :', process.env);
+if (process.env == 'production') {
+    console.log('$VUE_APP_URL_API :', $VUE_APP_URL_API);
+}
 console.log('process.env.VUE_APP_URL_API :', process.env.VUE_APP_URL_API);
 console.log('process.env.NODE_ENV :', process.env.NODE_ENV);
 
