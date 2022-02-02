@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from '../config';
 
 class UserService {
 
@@ -7,7 +8,7 @@ class UserService {
 
         try {
             
-            const response = await axios.post(`${process.env.VUE_APP_URL_API}/user`, user);
+            const response = await axios.post(`${config.API_URL}/user`, user);
 
             const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 

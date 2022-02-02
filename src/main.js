@@ -2,13 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import config from './config';
 
-
-console.log('process.env :', process.env);
-if (process.env.NODE_ENV == 'production') {
-    console.log('$VUE_APP_URL_API :', $VUE_APP_URL_API);
-}
-console.log('process.env.VUE_APP_URL_API :', process.env.VUE_APP_URL_API);
-console.log('process.env.NODE_ENV :', process.env.NODE_ENV);
+console.log('API_URL', config.API_URL);
 
 createApp(App).use(store).use(router).mount('#app')
