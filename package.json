@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --mode production",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "jest",
     "test:custom": "./node_modules/.bin/jest unit/services/user.service.test --detectOpenHandles"

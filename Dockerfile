@@ -11,7 +11,7 @@ COPY . .
 
 FROM development as build
 
-RUN npm run build --mode prod
+RUN npm run build
 
 
 FROM nginx:1.15.7-alpine as production
