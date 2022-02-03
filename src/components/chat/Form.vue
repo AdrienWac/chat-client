@@ -3,7 +3,7 @@
   <div>
     
     <form @submit.prevent="onSubmit" class="form">
-      <textarea v-model="input" placeholder="Your message..." class="input" />
+      <textarea v-model="content" placeholder="Your message..." class="input" />
       <button :disabled="!isValid" class="send-button">Send</button>
     </form>
 
@@ -18,15 +18,16 @@ import { ref, computed } from 'vue';
 export default {
     setup(props, context) {
 
-        let input = ref('');
+        let content = ref('');
         
-        let isValid = computed(() => input.value.length > 0);
+        let isValid = computed(() => content.value.length > 0);
 
         const onSubmit = () => {
-            context.emit('sendMessage', input);
+            context.emit('sendMessage', content.value);
+            content.value = '';
         }
 
-        return {input, isValid};   
+        return {content, isValid, onSubmit};   
     }
 }
 </script>
