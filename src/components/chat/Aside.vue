@@ -1,7 +1,7 @@
 <template>
     <aside>
         <ul>
-            <li v-for="user in users"> {{user.username}}</li>
+            <li v-for="user in users" @click="selectUser(user)"> {{user.username}}</li>
         </ul>
     </aside>
 </template>
@@ -19,6 +19,12 @@ export default {
             }
         },
     },
+    methods: {
+        selectUser(user) {
+            console.log('select user', user);
+            this.$emit('selectionUser', user);
+        }
+    },
     setup(props) {
         
         let users = ref([]);
@@ -26,7 +32,7 @@ export default {
         const generateListUsers = (arrayUsers) => {
 
             arrayUsers.forEach(userData => {
-                userData.sel = userData.userId === Socket.id;
+                userData.self = userData.userId === Socket.id;
             });
 
             return arrayUsers.sort((a, b) => {

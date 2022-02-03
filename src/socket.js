@@ -1,7 +1,6 @@
 import { io } from "socket.io-client"
 import config from './config'
 
-console.log('config.APP_URL', config);
 const socket = io(config.APP_URL, {autoConnect: false});
 
 socket.onAny((event, ...args) => {

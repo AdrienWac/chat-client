@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <Aside :room="'sqqs'"/>
-    
+    <Aside :room="'sqqs'" @selectionUser="selectUser"/>
+    Utilisateur sélectionné : {{selectedUser.userId}}
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
     <form @submit.prevent="createUsername">
@@ -17,7 +17,7 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import Socket from '../socket'
-import {onMounted} from 'vue'
+import {ref, onMounted} from 'vue'
 import Aside from '../components/chat/Aside.vue'
 
 
@@ -26,15 +26,29 @@ export default {
   data: () => ({
     form: {
       username: null
-    }
+    },
+    
   }),
+  // methods: {
+  //     selectUser(user) {
+  //         console.log('select user', user);
+  //         // this.$emit('selectionUser', user);
+  //     }
+  // },
   setup() {
-    
-    let user = JSON.parse(sessionStorage.getItem('user'));
-    console.log(user.username);
 
-    const initSocket = () => { Socket.auth = user; Socket.connect();console.log('init Socket', Socket.id) }
+
+    let user = JSON.parse(sessionStorage.getItem('user'));
+
+    const initSocket = () => { Socket.auth = user; Socket.connect();}
     
+    let selectedUser = ref({});
+
+    const selectUser = (user) => {
+        console.log('ouioui select user', user);
+        selectedUser.value = user;
+    };
+
     onMounted(() => {
       initSocket();
     });
@@ -46,7 +60,7 @@ export default {
       }
     });
 
-    return { name };
+    return { selectUser, selectedUser };
   },
   components: {
     HelloWorld,
