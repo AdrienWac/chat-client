@@ -4,7 +4,7 @@
     
     <form @submit.prevent="onSubmit" class="form">
       <textarea v-model="content" placeholder="Your message..." class="input" />
-      <button :disabled="!isValid" class="send-button">Send</button>
+      <button :disabled="!isValid" class="send-button"><img alt="Paper plane icon" src="../assets/paper-plane-solid.svg"></button>
     </form>
 
   </div>

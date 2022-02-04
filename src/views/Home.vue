@@ -98,7 +98,7 @@
         </div>
         
         <div class="forum__footer">
-          <span class="user__action--write">Username est en train d'écrire</span>
+          <div class="forum__footer-content">Username est en train d'écrire</div>
         </div>
 
       </div>
@@ -277,7 +277,9 @@ export default {
         position: relative;
         padding: 10px 0 10px 5px;
         border-bottom: 1px solid #eef0f2;
-
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         
 
       }
@@ -288,7 +290,7 @@ export default {
 
         .message__card {
 
-          padding: 15px 5px;
+          padding: 15px 10px 15px 5px;
           display: grid;
           grid-template-columns: 1fr 11fr;
 
@@ -319,6 +321,28 @@ export default {
 
       }
 
+      .forum__footer {
+
+        border-top: 1px solid #eef0f2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 15px 5px;
+
+      }
+
+    }
+
+    ::v-deep .form {
+      display: grid;
+      grid-template-columns: 9fr 3fr;
+      padding: 5px 5px 15px 5px;
+
+      textarea {
+        width:100%;
+      }
+
+      
     }
 
   }
