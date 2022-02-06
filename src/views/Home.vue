@@ -8,7 +8,7 @@
 
         <div class="forum__header">
           <!-- <div class="user header__user" v-if="selectedUser.userId">{{selectedUser.username}}</div> -->
-          <div data-state="offline" class="user header__user">Lorem Ipsum is simply dummy text of</div>
+          <div data-state="offline" class="user header__user">AdrienLbt</div>
         </div>
         
         <div class="forum__list">
@@ -238,7 +238,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-
+.user {font-weight: normal;font-size: 1.1rem;}
 .user:before {
   content: '';
   height: 8px;
@@ -313,7 +313,6 @@ export default {
           }
 
           .message__main-header {
-            .message__sender{ font-weight: normal;font-size: 1.1rem;}
             .message__time{ font-size: 0.7rem; color: lighten(map-get($fontColors, primary), 20%);}
           }
 
