@@ -98,12 +98,19 @@
         </div>
         
         <div class="forum__footer">
-          <div class="forum__footer-content">Username est en train d'écrire</div>
+          <div class="dots-loading">
+            <div class="dots-loading__stage">
+              <div class="dots-loading__dots"></div>
+            </div>
+            <div class="dots-loading__content">Username est en train d'écrire</div>
+          </div>
         </div>
 
       </div>
-
-      <Form @sendMessage="sendMessage"/>
+      
+      <div class="main__form">
+        <Form @sendMessage="sendMessage"/>
+      </div>
       <!-- <Form @sendMessage="sendMessage" v-if="selectedUser.userId"/> -->
 
     </main>
@@ -329,21 +336,107 @@ export default {
         justify-content: center;
         padding: 15px 5px;
 
+        .dots-loading {
+          display: grid;
+          grid-template-columns: 1fr 11fr;
+        }
+
+        .dots-loading__stage {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          padding: 2rem 0;
+          margin: 0 -5%;
+          overflow: hidden;
+        }
+
+        .dots-loading__dots{
+          position: relative;
+          width: 10px;
+          height: 10px;
+          border-radius: 5px;
+          background-color: #9880ff;
+          color: #9880ff;
+          animation: dotFlashing 1s infinite linear alternate;
+          animation-delay: .5s;
+        }
+
+        .dots-loading__dots::before, .dots-loading__dots::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          top: 0;
+        }
+
+        .dots-loading__dots::before {
+          left: -15px;
+          width: 10px;
+          height: 10px;
+          border-radius: 5px;
+          background-color: #9880ff;
+          color: #9880ff;
+          animation: dotFlashing 1s infinite alternate;
+          animation-delay: 0s;
+        }
+
+        .dots-loading__dots::after {
+          left: 15px;
+          width: 10px;
+          height: 10px;
+          border-radius: 5px;
+          background-color: #9880ff;
+          color: #9880ff;
+          animation: dotFlashing 1s infinite alternate;
+          animation-delay: 1s;
+        }
+
+        .dots-loading__content {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+
+        @keyframes dotFlashing {
+          0% {
+            background-color: #9880ff;
+          }
+          50%,
+          100% {
+            background-color: #ebe6ff;
+          }
+        }
+
       }
 
     }
 
-    ::v-deep .form {
-      display: grid;
-      grid-template-columns: 9fr 3fr;
-      padding: 5px 5px 15px 5px;
+    .main__form {
 
-      textarea {
-        width:100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top: 1px solid #fff;
+
+      ::v-deep .form {
+        display: grid;
+        grid-template-columns: 9fr 3fr;
+        padding: 5px 5px 15px 5px;
+
+        textarea {
+          width:100%;
+          min-height: 50px;
+        }
+
+        button {background: map-get($colors, primary);border: none;}
+        button:disabled {background: rgba(map-get($colors, primary), 0.4); cursor: not-allowed;}
+
+        
       }
 
-      
     }
+
+    
 
   }
 
