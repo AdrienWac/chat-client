@@ -238,6 +238,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+
 .user {font-weight: normal;font-size: 1.1rem;}
 .user:before {
   content: '';
@@ -264,11 +265,11 @@ export default {
   grid-template-columns: 30% 70%;
   grid-template-rows: 100%;
 
-  aside{background: map-get($colors, primary);}
+  // aside{background: map-get($colors, primary);}
 
   main{
     
-    background: map-get($colors, second);
+    // background: map-get($colors, second);
     display: grid;
     grid-template-rows: 80% 20%;
     
@@ -283,7 +284,7 @@ export default {
         max-width: 100%;
         position: relative;
         padding: 10px 0 10px 5px;
-        border-bottom: 1px solid #eef0f2;
+        border-bottom: 1px solid map-get($colors, primary);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -294,6 +295,8 @@ export default {
       .forum__list {
         
         overflow-y: scroll;
+
+        
 
         .message__card {
 

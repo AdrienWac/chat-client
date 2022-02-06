@@ -58,18 +58,17 @@ export default {
 aside {
     display: grid;
     grid-template-rows: 8% 92%;
+    border-right: 1px solid map-get($colors, primary);
     .title {
         padding: 10px 5px;
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid map-get($colors, primary);
         display: flex;
         flex-direction: column;
         justify-content: center;
-        h2{font-weight: bold;font-size: 1.4rem;}
+        h2{font-size: 2rem;text-transform: uppercase;color: map-get($colors, second);}
     }
 }
 .list-users {
-    
-    padding: 5px;
     
     .list-users__item[data-state="offline"] .item__profil-pic img { border-color: map-get($colors, offline );}
     .list-users__item[data-state="online"] .item__profil-pic img { border-color: map-get($colors, online );}
@@ -99,6 +98,7 @@ aside {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            font-weight: normal;
             font-size: 1.2rem;
             padding: 0 5px;
         }
