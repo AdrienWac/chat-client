@@ -14,6 +14,15 @@
                 </div>
                 <div class="item__notification"><span class="badge">10+</span></div>
             </li>
+            <li class="list-users__item selected" data-state="online"> 
+                <div class="item__profil-pic">
+                    <img alt="Vue logo" src="../../assets/logo.png">
+                </div>
+                <div class="item__username">
+                    Jdoe
+                </div>
+                <div class="item__notification"><span class="badge">10+</span></div>
+            </li>
         </ul>
         </div>
     </aside>
@@ -65,9 +74,15 @@ aside {
     .list-users__item[data-state="offline"] .item__profil-pic img { border-color: map-get($colors, offline );}
     .list-users__item[data-state="online"] .item__profil-pic img { border-color: map-get($colors, online );}
 
+    .list-users__item:hover, .list-users__item.selected {
+        cursor: pointer;
+        background: rgba(0 , 0, 0, 0.05);
+    }
+
     .list-users__item {
 
         margin: 5px 0;
+        padding: 10px;
         display: grid;
         grid-template-columns: 2fr 9fr 1fr;
 
