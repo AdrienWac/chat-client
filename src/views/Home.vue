@@ -163,7 +163,7 @@ export default {
     });
     
     Socket.on("connect_error", (err) => {
-      console.log('errr', err);
+      console.log('errr', err.message);
       if (err.message === "invalid username") {
         this.usernameAlreadySelected = false;
       }
