@@ -344,6 +344,7 @@ export default {
       flex-direction: column;
       justify-content: center;
       border-top: 1px solid map-get($colors, primary);
+      padding: 5px;
 
       .form__header[data-visibility="hidden"]{animation-duration: 1s; animation-name: hiddeHeader;animation-fill-mode: forwards;}
       .form__header[data-visibility="show"]{ animation-duration: 1s; animation-name: displayHeader;animation-fill-mode: forwards;}
@@ -382,21 +383,21 @@ export default {
 
           .dots-loading {
             display: grid;
-            grid-template-columns: 1fr 11fr;
+            grid-template-columns: 0.5fr 11.5fr;
           }
 
           .dots-loading__stage {
             display: flex;
-            justify-content: center;
+            justify-content: start;
             align-items: center;
             position: relative;
             padding: 2rem 0;
-            margin: 0 -5%;
             overflow: hidden;
           }
 
           .dots-loading__dots{
             position: relative;
+            margin-left: 15px;
             width: 10px;
             height: 10px;
             border-radius: 5px;
@@ -439,6 +440,7 @@ export default {
             display: flex;
             flex-direction: row;
             align-items: center;
+            padding: 0 5px;
           }
 
           @keyframes dotFlashing {
@@ -457,7 +459,6 @@ export default {
       ::v-deep .form {
         display: grid;
         grid-template-columns: 9fr 3fr;
-        padding: 5px 5px 15px 5px;
 
         textarea {
           width:100%;
