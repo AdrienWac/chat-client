@@ -302,8 +302,6 @@ export default {
         
         overflow-y: scroll;
 
-        
-
         .message__card {
 
           padding: 15px 10px 15px 5px;
