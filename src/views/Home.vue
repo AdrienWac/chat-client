@@ -268,7 +268,7 @@ export default {
   left: 0;
   right: 0;
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 20% 80%;
   grid-template-rows: 100%;
 
   // aside{background: map-get($colors, primary);}
@@ -282,7 +282,7 @@ export default {
     .forum {
 
       display: grid;
-      grid-template-rows: 10% 80% 10%;
+      grid-template-rows: 10% 90%;
 
       .forum__header {
 
@@ -354,13 +354,13 @@ export default {
             bottom: 60px;
           }
           to {
-            bottom: 90px;
+            bottom: 112px;
           }
         }
 
         @keyframes hiddeHeader {
           from {
-            bottom: 90px;
+            bottom: 112px;
           }
           to {
             bottom: 60px;
@@ -391,7 +391,7 @@ export default {
             justify-content: start;
             align-items: center;
             position: relative;
-            padding: 2rem 0;
+            padding: 1rem 0;
             overflow: hidden;
           }
 
@@ -466,7 +466,8 @@ export default {
         }
 
         button {background: map-get($colors, primary);border: none;}
-        button:disabled {background: rgba(map-get($colors, primary), 0.4); cursor: not-allowed;}
+        button:disabled, button:disabled:hover {background: rgba(map-get($colors, primary), 0.4); cursor: not-allowed;}
+        button:hover {background: rgba(map-get($colors, primary), 0.7); cursor: pointer;}
 
         
       }
