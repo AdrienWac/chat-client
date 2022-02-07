@@ -142,6 +142,7 @@ export default {
     });
 
     const selectUser = (user) => {
+        user.hasNewMessages = 0;
         selectedUser.value = user;
     };
 
@@ -220,8 +221,8 @@ export default {
   margin-right: 6px;
 }
 
-.user[data-state="online"]:before {background-color: greenyellow;}
-.user[data-state="offline"]::before {background-color: black;}
+.user[data-state="online"]:before {background-color: map-get($colors, online);}
+.user[data-state="offline"]::before {background-color: map-get($colors, offline);}
 
 .home {
 
