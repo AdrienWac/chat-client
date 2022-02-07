@@ -159,11 +159,13 @@ export default {
     }
 
     onMounted(() => {
+      console.log('INIT SOCKET');
       initSocket();
     });
     
     Socket.on("connect_error", (err) => {
-      console.log('errr', err.message);
+      console.log('errr', err);
+      console.log('errr', err, err.message);
       if (err.message === "invalid username") {
         this.usernameAlreadySelected = false;
       }
