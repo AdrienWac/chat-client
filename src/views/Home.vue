@@ -97,19 +97,25 @@
           </ul>
         </div>
         
-        <div class="forum__footer">
-          <div class="dots-loading">
-            <div class="dots-loading__stage">
-              <div class="dots-loading__dots"></div>
-            </div>
-            <div class="dots-loading__content">Username est en train d'écrire</div>
-          </div>
-        </div>
+        
 
       </div>
       
       <div class="main__form">
+
+        <div class="form__header" data-visibility="show">
+          <div class="header__test">
+            <div class="dots-loading">
+              <div class="dots-loading__stage">
+                <div class="dots-loading__dots"></div>
+              </div>
+              <div class="dots-loading__content">Username est en train d'écrire</div>
+            </div>
+          </div>
+        </div>
+
         <Form @sendMessage="sendMessage"/>
+
       </div>
       <!-- <Form @sendMessage="sendMessage" v-if="selectedUser.userId"/> -->
 
@@ -328,88 +334,7 @@ export default {
 
         }
 
-      }
-
-      .forum__footer {
-
-        border-top: 1px solid #eef0f2;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 15px 5px;
-
-        .dots-loading {
-          display: grid;
-          grid-template-columns: 1fr 11fr;
-        }
-
-        .dots-loading__stage {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-          padding: 2rem 0;
-          margin: 0 -5%;
-          overflow: hidden;
-        }
-
-        .dots-loading__dots{
-          position: relative;
-          width: 10px;
-          height: 10px;
-          border-radius: 5px;
-          background-color: #9880ff;
-          color: #9880ff;
-          animation: dotFlashing 1s infinite linear alternate;
-          animation-delay: .5s;
-        }
-
-        .dots-loading__dots::before, .dots-loading__dots::after {
-          content: '';
-          display: inline-block;
-          position: absolute;
-          top: 0;
-        }
-
-        .dots-loading__dots::before {
-          left: -15px;
-          width: 10px;
-          height: 10px;
-          border-radius: 5px;
-          background-color: #9880ff;
-          color: #9880ff;
-          animation: dotFlashing 1s infinite alternate;
-          animation-delay: 0s;
-        }
-
-        .dots-loading__dots::after {
-          left: 15px;
-          width: 10px;
-          height: 10px;
-          border-radius: 5px;
-          background-color: #9880ff;
-          color: #9880ff;
-          animation: dotFlashing 1s infinite alternate;
-          animation-delay: 1s;
-        }
-
-        .dots-loading__content {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-        }
-
-        @keyframes dotFlashing {
-          0% {
-            background-color: #9880ff;
-          }
-          50%,
-          100% {
-            background-color: #ebe6ff;
-          }
-        }
-
-      }
+      } 
 
     }
 
@@ -418,7 +343,116 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      border-top: 1px solid #fff;
+      border-top: 1px solid map-get($colors, primary);
+
+      .form__header[data-visibility="hidden"]{animation-duration: 1s; animation-name: hiddeHeader;animation-fill-mode: forwards;}
+      .form__header[data-visibility="show"]{ animation-duration: 1s; animation-name: displayHeader;animation-fill-mode: forwards;}
+
+        @keyframes displayHeader {
+          from {
+            bottom: 60px;
+          }
+          to {
+            bottom: 90px;
+          }
+        }
+
+        @keyframes hiddeHeader {
+          from {
+            bottom: 90px;
+          }
+          to {
+            bottom: 60px;
+          }
+        }
+      
+      .form__header {
+
+        position: absolute;
+        width: 100%;
+        z-index:-1;
+
+        
+
+        .header__test {
+
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          .dots-loading {
+            display: grid;
+            grid-template-columns: 1fr 11fr;
+          }
+
+          .dots-loading__stage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 2rem 0;
+            margin: 0 -5%;
+            overflow: hidden;
+          }
+
+          .dots-loading__dots{
+            position: relative;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #9880ff;
+            color: #9880ff;
+            animation: dotFlashing 1s infinite linear alternate;
+            animation-delay: .5s;
+          }
+
+          .dots-loading__dots::before, .dots-loading__dots::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 0;
+          }
+
+          .dots-loading__dots::before {
+            left: -15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #9880ff;
+            color: #9880ff;
+            animation: dotFlashing 1s infinite alternate;
+            animation-delay: 0s;
+          }
+
+          .dots-loading__dots::after {
+            left: 15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #9880ff;
+            color: #9880ff;
+            animation: dotFlashing 1s infinite alternate;
+            animation-delay: 1s;
+          }
+
+          .dots-loading__content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+          }
+
+          @keyframes dotFlashing {
+            0% {
+              background-color: #9880ff;
+            }
+            50%,
+            100% {
+              background-color: #ebe6ff;
+            }
+          }
+        }
+
+      }
 
       ::v-deep .form {
         display: grid;
