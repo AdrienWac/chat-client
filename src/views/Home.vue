@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+
+    
+
     <Aside :users="listUsers" :selectedUser="selectedUser" :room="'sqqs'" @selectionUser="selectUser"/>
 
     <main :class="`${selectedUser.userId ? 'main--full' : ''}`">
@@ -35,11 +38,21 @@
         
             </li>
 
-            <p v-else >Aucun message à afficher</p>
+            <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
+              <template v-slot:icon>
+                <CommentSlash :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
+              </template>
+              <template v-slot:message>Aucun message à afficher</template>
+            </AlertPage>
             
           </ul>
 
-          <Alert v-else :message="'<p>Sélectionner un utilisateur pour commencer à discuter</p>'" :type="'info'" />
+          <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
+            <template v-slot:icon>
+              <MousePointer :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
+            </template>
+            <template v-slot:message>Sélectionner un utilisateur</template>
+          </AlertPage>
 
         </div>
 
@@ -74,7 +87,9 @@ import Socket from '../socket'
 import {ref, onMounted} from 'vue'
 import Aside from '../components/chat/Aside.vue'
 import Form from '../components/chat/Form.vue'
-import Alert from '../components/Alert.vue'
+import AlertPage from '../components/chat/Alert.vue'
+import CommentSlash from '../components/svg/CommentSlash.vue'
+import MousePointer from '../components/svg/MousePointer.vue'
 
 
 export default {
@@ -187,7 +202,9 @@ export default {
   components: {
     Aside,
     Form,
-    Alert
+    AlertPage,
+    CommentSlash,
+    MousePointer
   }
 }
 </script>
@@ -250,6 +267,13 @@ export default {
       .forum__list {
         
         overflow-y: auto;
+        
+        ul {height: 100%;}
+
+        ::v-deep .alert--page {
+          font-size: 1.5rem;
+          text-align: center;
+        }
 
         .message__card {
 
