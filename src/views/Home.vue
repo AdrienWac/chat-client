@@ -1,20 +1,22 @@
 <template>
   <div class="home">
-    <Aside :users="listUsers" :room="'sqqs'" @selectionUser="selectUser"/>
+    <Aside :users="listUsers" :selectedUser="selectedUser" :room="'sqqs'" @selectionUser="selectUser"/>
 
-    <main>
+    <main :class="`${selectedUser.userId ? 'main--full' : ''}`">
 
       <div class="forum">
 
         <div class="forum__header">
-          <!-- <div class="user header__user" v-if="selectedUser.userId">{{selectedUser.username}}</div> -->
-          <div data-state="offline" class="user header__user">AdrienLbt</div>
+          <div data-state="offline" class="user header__user" v-if="selectedUser.userId">
+            {{selectedUser.username}}
+          </div>
         </div>
         
         <div class="forum__list">
-          <ul>
 
-            <li class="message__card">
+          <ul v-if ="selectedUser.messages">
+
+            <li v-if ="selectedUser.messages?.length > 0" class="message__card" v-for="message in selectedUser.messages">
               
               <div class="message__aside">
                 <img alt="Vue logo" src="../assets/logo.png">
@@ -23,87 +25,29 @@
               <div class="message__main">
 
                 <div class="message__main-header"> 
-                  <span data-state="offline" class="message__sender user"> AdrienLbt </span> 
+                  <span data-state="offline" class="message__sender user"> {{ message.fromSelf ? user.username : selectedUser.username }} </span> 
                   <span class="message__time"> 04/02/2022 - 14h55 </span> 
                 </div>
 
-                <div class="message__content"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum </div>
+                <div class="message__content"> {{ message.content }} </div>
 
               </div>
         
             </li>
 
-            <li class="message__card">
-              
-              <div class="message__aside">
-                <img alt="Vue logo" src="../assets/logo.png">
-              </div>
-
-              <div class="message__main">
-
-                <div class="message__main-header"> 
-                  <span data-state="offline" class="message__sender user"> AdrienLbt </span> 
-                  <span class="message__time"> 04/02/2022 - 14h55 </span> 
-                </div>
-
-                <div class="message__content"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum </div>
-
-              </div>
-        
-            </li>
-
-            <li class="message__card">
-              
-              <div class="message__aside">
-                <img alt="Vue logo" src="../assets/logo.png">
-              </div>
-
-              <div class="message__main">
-
-                <div class="message__main-header"> 
-                  <span data-state="offline" class="message__sender user"> AdrienLbt </span> 
-                  <span class="message__time"> 04/02/2022 - 14h55 </span> 
-                </div>
-
-                <div class="message__content"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum </div>
-
-              </div>
-        
-            </li>
-
-            <li class="message__card">
-              
-              <div class="message__aside">
-                <img alt="Vue logo" src="../assets/logo.png">
-              </div>
-
-              <div class="message__main">
-
-                <div class="message__main-header"> 
-                  <span data-state="offline" class="message__sender user"> AdrienLbt </span> 
-                  <span class="message__time"> 04/02/2022 - 14h55 </span> 
-                </div>
-
-                <div class="message__content"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum </div>
-
-              </div>
-        
-            </li>
+            <p v-else >Aucun message à afficher</p>
             
-            <!-- <li class="list__item" v-for="message in selectedUser.messages">
-                <span>{{message.fromSelf ? "Moi" : selectedUser.username}}</span>
-                <span>{{message.content}}</span>
-            </li> -->
           </ul>
+
+          <Alert v-else :message="'<p>Sélectionner un utilisateur pour commencer à discuter</p>'" :type="'info'" />
+
         </div>
-        
-        
 
       </div>
       
       <div class="main__form">
 
-        <div class="form__header" data-visibility="show">
+        <div class="form__header" :data-visibility="`${selectedUser.isTyping ? 'show' : 'hidden'}`">
           <div class="header__test">
             <div class="dots-loading">
               <div class="dots-loading__stage">
@@ -117,7 +61,6 @@
         <Form @sendMessage="sendMessage"/>
 
       </div>
-      <!-- <Form @sendMessage="sendMessage" v-if="selectedUser.userId"/> -->
 
     </main>
     
@@ -131,6 +74,7 @@ import Socket from '../socket'
 import {ref, onMounted} from 'vue'
 import Aside from '../components/chat/Aside.vue'
 import Form from '../components/chat/Form.vue'
+import Alert from '../components/Alert.vue'
 
 
 export default {
@@ -155,6 +99,8 @@ export default {
 
         arrayUsers.forEach(userData => {
             userData.self = userData.userId === Socket.id;
+            userData.isTyping = false;
+            userData.hasNewMessages = 0;
         });
 
         return arrayUsers.sort((a, b) => {
@@ -224,7 +170,7 @@ export default {
 
           // Si l'élément courant est l'expéditeur et que je ne l'ai pas sélectionné, je set sa propriété hasNewMessages à true
           if (element !== selectedUser.value) {
-            element.hasNewMessages = true;
+            element.hasNewMessages++;
           }
 
           break;
@@ -235,11 +181,13 @@ export default {
 
     });
 
-    return { listUsers, selectUser, selectedUser, sendMessage };
+    return { listUsers, selectUser, selectedUser, sendMessage, user };
+
   },
   components: {
     Aside,
-    Form
+    Form,
+    Alert
   }
 }
 </script>
@@ -277,7 +225,8 @@ export default {
     
     // background: map-get($colors, second);
     display: grid;
-    grid-template-rows: 80% 20%;
+    grid-template-rows: 100vh;
+    transition: all 1s;
     
     .forum {
 
@@ -300,7 +249,7 @@ export default {
 
       .forum__list {
         
-        overflow-y: scroll;
+        overflow-y: auto;
 
         .message__card {
 
@@ -344,29 +293,60 @@ export default {
       border-top: 1px solid map-get($colors, primary);
       padding: 5px;
 
+      .form__header{ display: none; }
+
+      ::v-deep .form {
+        display: grid;
+        grid-template-columns: 9fr 3fr;
+
+        textarea {
+          width:100%;
+          min-height: 50px;
+        }
+
+        button {background: map-get($colors, primary);border: none;}
+        button:disabled, button:disabled:hover {background: rgba(map-get($colors, primary), 0.4); cursor: not-allowed;}
+        button:hover {background: rgba(map-get($colors, primary), 0.7); cursor: pointer;}
+
+        
+      }
+
+    }
+
+    
+
+  }
+
+  .main--full{
+    
+    grid-template-rows: 80vh 20vh;
+
+    .main__form {
+
       .form__header[data-visibility="hidden"]{animation-duration: 1s; animation-name: hiddeHeader;animation-fill-mode: forwards;}
       .form__header[data-visibility="show"]{ animation-duration: 1s; animation-name: displayHeader;animation-fill-mode: forwards;}
 
-        @keyframes displayHeader {
-          from {
-            bottom: 60px;
-          }
-          to {
-            bottom: 112px;
-          }
+      @keyframes displayHeader {
+        from {
+          bottom: 60px;
         }
+        to {
+          bottom: 112px;
+        }
+      }
 
-        @keyframes hiddeHeader {
-          from {
-            bottom: 112px;
-          }
-          to {
-            bottom: 60px;
-          }
+      @keyframes hiddeHeader {
+        from {
+          bottom: 112px;
         }
+        to {
+          bottom: 60px;
+        }
+      }
       
       .form__header {
 
+        display: block;
         position: absolute;
         width: 100%;
         z-index:-1;
@@ -453,29 +433,9 @@ export default {
         }
 
       }
-
-      ::v-deep .form {
-        display: grid;
-        grid-template-columns: 9fr 3fr;
-
-        textarea {
-          width:100%;
-          min-height: 50px;
-        }
-
-        button {background: map-get($colors, primary);border: none;}
-        button:disabled, button:disabled:hover {background: rgba(map-get($colors, primary), 0.4); cursor: not-allowed;}
-        button:hover {background: rgba(map-get($colors, primary), 0.7); cursor: pointer;}
-
-        
-      }
-
     }
-
     
-
   }
-
 
 
 }

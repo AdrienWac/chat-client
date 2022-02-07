@@ -5,23 +5,14 @@
         </div>
         <div class="list-users">
         <ul>
-            <li v-for="user in users" @click="selectUser(user)" class="list-users__item" data-state="online"> 
+            <li v-for="user in users" @click="selectUser(user)" :class=" `${selectedUser == user ? 'selected' : ''} list-users__item`" data-state="online"> 
                 <div class="item__profil-pic">
                     <img alt="Vue logo" src="../../assets/logo.png">
                 </div>
                 <div class="item__username">
                     {{user.username}}
                 </div>
-                <div class="item__notification"><span class="badge">10+</span></div>
-            </li>
-            <li class="list-users__item selected" data-state="online"> 
-                <div class="item__profil-pic">
-                    <img alt="Vue logo" src="../../assets/logo.png">
-                </div>
-                <div class="item__username">
-                    Jdoe
-                </div>
-                <div class="item__notification"><span class="badge">10+</span></div>
+                <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
             </li>
         </ul>
         </div>
@@ -40,7 +31,8 @@ export default {
                 return '/';
             }
         },
-        users: Array
+        users: Array,
+        selectedUser: Object
     },
     setup(props, context) {
 
