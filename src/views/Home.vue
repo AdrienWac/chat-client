@@ -10,7 +10,7 @@
       <div class="forum">
 
         <div class="forum__header">
-          <div data-state="offline" class="user header__user" v-if="selectedUser.userId">
+          <div :data-state="`${selectedUser.isOnline ? 'online' : 'offline'}`" class="user header__user" v-if="selectedUser.userId">
             {{selectedUser.username}}
           </div>
         </div>
@@ -28,7 +28,7 @@
               <div class="message__main">
 
                 <div class="message__main-header"> 
-                  <span data-state="offline" class="message__sender user"> {{ message.fromSelf ? user.username : selectedUser.username }} </span> 
+                  <span :data-state="`${selectedUser.isOnline ? 'online' : 'offline'}`" class="message__sender user"> {{ message.fromSelf ? user.username : selectedUser.username }} </span> 
                   <span class="message__time"> 04/02/2022 - 14h55 </span> 
                 </div>
 
@@ -116,6 +116,7 @@ export default {
             userData.self = userData.userId === Socket.id;
             userData.isTyping = false;
             userData.hasNewMessages = 0;
+            userData.isOnline = true;
         });
 
         return arrayUsers.sort((a, b) => {
@@ -196,6 +197,16 @@ export default {
       }
 
     });
+
+    // Quand un utilisateur se déconnecte
+    Socket.on('user disconected', (userId) => {
+      listUsers.value.forEach(user => {
+        if (user.userId === userId) {
+          user.isOnline = false;
+        }
+      });
+    });
+    
 
     return { listUsers, selectUser, selectedUser, sendMessage, user };
 
