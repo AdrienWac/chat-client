@@ -109,8 +109,7 @@ export default {
     let sessionId = localStorage.getItem('sessionId');
 
     const initSocket = () => { 
-      Socket.auth = user;
-      Socket.auth = { sessionId }; 
+      Socket.auth = {...user, ...{ sessionId }};
       Socket.connect();
     }
     
