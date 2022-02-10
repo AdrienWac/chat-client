@@ -1,10 +1,10 @@
 import UserService from '../services/user.service';
 
-const userFromSessionStorage = JSON.parse(sessionStorage.getItem('user'));
+const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
 
 export const userStoreModule = {
     namespaced: true,
-    state: userFromSessionStorage ? () => ({ userFromSessionStorage }) : () => ({}),
+    state: userFromLocalStorage ? () => ({ userFromLocalStorage }) : () => ({}),
     mutations: {
         SET_USER(state, user) {
             Object.assign(state, user);
@@ -15,7 +15,7 @@ export const userStoreModule = {
 
             const user = await UserService.createUser(request);
 
-            sessionStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
 
             commit('SET_USER', user);
 

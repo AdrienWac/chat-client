@@ -104,9 +104,15 @@ export default {
 
     let listUsers = ref([]);
 
-    let user = JSON.parse(sessionStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('user'));
 
-    const initSocket = () => { Socket.auth = user; Socket.connect();}
+    let sessionId = localStorage.getItem('sessionId');
+
+    const initSocket = () => { 
+      Socket.auth = user;
+      Socket.auth = { sessionId }; 
+      Socket.connect();
+    }
     
     let selectedUser = ref({});
 
@@ -137,6 +143,12 @@ export default {
       listUsers.value = generateListUsers(usersOnSocket);
     });
 
+    Socket.on('session', ({sessionId, userId}) => {
+      Socket.auth = {sessionId};
+      localStorage.setItem('sessionId', sessionId);
+      Socket.userId = userId;
+    });
+
     Socket.on('user connected', (userInformation) => {
       listUsers.value.push(userInformation);
       listUsers.value = generateListUsers(listUsers.value);
@@ -159,12 +171,10 @@ export default {
     }
 
     onMounted(() => {
-      console.log('INIT SOCKET');
       initSocket();
     });
     
     Socket.on("connect_error", (err) => {
-      console.log('errr', err);
       console.log('errr', err, err.message);
       if (err.message === "invalid username") {
         this.usernameAlreadySelected = false;
@@ -173,8 +183,6 @@ export default {
 
     // Quand je reçois un message privé
     Socket.on('private message', ({content, from, to}) => {
-      
-      console.log(`receive private message De ${from} Pour ${to} Contenu ${content} . Suis-je bien le destinataire ${to === Socket.id ? 'oui' : 'non'}`);
 
       for (let index = 0; index < listUsers.value.length; index++) {
       
