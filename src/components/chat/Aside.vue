@@ -5,7 +5,7 @@
         </div>
         <div class="list-users">
         <ul>
-            <li v-for="user in users" @click="selectUser(user)" :class=" `${selectedUser == user ? 'selected' : ''} list-users__item`" :data-state="`${user.isOnline ? 'online' : 'offline'}`" > 
+            <li v-for="user in users" :key="user.userId" @click="selectUser(user)" :class=" `${selectedUser == user ? 'selected' : ''} list-users__item`" :data-state="`${user.is_connected ? 'online' : 'offline'}`" > 
                 <div class="item__profil-pic">
                     <img alt="Vue logo" src="../../assets/logo.png">
                 </div>
