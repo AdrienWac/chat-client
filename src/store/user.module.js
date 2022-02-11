@@ -8,6 +8,9 @@ export const userStoreModule = {
     mutations: {
         SET_USER(state, user) {
             Object.assign(state, user);
+        },
+        DELETE_USER(state) {
+            state.user = {};
         }
     },
     actions: {
@@ -33,7 +36,17 @@ export const userStoreModule = {
 
             return user;
 
-        } 
+        },
+
+        async logout({commit}, user) {
+
+            await UserService.logout(user);
+
+            localStorage.removeItem('user');
+
+            commit('DELETE_USER');
+
+        }
     },
     getters: {
         user(state) {

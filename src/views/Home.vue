@@ -146,9 +146,12 @@ export default {
     });
 
     Socket.on('user connected', (userInformation) => {
+      console.log('user connected', userInformation);
       for (let i=0; i < listUsers.value.length; i++) {
+        
         if (listUsers.value[i].userId === userInformation.userId) {
           listUsers.value[i] = userInformation;
+          
         }
       }
       listUsers.value = generateListUsers(listUsers.value);
@@ -213,10 +216,15 @@ export default {
       
       console.log('user disconected', userId);
 
+      for (let index = 0; index < listUsers.value.length; index++) {
+        if (listUsers.value[index].id === userId) {
+          listUsers.value[index].is_connected = false;
+        }
+      }
+
     });
     
-
-    return { listUsers, selectUser, selectedUser, sendMessage, user };
+    return { listUsers, selectUser, selectedUser, sendMessage, user};
 
   },
   components: {

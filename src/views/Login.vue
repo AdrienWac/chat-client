@@ -2,7 +2,7 @@
     <div class="container">
         <div class="container__register">
             <alert v-if="alert" @close="clearAlert" :type="alert.type" :message="alert.message"/>
-            <form @submit.prevent="createUsername" class="register__form">
+            <form @submit.prevent="loginUser" class="register__form">
                 <label class="form__label--username" for="username">Renseigner votre nom d'utilisateur</label>
                     <input class="form__input--username" v-model="form.username" name="username" type="text" placeholder="Username"/>
                     <button class="form__button--submit" :disabled="!isValidUsername" type="submit">Envoyer</button>
@@ -35,12 +35,12 @@ export default {
         }
     },
     methods: {
-        async createUsername() {
+        async loginUser() {
             
             try {
 
                 const user = await this.$store.dispatch('user/login', this.form);
-                
+
                 this.$router.push({name: 'Home'});
 
             } catch (error) {

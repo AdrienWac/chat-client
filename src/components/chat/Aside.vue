@@ -2,6 +2,7 @@
     <aside>
         <div class="title">
             <h2 class="title__content">Utilisateurs</h2>
+            <a @click="signout()">Logout</a>
         </div>
         <div class="list-users">
         <ul>
@@ -21,6 +22,8 @@
 
 <script>
 import {onMounted, ref, reactive, watch} from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import Socket from '../../socket'
 
 export default {
@@ -35,12 +38,31 @@ export default {
         selectedUser: Object
     },
     setup(props, context) {
+        
+        const store = useStore();
+
+        const router = useRouter();
 
         const selectUser = (user) => {
             context.emit('selectionUser', user);
         }
 
-        return {selectUser};
+        const signout = () => {
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            
+            Socket.emit('signout', user)
+            
+            store.dispatch('user/logout', user);
+            
+            router.push({name: 'Login'});
+
+        }
+
+        return {
+            selectUser, 
+            signout
+        };
     }
 }
 </script>
