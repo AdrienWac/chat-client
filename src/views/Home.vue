@@ -1,8 +1,6 @@
 <template>
   <div class="home">
-
     
-
     <Aside :users="listUsers" :selectedUser="selectedUser" :room="'sqqs'" @selectionUser="selectUser"/>
 
     <main :class="`${selectedUser.userId ? 'main--full' : ''}`">

@@ -7,7 +7,6 @@
                     <input class="form__input--username" v-model="form.username" name="username" type="text" placeholder="Username"/>
                     <button class="form__button--submit" :disabled="!isValidUsername" type="submit">Envoyer</button>
             </form>
-            <router-link to="/login"> <i>Sign in</i></router-link>
         </div>
     </div>  
 </template>
@@ -17,7 +16,7 @@
 import Alert from '../components/Alert.vue';
 
 export default {
-    name: 'Register',
+    name: 'Login',
     components: {
         Alert
     },
