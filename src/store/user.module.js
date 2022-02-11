@@ -21,7 +21,19 @@ export const userStoreModule = {
 
             return user;
 
-        }
+        },
+
+        async login({commit}, request) {
+
+            const user = await UserService.login(request);
+
+            localStorage.setItem('user', JSON.stringify(user));
+
+            commit('SET_USER', user);
+
+            return user;
+
+        } 
     },
     getters: {
         user(state) {

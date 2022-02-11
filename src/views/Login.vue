@@ -39,12 +39,13 @@ export default {
             
             try {
 
-                const user = await this.$store.dispatch('user/create', this.form);
+                const user = await this.$store.dispatch('user/login', this.form);
+                
                 this.$router.push({name: 'Home'});
 
             } catch (error) {
 
-                this.alert = {type: 'danger', message: `Erreur lors de l'enregistrement de l'utilisateur. ${error.message}.`};
+                this.alert = {type: 'danger', message: `Echec de la connexion de l'utilisateur. ${error.message}.`};
 
             }
 
