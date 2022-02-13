@@ -57,11 +57,15 @@ export default {
     // Quand un utilisateur se déconnecte
     Socket.on('user disconected', (userInformation) => store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false}));
 
-    Socket.on('signout', (user) => {
+    Socket.on('signout', async (user) => {
+      
       const userFromStorage = JSON.parse(localStorage.getItem('user'));
+
       if (userFromStorage.id === user.id) {
-        console.log(`Déco de ${user.username}`);
+        await store.dispatch('user/logout', user);
         router.push({name: 'Login'});
+      } else{
+                console.log(`Déco de ${user.username}`);
       }
       
     })

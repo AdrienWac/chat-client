@@ -44,8 +44,8 @@ export default {
 
             const user = JSON.parse(localStorage.getItem('user'));
             
-            await Socket.emit('signout', user)
-            
+            await Socket.emit('signout', user);
+
             await store.dispatch('user/logout', user);
             
             router.push({name: 'Login'});

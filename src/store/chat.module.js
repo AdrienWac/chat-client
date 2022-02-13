@@ -1,4 +1,4 @@
-const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
+
 
 export const chatStoreModule = {
     namespaced: true,
@@ -24,15 +24,18 @@ export const chatStoreModule = {
         }
     },
     actions: {
+        
         generateListUsers({ commit }, arrayUsers) {
-
+            
+            const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
+            
             formatListUsers(arrayUsers, userFromLocalStorage);
 
             commit('SET_ARRAY_USERS', arrayUsers);
 
         },
+
         setUserConnectedStatus({commit}, { user, status }) {
-            console.log('setUserConnectedStatus', user, status);
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_connected', propertyValue: status});
         }
     },
@@ -45,7 +48,7 @@ export const chatStoreModule = {
 
 
 function formatListUsers(arrayUsers, currentUSer) {
-    console.log('currentUSer', currentUSer);
+
     arrayUsers.forEach(userData => {
         userData.self = userData.id === currentUSer.id;
         userData.isTyping = false;
