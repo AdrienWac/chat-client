@@ -139,8 +139,8 @@ export default {
       
     });
 
-    const sendMessage = () => {
-      console.log('Send Message');
+    const sendMessage = (value) => {
+      console.log('Send Message', value);
     };
     
     return { listUsers, selectedUser, sendMessage };
