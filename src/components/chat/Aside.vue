@@ -5,63 +5,58 @@
             <a @click="signout()">Logout</a>
         </div>
         <div class="list-users">
-        <ul>
-            <li v-for="user in users" :key="user.userId" @click="selectUser(user)" :class=" `${selectedUser == user ? 'selected' : ''} list-users__item`" :data-state="`${user.is_connected ? 'online' : 'offline'}`" > 
-                <div class="item__profil-pic">
-                    <img alt="Vue logo" src="../../assets/logo.png">
-                </div>
-                <div class="item__username">
-                    {{user.username}}
-                </div>
-                <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
-            </li>
-        </ul>
+            <ul>
+                <li v-for="user in arrayUsers" :key="user.userId" @click="selectUser(user)" :class=" `list-users__item`" :data-state="`${user.is_connected ? 'online' : 'offline'}`" > 
+                    <div class="item__profil-pic">
+                        <img alt="Vue logo" src="../../assets/logo.png">
+                    </div>
+                    <div class="item__username">
+                        {{user.username}}
+                    </div>
+                    <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
+                </li>
+            </ul>
         </div>
     </aside>
 </template>
 
 <script>
-import {onMounted, ref, reactive, watch} from 'vue'
+import {onMounted, ref, reactive, computed} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import Socket from '../../socket'
 
 export default {
     name: 'Aside',
-    props: {
-        room: {
-            default() {
-                return '/';
-            }
-        },
-        users: Array,
-        selectedUser: Object
-    },
     setup(props, context) {
-        
+
         const store = useStore();
 
         const router = useRouter();
+
+        const arrayUsers = computed(() => store.getters['chat/arrayUsers']);
 
         const selectUser = (user) => {
             context.emit('selectionUser', user);
         }
 
-        const signout = () => {
+        const signout = async () => {
 
             const user = JSON.parse(localStorage.getItem('user'));
             
-            Socket.emit('signout', user)
+            await Socket.emit('signout', user)
             
-            store.dispatch('user/logout', user);
+            await store.dispatch('user/logout', user);
             
             router.push({name: 'Login'});
 
         }
 
+
         return {
             selectUser, 
-            signout
+            signout,
+            arrayUsers
         };
     }
 }

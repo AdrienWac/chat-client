@@ -1,80 +1,8 @@
 <template>
   <div class="home">
     
-    <Aside :users="listUsers" :selectedUser="selectedUser" :room="'sqqs'" @selectionUser="selectUser"/>
-
-    <main :class="`${selectedUser.userId ? 'main--full' : ''}`">
-
-      <div class="forum">
-
-        <div class="forum__header">
-          <div :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="user header__user" v-if="selectedUser.userId">
-            {{selectedUser.username}}
-          </div>
-        </div>
-        
-        <div class="forum__list">
-
-          <ul v-if ="selectedUser.messages">
-
-            <li v-if ="selectedUser.messages?.length > 0" class="message__card" v-for="message in selectedUser.messages">
-              
-              <div class="message__aside">
-                <img alt="Vue logo" src="../assets/logo.png">
-              </div>
-
-              <div class="message__main">
-
-                <div class="message__main-header"> 
-                  <span :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="message__sender user"> {{ message.fromSelf ? user.username : selectedUser.username }} </span> 
-                  <span class="message__time"> 04/02/2022 - 14h55 </span> 
-                </div>
-
-                <div class="message__content"> {{ message.content }} </div>
-
-              </div>
-        
-            </li>
-
-            <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
-              <template v-slot:icon>
-                <CommentSlash :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
-              </template>
-              <template v-slot:message>Aucun message à afficher</template>
-            </AlertPage>
-            
-          </ul>
-
-          <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
-            <template v-slot:icon>
-              <MousePointer :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
-            </template>
-            <template v-slot:message>Sélectionner un utilisateur</template>
-          </AlertPage>
-
-        </div>
-
-      </div>
-      
-      <div class="main__form">
-
-        <div class="form__header" :data-visibility="`${selectedUser.isTyping ? 'show' : 'hidden'}`">
-          <div class="header__test">
-            <div class="dots-loading">
-              <div class="dots-loading__stage">
-                <div class="dots-loading__dots"></div>
-              </div>
-              <div class="dots-loading__content">Username est en train d'écrire</div>
-            </div>
-          </div>
-        </div>
-
-        <Form @sendMessage="sendMessage"/>
-
-      </div>
-
-    </main>
-    
+    <Aside :listUsers="listUsers"/>
+    <p></p>
   </div>
 
 </template>
@@ -82,12 +10,14 @@
 <script>
 // @ is an alias to /src
 import Socket from '../socket'
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, watch, computed} from 'vue'
 import Aside from '../components/chat/Aside.vue'
 import Form from '../components/chat/Form.vue'
 import AlertPage from '../components/chat/Alert.vue'
 import CommentSlash from '../components/svg/CommentSlash.vue'
 import MousePointer from '../components/svg/MousePointer.vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 
 export default {
@@ -99,132 +29,44 @@ export default {
     
   }),
   setup() {
-
+    const store = useStore();
+    const router = useRouter();
     let listUsers = ref([]);
+    let message = ref('');
 
     let user = JSON.parse(localStorage.getItem('user'));
 
-    let sessionId = localStorage.getItem('sessionId');
 
     const initSocket = () => { 
-      Socket.auth = {...user, ...{ sessionId }};
+      Socket.auth = {...user};
       Socket.connect();
     }
-    
-    let selectedUser = ref({});
 
-    const generateListUsers = (arrayUsers) => {
-
-        arrayUsers.forEach(userData => {
-            userData.self = userData.userId === Socket.id;
-            userData.isTyping = false;
-            userData.hasNewMessages = 0;
-        });
-
-        return arrayUsers.sort((a, b) => {
-            // a sera placé avant b
-            if (a.self) return -1;
-            // b sera placé avant a
-            if (b.self) return 1;
-            // Si b est supérieur a a, b sera placé avant a
-            if (a.username < b.username) return 1;
-            // Si a est supérieur a b, a sera placé avant b
-            if (a.username > b.username) return -1;
-            // Sinon a & b sont égaux on retourne 0
-            return 0;
-        });
-    }
-
-    Socket.on('users', (usersOnSocket) => {
-      listUsers.value = generateListUsers(usersOnSocket);
-    });
-
-    Socket.on('session', ({sessionId, userId}) => {
-      Socket.auth = {sessionId};
-      localStorage.setItem('sessionId', sessionId);
-      Socket.userId = userId;
-    });
-
-    Socket.on('user connected', (userInformation) => {
-      console.log('user connected', userInformation);
-      for (let i=0; i < listUsers.value.length; i++) {
-        
-        if (listUsers.value[i].userId === userInformation.userId) {
-          listUsers.value[i] = userInformation;
-          
-        }
-      }
-      listUsers.value = generateListUsers(listUsers.value);
-    });
-
-    const selectUser = (user) => {
-        user.hasNewMessages = 0;
-        selectedUser.value = user;
-    };
-
-    const sendMessage = (content) => {
-      Socket.emit('private message', {
-        content,
-        to: selectedUser.value.userId
-      });
-      selectedUser.value.messages.push({
-        content,
-        fromSelf: true
-      });
-    }
+    Socket.on('user connected', (userInformation) => store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: true}));
 
     onMounted(() => {
       initSocket();
     });
     
+    Socket.on('users', (arrayUsers) => store.dispatch('chat/generateListUsers', arrayUsers));
+
     Socket.on("connect_error", (err) => {
       console.log('errr', err, err.message);
-      if (err.message === "invalid username") {
-        this.usernameAlreadySelected = false;
-      }
-    });
-
-    // Quand je reçois un message privé
-    Socket.on('private message', ({content, from, to}) => {
-
-      for (let index = 0; index < listUsers.value.length; index++) {
-      
-        const element = listUsers.value[index];
-
-        // On ajoute le message envoyé à la propriété message
-        if (element.userId === from) {
-          element.messages.push({
-            content,
-            fromSelf: false
-          });
-
-          // Si l'élément courant est l'expéditeur et que je ne l'ai pas sélectionné, je set sa propriété hasNewMessages à true
-          if (element !== selectedUser.value) {
-            element.hasNewMessages++;
-          }
-
-          break;
-
-        }
-
-      }
-
     });
 
     // Quand un utilisateur se déconnecte
-    Socket.on('user disconected', (userId) => {
-      
-      console.log('user disconected', userId);
+    Socket.on('user disconected', (userInformation) => store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false}));
 
-      for (let index = 0; index < listUsers.value.length; index++) {
-        if (listUsers.value[index].id === userId) {
-          listUsers.value[index].is_connected = false;
-        }
+    Socket.on('signout', (user) => {
+      const userFromStorage = JSON.parse(localStorage.getItem('user'));
+      if (userFromStorage.id === user.id) {
+        console.log(`Déco de ${user.username}`);
+        router.push({name: 'Login'});
       }
-
-    });
+      
+    })
     
-    return { listUsers, selectUser, selectedUser, sendMessage, user};
+    return { message, listUsers};
 
   },
   components: {

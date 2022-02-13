@@ -26,9 +26,13 @@ export default {
         },
         alert: {
             type: null,
+
             message: ''
         }
     }),
+    mounted: () => {
+        console.log('ici', localStorage.getItem('user'));
+    },
     computed: {
         isValidUsername() {
             return this.form.username.trim().length > 2;

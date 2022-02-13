@@ -42,9 +42,9 @@ export const userStoreModule = {
 
             await UserService.logout(user);
 
-            localStorage.removeItem('user');
+            // localStorage.removeItem('user');
 
-            commit('DELETE_USER');
+            // commit('DELETE_USER');
 
         }
     },
