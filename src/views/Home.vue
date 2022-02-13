@@ -3,6 +3,78 @@
     
     <Aside :listUsers="listUsers"/>
 
+    <main :class="`${selectedUser.id ? 'main--full' : ''}`">
+
+      <div class="forum">
+
+        <div class="forum__header">
+          <div :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="user header__user" v-if="selectedUser.id">
+            {{selectedUser.username}}
+          </div>
+        </div>
+
+        <div class="forum__list">
+
+          <ul v-if ="selectedUser.id">
+
+            <li v-if ="selectedUser.messages?.length > 0" class="message__card" v-for="message in selectedUser.messages">
+              
+              <div class="message__aside">
+                <img alt="Vue logo" src="../assets/logo.png">
+              </div>
+
+              <div class="message__main">
+
+                <div class="message__main-header"> 
+                  <span :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="message__sender user"> {{ message.fromSelf ? user.username : selectedUser.username }} </span> 
+                  <span class="message__time"> 04/02/2022 - 14h55 </span> 
+                </div>
+
+                <div class="message__content"> {{ message.content }} </div>
+
+              </div>
+        
+            </li>
+
+            <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
+              <template v-slot:icon>
+                <CommentSlash :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
+              </template>
+              <template v-slot:message>Aucun message à afficher</template>
+            </AlertPage>
+            
+          </ul>
+
+          <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
+            <template v-slot:icon>
+              <MousePointer :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
+            </template>
+            <template v-slot:message>Sélectionner un utilisateur</template>
+          </AlertPage>
+
+        </div>
+
+      </div>
+
+      <div class="main__form">
+
+        <div class="form__header" :data-visibility="`${selectedUser.isTyping ? 'show' : 'hidden'}`">
+          <div class="header__test">
+            <div class="dots-loading">
+              <div class="dots-loading__stage">
+                <div class="dots-loading__dots"></div>
+              </div>
+              <div class="dots-loading__content">Username est en train d'écrire</div>
+            </div>
+          </div>
+        </div>
+
+        <Form @sendMessage="sendMessage"/>
+
+      </div>
+
+    </main>
+
   </div>
 
 </template>
@@ -32,10 +104,10 @@ export default {
     const store = useStore();
     const router = useRouter();
     let listUsers = ref([]);
-    let message = ref('');
+
+    const selectedUser = computed(() => store.getters['chat/selectedUser']);
 
     let user = JSON.parse(localStorage.getItem('user'));
-
 
     const initSocket = () => { 
       Socket.auth = {...user};
@@ -62,12 +134,16 @@ export default {
       const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
       await store.dispatch('user/logout', user);
-      
+
       router.push({name: 'Login'});
       
-    })
+    });
+
+    const sendMessage = () => {
+      console.log('Send Message');
+    };
     
-    return { message, listUsers};
+    return { listUsers, selectedUser, sendMessage };
 
   },
   components: {

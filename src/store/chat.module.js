@@ -60,6 +60,7 @@ function formatListUsers(arrayUsers, currentUSer) {
         userData.self = userData.id === currentUSer.id;
         userData.isTyping = false;
         userData.hasNewMessages = 0;
+        userData.messages = [];
     });
 
     return arrayUsers.sort((a, b) => {
