@@ -2,7 +2,7 @@
   <div class="home">
     
     <Aside :listUsers="listUsers"/>
-    <p></p>
+
   </div>
 
 </template>
@@ -61,12 +61,9 @@ export default {
       
       const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
-      if (userFromStorage.id === user.id) {
-        await store.dispatch('user/logout', user);
-        router.push({name: 'Login'});
-      } else{
-                console.log(`Déco de ${user.username}`);
-      }
+      await store.dispatch('user/logout', user);
+      
+      router.push({name: 'Login'});
       
     })
     
