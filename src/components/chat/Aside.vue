@@ -6,7 +6,7 @@
         </div>
         <div class="list-users">
             <ul>
-                <li v-for="user in arrayUsers" :key="user.userId" @click="selectUser(user)" :class=" `list-users__item`" :data-state="`${user.is_connected ? 'online' : 'offline'}`" > 
+                <li v-for="user in arrayUsers" :key="user.userId" @click="selectUser(user)" :class=" `${selectedUser === user ? 'selected' : ''} list-users__item`" :data-state="`${user.is_connected ? 'online' : 'offline'}`" > 
                     <div class="item__profil-pic">
                         <img alt="Vue logo" src="../../assets/logo.png">
                     </div>
@@ -36,8 +36,11 @@ export default {
 
         const arrayUsers = computed(() => store.getters['chat/arrayUsers']);
 
+        const selectedUser = computed(() => store.getters['chat/selectedUser']);
+
         const selectUser = (user) => {
-            context.emit('selectionUser', user);
+            // context.emit('selectionUser', user);
+            store.commit('chat/SET_SELECTED_USER', user);
         }
 
         const signout = async () => {
@@ -52,7 +55,8 @@ export default {
         return {
             selectUser, 
             signout,
-            arrayUsers
+            arrayUsers,
+            selectedUser
         };
     }
 }

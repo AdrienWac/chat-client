@@ -3,7 +3,8 @@
 export const chatStoreModule = {
     namespaced: true,
     state: () => ({
-        arrayUsers: []
+        arrayUsers: [],
+        selectedUser: {}
     }),
     mutations: {
         SET_ARRAY_USERS(state, users) {
@@ -21,6 +22,9 @@ export const chatStoreModule = {
 
             }
 
+        },
+        SET_SELECTED_USER(state, user) {
+            state.selectedUser = user;
         }
     },
     actions: {
@@ -42,7 +46,10 @@ export const chatStoreModule = {
     getters: {
         arrayUsers(state) {
             return state.arrayUsers;
-        }
+        },
+        selectedUser(state) {
+            return state.selectedUser;
+        } 
     }
 };
 
