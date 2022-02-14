@@ -3,7 +3,7 @@
   <div>
     
     <form @submit.prevent="onSubmit" class="form">
-      <textarea v-model="content" placeholder="Your message..." class="input" />
+      <textarea v-model="content" placeholder="Your message..." class="input" @keyup.ctrl.exact="onSubmit"/>
       <button :disabled="!isValid" class="send-button">
         <PaperPlane :stroke="{color: 'transparent', width:3}" :fill="'#fff'" height="24" width="24" />
       </button>
