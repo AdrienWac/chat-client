@@ -2,12 +2,11 @@
     <div class="container">
         <div class="container__register">
             <alert v-if="alert" @close="clearAlert" :type="alert.type" :message="alert.message"/>
-            <form @submit.prevent="createUsername" class="register__form">
+            <form @submit.prevent="loginUser" class="register__form">
                 <label class="form__label--username" for="username">Renseigner votre nom d'utilisateur</label>
                     <input class="form__input--username" v-model="form.username" name="username" type="text" placeholder="Username"/>
                     <button class="form__button--submit" :disabled="!isValidUsername" type="submit">Envoyer</button>
             </form>
-            <router-link to="/login"> <i>Sign in</i></router-link>
         </div>
     </div>  
 </template>
@@ -17,7 +16,7 @@
 import Alert from '../components/Alert.vue';
 
 export default {
-    name: 'Register',
+    name: 'Login',
     components: {
         Alert
     },
@@ -27,25 +26,30 @@ export default {
         },
         alert: {
             type: null,
+
             message: ''
         }
     }),
+    mounted: () => {
+        console.log('ici', localStorage.getItem('user'));
+    },
     computed: {
         isValidUsername() {
             return this.form.username.trim().length > 2;
         }
     },
     methods: {
-        async createUsername() {
+        async loginUser() {
             
             try {
 
-                const user = await this.$store.dispatch('user/create', this.form);
+                const user = await this.$store.dispatch('user/login', this.form);
+
                 this.$router.push({name: 'Home'});
 
             } catch (error) {
 
-                this.alert = {type: 'danger', message: `Erreur lors de l'enregistrement de l'utilisateur. ${error.message}.`};
+                this.alert = {type: 'danger', message: `Echec de la connexion de l'utilisateur. ${error.message}.`};
 
             }
 

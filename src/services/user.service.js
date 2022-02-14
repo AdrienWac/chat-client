@@ -26,6 +26,50 @@ class UserService {
         
     }
 
+    async login(user) {
+
+        try {
+
+            const response = await axios.post(`${config.API_URL}/user/signin`, user);
+
+            const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
+
+            if (!regexHtppSuccessStatus.test(response.status)) {
+                throw new Error(response.message);
+            }
+
+            return response.data.result;
+
+        } catch (error) {
+
+            throw new Error(error.message);
+            
+        }
+
+    }
+
+    async logout(user) {
+
+        try {
+
+            const response = await axios.post(`${config.API_URL}/user/signout`, user);
+
+            const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
+
+            if (!regexHtppSuccessStatus.test(response.status)) {
+                throw new Error(response.message);
+            }
+
+            return true;
+
+        } catch (error) {
+
+            throw new Error(error.message);
+
+        }
+
+    }
+
 }
 
 
