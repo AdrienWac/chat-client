@@ -3,6 +3,7 @@
 export const chatStoreModule = {
     namespaced: true,
     state: () => ({
+        // TODO refacto => passer par un Map au lieu d'un array (est-ce que ça passe pour l'affichage ?)
         arrayUsers: [],
         selectedUser: {}
     }),
@@ -30,7 +31,7 @@ export const chatStoreModule = {
     actions: {
         
         generateListUsers({ commit }, arrayUsers) {
-            
+            // TODO refacto => passer par un Map au lieu d'un array avec l'id en key
             const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
             
             formatListUsers(arrayUsers, userFromLocalStorage);
@@ -41,6 +42,37 @@ export const chatStoreModule = {
 
         setUserConnectedStatus({commit}, { user, status }) {
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_connected', propertyValue: status});
+        },
+
+        addMessage({commit, state}, {content, fromSelf}) {
+            // TODO refacto => passer par un Map au lieu d'un array pour state.arrayUsers
+            let messages = [];    
+            let countNewMessage = 0;
+
+            for (let index = 0; index < state.arrayUsers.length; index++) {
+                
+                const element = state.arrayUsers[index];
+
+                if (element.id === state.selectedUser.id) {
+                    
+                    messages = state.arrayUsers[index].messages;
+                    if (!fromSelf) {
+                        countNewMessage = state.arrayUsers[index].hasNewMessages;
+                    }
+                    break;
+                } 
+                
+            }
+
+            if (!fromSelf) {
+                commit('SET_USER_PROPERTY', { userId: state.selectedUser.id, propertyName: 'hasNewMessages', propertyValue: countNewMessage++ });
+            }
+
+            messages.push({ content: content, fromSelf: fromSelf });
+
+            commit('SET_USER_PROPERTY', { userId: state.selectedUser.id, propertyName: 'messages', propertyValue: messages });
+            
+
         }
     },
     getters: {

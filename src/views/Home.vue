@@ -44,7 +44,7 @@
             </AlertPage>
             
           </ul>
-
+          
           <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
             <template v-slot:icon>
               <MousePointer :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
@@ -140,10 +140,19 @@ export default {
     });
 
     const sendMessage = (value) => {
-      console.log('Send Message', value);
+
+      console.log('Send Message', value, selectedUser.value.id);
+
+      // Socket.emit('private message', {
+      //   value,
+      //   to: selectedUser.value.id
+      // });
+
+      store.dispatch('chat/addMessage', {content: value, fromSelf: true});
+
     };
     
-    return { listUsers, selectedUser, sendMessage };
+    return { user, listUsers, selectedUser, sendMessage };
 
   },
   components: {
