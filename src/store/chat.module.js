@@ -44,34 +44,72 @@ export const chatStoreModule = {
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_connected', propertyValue: status});
         },
 
-        addMessage({commit, state}, {content, fromSelf}) {
+        selectUser({ commit, state}, user) {
+    
+            commit('SET_SELECTED_USER', user);
+
+            commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'hasNewMessages', propertyValue: 0 });
+
+        },
+
+        sendMessage({ commit, state }, { content, senderUser, recipientUser }) {
             // TODO refacto => passer par un Map au lieu d'un array pour state.arrayUsers
             let messages = [];    
-            let countNewMessage = 0;
 
             for (let index = 0; index < state.arrayUsers.length; index++) {
                 
                 const element = state.arrayUsers[index];
 
-                if (element.id === state.selectedUser.id) {
+                if (element.id === recipientUser.id) {
                     
                     messages = state.arrayUsers[index].messages;
-                    if (!fromSelf) {
-                        countNewMessage = state.arrayUsers[index].hasNewMessages;
-                    }
+
                     break;
                 } 
                 
             }
 
-            if (!fromSelf) {
-                commit('SET_USER_PROPERTY', { userId: state.selectedUser.id, propertyName: 'hasNewMessages', propertyValue: countNewMessage++ });
-            }
-
-            messages.push({ content: content, fromSelf: fromSelf });
+            messages.push({ content: content, fromSelf: true });
 
             commit('SET_USER_PROPERTY', { userId: state.selectedUser.id, propertyName: 'messages', propertyValue: messages });
             
+
+        },
+        receiveMessage({commit, state}, {content, senderUser, recipientUser}) {
+
+            let messages = [];
+
+            // J'extrais la propriété message de l'expéditeur
+            for (let index = 0; index < state.arrayUsers.length; index++) {
+                if (senderUser.id === state.arrayUsers[index].id) {
+                    messages = state.arrayUsers[index].messages;
+                    break;
+                }
+            }
+
+            // J'y ajoute le nouveau message
+            messages.push({content: content, fromSelf: false});
+
+            // Je met à jour la propriété dans le state
+            commit('SET_USER_PROPERTY', { userId: senderUser.id, propertyName: 'messages', propertyValue: messages });
+
+            // Si l'expéditeur n'est pas l'utilisateur sélectionné j'incrémente hasNewMessage
+            if (Object.keys(state.selectedUser).length > 0 || senderUser.id !== state.selectedUser.id) {
+                
+                let hasNewMessageValue = 0;
+                
+                // J'extrais la propriété message de l'expéditeur
+                for (let index = 0; index < state.arrayUsers.length; index++) {
+                    if (senderUser.id === state.arrayUsers[index].id) {
+                        hasNewMessageValue = state.arrayUsers[index].hasNewMessages;
+                        break;
+                    }
+                }
+
+                hasNewMessageValue += 1;
+            
+                commit('SET_USER_PROPERTY', { userId: senderUser.id, propertyName: 'hasNewMessages', propertyValue: hasNewMessageValue});
+            }
 
         }
     },

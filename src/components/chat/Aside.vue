@@ -39,8 +39,7 @@ export default {
         const selectedUser = computed(() => store.getters['chat/selectedUser']);
 
         const selectUser = (user) => {
-            // context.emit('selectionUser', user);
-            store.commit('chat/SET_SELECTED_USER', user);
+            store.dispatch('chat/selectUser', user);
         }
 
         const signout = async () => {

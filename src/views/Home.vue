@@ -139,18 +139,31 @@ export default {
       
     });
 
-    const sendMessage = (value) => {
+    const sendMessage = (content) => {
+      // TODO Refacto passer par chat service (composition avec en attribut Socket)
+      console.log('Send Message', content, selectedUser.value.id);
 
-      console.log('Send Message', value, selectedUser.value.id);
+      Socket.emit('private message', {
+        content,
+        recipientUser: selectedUser.value
+      });
 
-      // Socket.emit('private message', {
-      //   value,
-      //   to: selectedUser.value.id
-      // });
-
-      store.dispatch('chat/addMessage', {content: value, fromSelf: true});
+      store.dispatch('chat/sendMessage', {content: content, senderUser: user, recipientUser: selectedUser.value});
 
     };
+
+    Socket.on('private message', ({content, from, to}) => {
+
+      console.log('Receive message', content, from, to);
+
+      if (from.id === user.id) {
+        store.dispatch('chat/sendMessage', {content: content, senderUser: user, recipientUser: to});
+      } else {
+        store.dispatch('chat/receiveMessage', {content: content, senderUser: from, recipientUser: to});
+      }
+
+
+    });
     
     return { user, listUsers, selectedUser, sendMessage };
 
