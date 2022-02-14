@@ -157,9 +157,10 @@ export default {
       console.log('Receive message', content, from, to);
 
       if (from.id === user.id) {
-        store.dispatch('chat/sendMessage', {content: content, senderUser: user, recipientUser: to});
+        console.log(`C\'est envoyé depuis un frère pour ${to.username}`);
+        store.dispatch('chat/receiveMessage', {content: content, senderUser: to, recipientUser: from, fromSelf: true});
       } else {
-        store.dispatch('chat/receiveMessage', {content: content, senderUser: from, recipientUser: to});
+        store.dispatch('chat/receiveMessage', {content: content, senderUser: from, recipientUser: to, fromSelf: false});
       }
 
 

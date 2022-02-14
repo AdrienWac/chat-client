@@ -75,8 +75,10 @@ export const chatStoreModule = {
             
 
         },
-        receiveMessage({commit, state}, {content, senderUser, recipientUser}) {
+        receiveMessage({commit, state}, {content, senderUser, recipientUser, fromSelf}) {
 
+            const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
+            
             let messages = [];
 
             // J'extrais la propriété message de l'expéditeur
@@ -88,13 +90,13 @@ export const chatStoreModule = {
             }
 
             // J'y ajoute le nouveau message
-            messages.push({content: content, fromSelf: false});
+            messages.push({ content: content, fromSelf: fromSelf});
 
             // Je met à jour la propriété dans le state
             commit('SET_USER_PROPERTY', { userId: senderUser.id, propertyName: 'messages', propertyValue: messages });
 
             // Si l'expéditeur n'est pas l'utilisateur sélectionné j'incrémente hasNewMessage
-            if (Object.keys(state.selectedUser).length > 0 || senderUser.id !== state.selectedUser.id) {
+            if (Object.keys(state.selectedUser).length == 0 || senderUser.id !== state.selectedUser.id) {
                 
                 let hasNewMessageValue = 0;
                 
