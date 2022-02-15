@@ -58,7 +58,7 @@
 
       <div class="main__form">
 
-        <div class="form__header" :data-visibility="`${selectedUser.isTyping ? 'show' : 'hidden'}`">
+        <div class="form__header" :data-visibility="`${selectedUser.is_typing ? 'show' : 'hidden'}`">
           <div class="header__test">
             <div class="dots-loading">
               <div class="dots-loading__stage">

@@ -50,7 +50,10 @@ export const userStoreModule = {
     },
     getters: {
         user(state) {
-            return state;
+            return state.userFromLocalStorage;
+        },
+        isTyping(state) {
+            return state.userFromLocalStorage.is_typing;
         }
     }
 };
