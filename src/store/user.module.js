@@ -7,7 +7,6 @@ export const userStoreModule = {
     state: userFromLocalStorage ? () => {return userFromLocalStorage} : () => ({}),
     mutations: {
         SET_USER(state, user) {
-            console.log('SET_USER', user);
             Object.assign(state, user);
         },
         DELETE_USER(state) {
