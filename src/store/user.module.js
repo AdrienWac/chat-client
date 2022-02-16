@@ -4,9 +4,10 @@ const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
 
 export const userStoreModule = {
     namespaced: true,
-    state: userFromLocalStorage ? () => ({ userFromLocalStorage }) : () => ({}),
+    state: userFromLocalStorage ? () => {return userFromLocalStorage} : () => ({}),
     mutations: {
         SET_USER(state, user) {
+            console.log('SET_USER', user);
             Object.assign(state, user);
         },
         DELETE_USER(state) {
@@ -50,10 +51,10 @@ export const userStoreModule = {
     },
     getters: {
         user(state) {
-            return state.userFromLocalStorage;
+            return state;
         },
         isTyping(state) {
-            return state.userFromLocalStorage.is_typing;
+            return state.is_typing;
         }
     }
 };
