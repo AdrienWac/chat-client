@@ -11,7 +11,8 @@
                         <img alt="Vue logo" src="../../assets/logo.png">
                     </div>
                     <div class="item__username">
-                        {{user.username}}
+                        <span>{{user.username}}</span>
+                        <TypingAnimation v-if="user.is_typing" :showText="false" />
                     </div>
                     <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
                 </li>
@@ -21,6 +22,7 @@
 </template>
 
 <script>
+import TypingAnimation from '../../components/chat/TypingAnimation.vue'
 import {onMounted, ref, reactive, computed} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -57,6 +59,9 @@ export default {
             arrayUsers,
             selectedUser
         };
+    },
+    components: {
+        TypingAnimation
     }
 }
 </script>

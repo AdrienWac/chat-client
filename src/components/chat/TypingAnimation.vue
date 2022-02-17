@@ -1,16 +1,35 @@
+<script setup>
+    import { ref, onMounted, computed } from 'vue'
+
+    const props = defineProps({
+        text: String,
+        showText: {
+            type: Boolean,
+            default: false
+        }
+    });
+
+     const cssProps = computed(() => {
+        return {
+            '--display-dots-loading': props.showText ? 'grid' : 'block'
+        }
+    });
+
+</script>
+
 <template>
-    <div class="dots-loading">
+    <div :style="cssProps" class="dots-loading">
         <div class="dots-loading__stage">
             <div class="dots-loading__dots"></div>
         </div>
         <!-- TODO gérer le passage en props du text et l'affichage ou non -->
-        <div class="dots-loading__content">Username est en train d'écrire</div>
+        <div v-if="showText" class="dots-loading__content">{{text}}</div>
     </div>
 </template>
 
 <style scoped lang="scss">
 .dots-loading {
-    display: grid;
+    display: var(--display-dots-loading);
     grid-template-columns: 0.5fr 11.5fr;
 }
 

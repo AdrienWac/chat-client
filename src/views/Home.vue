@@ -61,7 +61,7 @@
         <div class="form__header" :data-visibility="`${selectedUser.is_typing ? 'show' : 'hidden'}`">
           <div class="header__test">
             <!-- TODO Revoir l'affichage de cette animation -->
-            <TypingAnimation/>
+            <TypingAnimation v-if="selectedUser?.is_typing" :text="`${selectedUser.username} écrit`" :showText="true"/>
           </div>
         </div>
 
