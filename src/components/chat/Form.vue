@@ -46,8 +46,6 @@ export default {
             Socket.emit('user typing', { content: content.value, userSender: user, userReceiver:  store.getters['chat/selectedUser']});
           } else if(!newValue.length && oldValue.length) {
             Socket.emit('user typing', { content: content.value, userSender: user, userReceiver:  store.getters['chat/selectedUser']});
-          } else {
-            console.log('Still typing');
           }
         });
 
