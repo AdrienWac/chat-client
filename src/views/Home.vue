@@ -58,14 +58,10 @@
 
       <div class="main__form">
 
-        <div class="form__header" :data-visibility="`${selectedUser.isTyping ? 'show' : 'hidden'}`">
+        <div class="form__header" :data-visibility="`${selectedUser.is_typing ? 'show' : 'hidden'}`">
           <div class="header__test">
-            <div class="dots-loading">
-              <div class="dots-loading__stage">
-                <div class="dots-loading__dots"></div>
-              </div>
-              <div class="dots-loading__content">Username est en train d'écrire</div>
-            </div>
+            <!-- TODO Revoir l'affichage de cette animation -->
+            <TypingAnimation v-if="selectedUser?.is_typing" :text="`${selectedUser.username} écrit`" :showText="true"/>
           </div>
         </div>
 
@@ -86,6 +82,7 @@ import {ref, onMounted, watch, computed} from 'vue'
 import Aside from '../components/chat/Aside.vue'
 import Form from '../components/chat/Form.vue'
 import AlertPage from '../components/chat/Alert.vue'
+import TypingAnimation from '../components/chat/TypingAnimation.vue'
 import CommentSlash from '../components/svg/CommentSlash.vue'
 import MousePointer from '../components/svg/MousePointer.vue'
 import { useStore } from 'vuex'
@@ -174,7 +171,8 @@ export default {
     Form,
     AlertPage,
     CommentSlash,
-    MousePointer
+    MousePointer,
+    TypingAnimation
   }
 }
 </script>
@@ -352,78 +350,6 @@ export default {
           display: flex;
           flex-direction: column;
           justify-content: center;
-
-          .dots-loading {
-            display: grid;
-            grid-template-columns: 0.5fr 11.5fr;
-          }
-
-          .dots-loading__stage {
-            display: flex;
-            justify-content: start;
-            align-items: center;
-            position: relative;
-            padding: 1rem 0;
-            overflow: hidden;
-          }
-
-          .dots-loading__dots{
-            position: relative;
-            margin-left: 15px;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-            background-color: #9880ff;
-            color: #9880ff;
-            animation: dotFlashing 1s infinite linear alternate;
-            animation-delay: .5s;
-          }
-
-          .dots-loading__dots::before, .dots-loading__dots::after {
-            content: '';
-            display: inline-block;
-            position: absolute;
-            top: 0;
-          }
-
-          .dots-loading__dots::before {
-            left: -15px;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-            background-color: #9880ff;
-            color: #9880ff;
-            animation: dotFlashing 1s infinite alternate;
-            animation-delay: 0s;
-          }
-
-          .dots-loading__dots::after {
-            left: 15px;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-            background-color: #9880ff;
-            color: #9880ff;
-            animation: dotFlashing 1s infinite alternate;
-            animation-delay: 1s;
-          }
-
-          .dots-loading__content {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            padding: 0 5px;
-          }
-
-          @keyframes dotFlashing {
-            0% {
-              background-color: #9880ff;
-            }
-            50%,
-            100% {
-              background-color: #ebe6ff;
-            }
-          }
         }
 
       }

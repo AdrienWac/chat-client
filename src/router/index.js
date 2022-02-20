@@ -6,10 +6,13 @@ import Login from '../views/Login.vue'
 
 
 function requireRegistering(to, from, next) {
-  if (Object.keys(store.getters['user/user']).length) {
-      return next();
+  
+  if (!Object.keys(store.getters['user/user']).length) {
+    return next({ path: '/register' }); 
   }
-  return next({path: '/register'});
+
+  return next();
+
 }
 
 const routes = [
@@ -30,12 +33,28 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: Register,
+    beforeEnter: (to, from, next) => {
+      
+      if (Object.keys(store.getters['user/user']).length) {
+        return next({ path: '/' });
+      }
+
+      return next();
+    }
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next) => {
+
+      if (Object.keys(store.getters['user/user']).length) {
+        return next({ path: '/' });
+      }
+
+      return next();
+    }
   }
 ]
 

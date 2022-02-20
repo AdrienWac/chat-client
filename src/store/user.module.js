@@ -4,7 +4,7 @@ const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
 
 export const userStoreModule = {
     namespaced: true,
-    state: userFromLocalStorage ? () => ({ userFromLocalStorage }) : () => ({}),
+    state: userFromLocalStorage ? () => {return userFromLocalStorage} : () => ({}),
     mutations: {
         SET_USER(state, user) {
             Object.assign(state, user);
@@ -51,6 +51,9 @@ export const userStoreModule = {
     getters: {
         user(state) {
             return state;
+        },
+        isTyping(state) {
+            return state.is_typing;
         }
     }
 };

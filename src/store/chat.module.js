@@ -113,6 +113,10 @@ export const chatStoreModule = {
                 commit('SET_USER_PROPERTY', { userId: senderUser.id, propertyName: 'hasNewMessages', propertyValue: hasNewMessageValue});
             }
 
+        },
+
+        detectTypingMessage({commit}, {user, state: boolIsTyping}) {
+            commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_typing', propertyValue: boolIsTyping });
         }
     },
     getters: {
@@ -130,7 +134,6 @@ function formatListUsers(arrayUsers, currentUSer) {
 
     arrayUsers.forEach(userData => {
         userData.self = userData.id === currentUSer.id;
-        userData.isTyping = false;
         userData.hasNewMessages = 0;
         userData.messages = [];
     });
