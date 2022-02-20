@@ -54,7 +54,7 @@ export default {
 
           Socket.on('start typing', ({user: userWhoTyping}) => store.dispatch('chat/detectTypingMessage', {user: userWhoTyping, state: true}));
 
-        return {content, isValid, onSubmit, isTyping};   
+        return {content, isValid, onSubmit};   
     }
 }
 </script>
