@@ -3,13 +3,22 @@ import store from '../store'
 import Home from '../views/Home.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
+import User from '../services/user.service'
 
 
 function requireRegistering(to, from, next) {
-  
-  if (!Object.keys(store.getters['user/user']).length) {
+
+  const userFromStore = store.getters['user/user'];
+
+  if (!Object.keys(userFromStore).length) {
     return next({ path: '/register' }); 
   }
+
+  // TODO Tester que l'utilisateur est toujours actif et présent en base
+  if (!User.isActive(userFromStore.id)) {
+    return next({path: '/register'});
+  }
+
 
   return next();
 
