@@ -7,18 +7,18 @@ import User from '../services/user.service'
 
 
 async function requireRegistering(to, from, next) {
-
+  
   const userFromStore = store.getters['user/user'];
 
   if (!Object.keys(userFromStore).length) {
     return next({ path: '/register' }); 
   }
-
+  
   const userIsActive = await User.isActive(userFromStore.id);
-
+  console.log('userIsActive', userIsActive);
   if (!userIsActive) {
-    // TODO Trouver une autre solution que ce StaticRegister
-    return next({ name: 'StaticRegister'});
+    store.dispatch('user/logout');
+    return next({path: '/register'});
   }
 
   return next();
@@ -39,11 +39,6 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
-    path: '/register',
-    name: 'StaticRegister',
-    component: Register,
   },
   {
     path: '/register',

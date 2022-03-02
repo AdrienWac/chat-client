@@ -50,7 +50,8 @@ export const userStoreModule = {
 
             commit('DELETE_USER');
 
-        }
+        },
+
     },
     getters: {
         user(state) {
