@@ -14,7 +14,9 @@
 <script>
 
 import Alert from '../components/Alert.vue';
-
+function test() {
+    throw new CustomError(201, 'Test du message');
+}
 export default {
     name: 'Login',
     components: {
@@ -32,6 +34,12 @@ export default {
     }),
     mounted: () => {
         console.log('ici', localStorage.getItem('user'));
+        // throw new CustomError(201, 'Test custom error');
+        try {
+            test();            
+        } catch (error) {
+            console.log('Error', error['message']);
+        }
     },
     computed: {
         isValidUsername() {
