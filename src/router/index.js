@@ -13,15 +13,20 @@ async function requireRegistering(to, from, next) {
   if (!Object.keys(userFromStore).length) {
     return next({ path: '/register' }); 
   }
-  
-  const userIsActive = await User.isActive(userFromStore.id);
-  console.log('userIsActive', userIsActive);
-  if (!userIsActive) {
-    store.dispatch('user/logout');
-    return next({path: '/register'});
-  }
+  try {
+    const userIsActive = await User.isActive(userFromStore.id);
+    
+    if (!userIsActive) {
+      store.dispatch('user/logout');
+      return next({ path: '/register' });
+    }
 
-  return next();
+    return next();
+
+  } catch (error) {
+    return next(error);
+  }
+  
 
 }
 

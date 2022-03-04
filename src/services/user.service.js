@@ -75,6 +75,7 @@ class UserService {
         try {
             
             const response = await axios.get(`${config.API_URL}/user/${userId}`);
+            console.log('response', response);
 
             const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 
@@ -84,7 +85,8 @@ class UserService {
 
             return response.data.result;
 
-        } catch (error) {
+        } catch (error) {   
+            console.log('iciciciicicic', error.message);
 
             throw new Error(error.message);
 
