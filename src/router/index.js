@@ -63,4 +63,13 @@ const router = createRouter({
   routes
 })
 
+router.afterEach((to, from) => {
+  console.log('AFTER EACH ROUTER TRIGGER', store.getters['notification/notifications'].length);
+  
+  if (store.getters['notification/notifications'].length > 0) {
+    store.dispatch('notification/empty');
+  }
+
+});
+
 export default router
