@@ -1,5 +1,8 @@
 <template>
-  <router-view/>
+  <div>
+    <Notification />
+    <router-view/>
+  </div>
 </template>
 <style>
   @import './assets/reset.css';

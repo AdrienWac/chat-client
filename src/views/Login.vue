@@ -53,6 +53,8 @@ export default {
 
                 const user = await this.$store.dispatch('user/login', this.form);
 
+                this.$store.dispatch('notification/add',  { code: 201, type: 'success', message: 'Bienvenue', id: 1 });
+
                 this.$router.push({name: 'Home'});
 
             } catch (error) {

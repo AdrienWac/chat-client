@@ -1,0 +1,22 @@
+@import '_variables.scss'; 
+.box-notifications {
+    
+    position: fixed;
+    bottom: 0;
+    right: 0;
+
+    .notification{
+        width:200px;
+        height:50px;
+    }
+    
+    $darkeningPercentage: 20%;
+
+    @each $type, $color in $alertColorsByType {
+        .notification[data-type=#{$type}] {
+            background-color: $color;
+            color: darken($color, $darkeningPercentage);
+        }
+    }
+    
+}

@@ -2,7 +2,10 @@ export const notificationModule = {
 namespaced: true,
     state: () => ({
         // Tableau de notifications (plusieurs notifications qui peuvent s'accumuler)
-        notifications: [],
+        notifications: [
+            // { code: 201, type: 'success', message: 'Message notifications #1', 'id': 1 },
+            // { code: 201, type: 'danger', message: 'Message notifications #2', 'id': 2 }
+        ],
     }),
     mutations: {
         ADD_NOTIFICATION(state, notification) {
@@ -12,23 +15,24 @@ namespaced: true,
 
         },
         DELETE_ALL(state) {
+            
             state.notifications = [];
         }
     },
     actions: {
         
-        addNotification({commit}, notification) {
+        add({commit}, notification) {
             commit('ADD_NOTIFICATION', notification);
 
         },
         
         empty({commit}) {
-            commit('DELETE_NOTIFICATION');
+            commit('DELETE_ALL');
         }
 
     },
     getters: {
-        notifications(state) {
+        all(state) {
             return state.notifications;
         },
         notification(state, idNotification) {

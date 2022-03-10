@@ -64,9 +64,9 @@ const router = createRouter({
 })
 
 router.afterEach((to, from) => {
-  console.log('AFTER EACH ROUTER TRIGGER', store.getters['notification/notifications'].length);
+  console.log('AFTER EACH ROUTER TRIGGER', store.getters['notification/all'].length);
   
-  if (store.getters['notification/notifications'].length > 0) {
+  if (store.getters['notification/all'].length > 0) {
     store.dispatch('notification/empty');
   }
 
