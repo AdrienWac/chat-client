@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Store from '../store'
 export default class CustomError extends Error {
 
     constructor(code, message, ...restParams) {
@@ -17,9 +17,9 @@ export default class CustomError extends Error {
 
     dispatchError() {
         // const store = useStore();
-        console.log('Enregistre l\'erreur dans le store et en session', Vue);
+        console.log('Enregistre l\'erreur dans le store et en session', Store);
 
-        // store.dispatch('notification/add', { code: this.code, type: 'danger', message: this.message, id: this.id });
+        Store.dispatch('notification/add', { code: this.code, type: 'danger', message: this.message, id: this.id });
     }
 
     async saveError() {
