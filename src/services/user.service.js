@@ -28,6 +28,8 @@ class UserService {
 
     async login(user) {
 
+        throw new CustomError(201, 'Test du message');
+
         try {
 
             const response = await axios.post(`${config.API_URL}/user/signin`, user);

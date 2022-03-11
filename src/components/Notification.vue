@@ -1,16 +1,11 @@
 <script setup>
-  import { ref, watch } from 'vue'
+  import { ref, computed } from 'vue'
   import { useStore, mapGetters } from 'vuex'
   
   const store = useStore();
   
-  const notifications = ref(store.getters['notification/all']);
+  const notifications = computed(() => { return store.getters['notification/all']});
 
-  watch(notifications, (newValue, lastValue) => {
-    console.log('Notificaiton newValue', newValue);
-    console.log('Notificaiton lastValue', lastValue);
-  });
-  
   const count = ref(0)
   
 </script>

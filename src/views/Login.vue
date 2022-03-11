@@ -14,9 +14,7 @@
 <script>
 
 import Alert from '../components/Alert.vue';
-function test() {
-    throw new CustomError(201, 'Test du message');
-}
+
 export default {
     name: 'Login',
     components: {
@@ -32,15 +30,6 @@ export default {
             message: ''
         }
     }),
-    mounted: () => {
-        console.log('ici', localStorage.getItem('user'));
-        // throw new CustomError(201, 'Test custom error');
-        try {
-            test();            
-        } catch (error) {
-            console.log('Error', error['message']);
-        }
-    },
     computed: {
         isValidUsername() {
             return this.form.username.trim().length > 2;
@@ -49,19 +38,12 @@ export default {
     methods: {
         async loginUser() {
             
-            try {
-
-                const user = await this.$store.dispatch('user/login', this.form);
-
+            const user = await this.$store.dispatch('user/login', this.form);
+                
+            this.$router.push({name: 'Home'}).then(value => {
                 this.$store.dispatch('notification/add',  { code: 201, type: 'success', message: 'Bienvenue', id: 1 });
+            });
 
-                this.$router.push({name: 'Home'});
-
-            } catch (error) {
-
-                this.alert = {type: 'danger', message: `Echec de la connexion de l'utilisateur. ${error.message}.`};
-
-            }
 
         },
         clearAlert() {

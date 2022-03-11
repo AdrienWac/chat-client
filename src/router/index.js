@@ -63,7 +63,7 @@ const router = createRouter({
   routes
 })
 
-router.afterEach((to, from) => {
+router.beforeEach((to, from) => {
   console.log('AFTER EACH ROUTER TRIGGER', store.getters['notification/all'].length);
   
   if (store.getters['notification/all'].length > 0) {
