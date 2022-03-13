@@ -16,9 +16,8 @@ export default class CustomError extends Error {
     }
 
     dispatchError() {
-        // const store = useStore();
-        console.log('Enregistre l\'erreur dans le store et en session', Store);
-
+        
+        console.log('Enregistre l\'erreur dans le store et en session');
         Store.dispatch('notification/add', { code: this.code, type: 'danger', message: this.message, id: this.id });
     }
 
