@@ -13,20 +13,22 @@ class UserService {
             const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 
             if (!regexHtppSuccessStatus.test(response.status)) {
-                throw new Error(response.message);
+                throw new CustomError(response.status, response.message);
             }
 
             return response.data.result;
 
         } catch (error) {
 
-            throw new Error(error.message);
+            throw new CustomError(400, error.message);
 
         }
         
     }
 
     async login(user) {
+
+        
 
         try {
 
@@ -35,14 +37,14 @@ class UserService {
             const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 
             if (!regexHtppSuccessStatus.test(response.status)) {
-                throw new Error(response.message);
+                throw new CustomError(response.status, response.message);
             }
 
             return response.data.result;
 
         } catch (error) {
 
-            throw new Error(error.message);
+            throw new CustomError(400, error.message);
             
         }
 
@@ -57,14 +59,14 @@ class UserService {
             const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 
             if (!regexHtppSuccessStatus.test(response.status)) {
-                throw new Error(response.message);
+                throw new CustomError(response.status, response.message);
             }
 
             return true;
 
         } catch (error) {
 
-            throw new Error(error.message);
+            throw new CustomError(400, error.message);
 
         }
 

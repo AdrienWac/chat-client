@@ -29,10 +29,7 @@ export default {
 
             message: ''
         }
-    }),
-    mounted: () => {
-        console.log('ici', localStorage.getItem('user'));
-    },
+    }), 
     computed: {
         isValidUsername() {
             return this.form.username.trim().length > 2;
@@ -41,17 +38,12 @@ export default {
     methods: {
         async loginUser() {
             
-            try {
+            const user = await this.$store.dispatch('user/login', this.form);
+                
+            this.$router.push({name: 'Home'}).then(value => {
+                this.$store.dispatch('notification/add',  { code: 201, type: 'success', message: 'Bienvenue', id: 1 });
+            });
 
-                const user = await this.$store.dispatch('user/login', this.form);
-
-                this.$router.push({name: 'Home'});
-
-            } catch (error) {
-
-                this.alert = {type: 'danger', message: `Echec de la connexion de l'utilisateur. ${error.message}.`};
-
-            }
 
         },
         clearAlert() {
