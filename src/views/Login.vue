@@ -29,7 +29,7 @@ export default {
 
             message: ''
         }
-    }),
+    }), 
     computed: {
         isValidUsername() {
             return this.form.username.trim().length > 2;

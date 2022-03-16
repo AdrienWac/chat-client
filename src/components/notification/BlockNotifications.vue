@@ -15,10 +15,10 @@
 
 <template>
     <div class="box-notifications">
-      <Notification v-for="notification in notifications" :notification="notification" @close="close(notification)" />
+      <Notification v-for="notification in notifications" :notification="notification" @close="close" />
     </div>
 </template>
 
 <style scoped lang="scss">
-  @import '../../assets/scss/block_notifications.scss';
+  .box-notifications { position: fixed; bottom: 0; right: 0; width: 33%; z-index: 1000; }
 </style>

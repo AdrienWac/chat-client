@@ -1,35 +1,60 @@
 <script setup>
-  import { ref } from 'vue'
-  import { useStore, mapGetters } from 'vuex'
-  
+
+  import { onMounted, defineEmits } from 'vue';
+  import { useStore } from 'vuex'
+
+  const store = useStore();
+
+  const emit = defineEmits(['close']); 
+
   const props = defineProps({
     notification: Object
   })
 
-  const store = useStore();
+  onMounted(() => {
+    
+    // TODO Trouver une autre solution pour le timer de cloture d'une notifcation
+    // Le dispatch au store de notif pour supprimer la notif fait bugger quand il y a trop de notif dans le store.
+    // Comme si le dispatch était envoyé dans l'event loop pour pas bloquer le call stack 
+    // Mais que lors de son passage la notification passé en attribut n'est pas la bonne 
 
-  // let displayStatus  = ref()
-  const isActive = ref(true);
-  
+    // let start = 5;
+
+    // const interval = setInterval(() => {
+
+    //   start -= 1;
+    //   console.log(`${start} => ${props.notification.id}`);
+
+    //   if (start == 0) {
+    //     clearInterval(interval);
+    //     emit('close', props.notification);
+    //     // close(interval);
+    //   }
+
+    // }, 1000);
+  });
+
   
 
-  const count = ref(0)
+  const timer = () => {
+    
+    
 
-  // function close() {
-    console.log('notification', props.notification.id);
-  //   // Supprimer la notificaiton dans le store
-  //   store.dispatch('notification/delete', props.notification.id);
-  //   // Recalculer la position des autres notifications
-  //   // isActive passe à false
-  //   isActive.value = false;
-  // }
-  
+  }
+
+  function close(__interval) {
+    emit('close', props.notification);
+    if (__interval) {
+      clearInterval(__interval);
+    }
+  }
+
 </script>
 
 <template>
-    <div class="notification" :class="{active: isActive}" :data-type="`${notification.type}`" >
+    <div class="notification" :data-type="`${notification.type}`" >
         <p>{{notification.message}}</p>
-        <button @click="$emit('close')">X</button>
+        <button @click="close">X</button>
     </div>
 </template>
 
