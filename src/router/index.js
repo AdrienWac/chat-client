@@ -78,4 +78,10 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from) => {
+  if (store.getters['notification/all'].length > 0) {
+    store.dispatch('notification/empty');
+  }
+});
+
 export default router

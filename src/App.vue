@@ -1,6 +1,10 @@
 <template>
-  <router-view/>
+  <div>
+    <BlockNotifications />
+    <router-view/>
+  </div>
 </template>
 <style>
   @import './assets/reset.css';
+  
 </style>
