@@ -129,11 +129,11 @@ export default {
 
     Socket.on('signout', async (user) => {
       
-      const userFromStorage = JSON.parse(localStorage.getItem('user'));
+      // const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
-      await store.dispatch('user/logout', user);
+      // await store.dispatch('user/logout', user);
 
-      router.push({name: 'Login'});
+      // router.push({name: 'Login'});
       
     });
 

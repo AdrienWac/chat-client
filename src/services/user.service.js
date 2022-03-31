@@ -1,10 +1,22 @@
 import axios from 'axios';
 import config from '../config';
+import router from '../router';
+import store from '../store';
 
 class UserService {
 
 
     async createUser(user) {
+
+        return {
+            "id": 1,
+            "sessionId": "695f1db9d802fce9",
+            "username": "player1",
+            "is_connected": true,
+            "is_typing": false,
+            "created": "2022-03-28T20:26:34.000Z",
+            "updated": "2022-03-28T20:26:34.000Z"
+        };
 
         try {
             
@@ -26,49 +38,25 @@ class UserService {
         
     }
 
-    async login(user) {
+    logout() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        console.log('USER SERVICE LOGOUT', user);
+        // axios.post(`${config.API_URL}/user/signout`, user)
+        //     .then(response => {
 
-        
+        //         const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 
-        try {
+        //         if (!regexHtppSuccessStatus.test(response.status)) {
+        //             throw new CustomError(response.status, response.message);
+        //         }
 
-            const response = await axios.post(`${config.API_URL}/user/signin`, user);
+        //     }).catch(error => {
+        //         throw new CustomError(400, error.message);
+        //     });
 
-            const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
+        store.dispatch('user/logout');
 
-            if (!regexHtppSuccessStatus.test(response.status)) {
-                throw new CustomError(response.status, response.message);
-            }
-
-            return response.data.result;
-
-        } catch (error) {
-
-            throw new CustomError(400, error.message);
-            
-        }
-
-    }
-
-    async logout(user) {
-
-        try {
-
-            const response = await axios.post(`${config.API_URL}/user/signout`, user);
-
-            const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
-
-            if (!regexHtppSuccessStatus.test(response.status)) {
-                throw new CustomError(response.status, response.message);
-            }
-
-            return true;
-
-        } catch (error) {
-
-            throw new CustomError(400, error.message);
-
-        }
+        router.push({name: 'Register'});
 
     }
 

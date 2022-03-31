@@ -2,11 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store'
 import Home from '../views/Home.vue'
 import Register from '../views/Register.vue'
-import Login from '../views/Login.vue'
-
+import userService from '../services/user.service'
 
 function requireRegistering(to, from, next) {
-  
+
   if (!Object.keys(store.getters['user/user']).length) {
     return next({ path: '/register' }); 
   }
@@ -44,16 +43,10 @@ const routes = [
     }
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-    beforeEnter: (to, from, next) => {
-
-      if (Object.keys(store.getters['user/user']).length) {
-        return next({ path: '/' });
-      }
-
-      return next();
+    path:'/logout',
+    name: 'Logout',
+    beforeEnter: async (to, from, next) => {
+      userService.logout();
     }
   }
 ]
