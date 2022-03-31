@@ -40,22 +40,25 @@ class UserService {
 
     logout() {
         const user = JSON.parse(localStorage.getItem('user'));
-        console.log('USER SERVICE LOGOUT', user);
-        // axios.post(`${config.API_URL}/user/signout`, user)
-        //     .then(response => {
+    
+        if (user !== null) {
 
-        //         const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
+            axios.post(`${config.API_URL}/user/signout`, user)
+                .then(response => {
 
-        //         if (!regexHtppSuccessStatus.test(response.status)) {
-        //             throw new CustomError(response.status, response.message);
-        //         }
+                    const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 
-        //     }).catch(error => {
-        //         throw new CustomError(400, error.message);
-        //     });
+                    if (!regexHtppSuccessStatus.test(response.status)) {
+                        throw new CustomError(response.status, response.message);
+                    }
 
-        store.dispatch('user/logout');
+                }).catch(error => {
+                    throw new CustomError(400, error.message);
+                });
 
+            store.dispatch('user/logout');
+        }
+        
         router.push({name: 'Register'});
 
     }

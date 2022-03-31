@@ -2,7 +2,7 @@
     <aside>
         <div class="title">
             <h2 class="title__content">Utilisateurs</h2>
-            <a @click="signout()">Logout</a>
+            <router-link :to="{ name: 'Logout'}">Logout</router-link>
         </div>
         <div class="list-users">
             <ul>
