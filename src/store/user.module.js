@@ -30,7 +30,7 @@ export const userStoreModule = {
 
         },
 
-        async logout({commit, state}, user) {
+        logout({commit, state}, user) {
 
             localStorage.removeItem('user');
 

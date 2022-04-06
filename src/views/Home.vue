@@ -127,7 +127,9 @@ export default {
     // Quand un utilisateur se déconnecte
     Socket.on('user disconected', (userInformation) => store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false}));
 
-    Socket.on('signout', async (user) => {
+    Socket.on('signout_from_bro', async (user) => {
+
+      console.log('SIGNOUT_FROM_BRO');
       
       // const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
