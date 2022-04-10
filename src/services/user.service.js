@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from '../config';
 import router from '../router';
 import store from '../store';
-
+import socket from '../socket';
 class UserService {
 
 
@@ -39,32 +39,32 @@ class UserService {
     }
 
     logout() {
-        
         const user = JSON.parse(localStorage.getItem('user'));
 
         if (user) {
 
-            axios.post(`${config.API_URL}/user/signout`, user)
+            axios.post(`${config.API_URL}/user/signout`, {...user, socketId: socket.id})
                 .then(response => {
                     console.log('RESPONSE LOGOUT POST', response);
 
-                    // const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
+                    const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 
-                    // if (!regexHtppSuccessStatus.test(response.status)) {
-                    //     throw new CustomError(response.status, response.message);
-                    // }
+                    if (!regexHtppSuccessStatus.test(response.status)) {
+                        throw new CustomError(response.status, response.message);
+                    }
 
                 })
                 .catch(error => {
+                    // console.log('ERROR LOGOUT POST', error.message);
                     console.log('ERROR LOGOUT POST', error.response.data.message);
                     throw new CustomError(400, error.message);
                 });
             
-            // store.dispatch('user/logout');
+            store.dispatch('user/logout');
 
         }
 
-        // router.push({ name: 'Register' });
+        router.push({ name: 'Register' });
 
     }
 
