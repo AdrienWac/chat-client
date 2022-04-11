@@ -2,7 +2,7 @@
     <aside>
         <div class="title">
             <h2 class="title__content">Utilisateurs</h2>
-            <a @click="signout()">Logout</a>
+            <router-link :to="{ name: 'Logout'}">Logout</router-link>
         </div>
         <div class="list-users">
             <ul>
@@ -26,7 +26,7 @@ import TypingAnimation from '../../components/chat/TypingAnimation.vue'
 import {onMounted, ref, reactive, computed} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import Socket from '../../socket'
+import UserService from '../../services/user.service';
 
 export default {
     name: 'Aside',
@@ -44,14 +44,7 @@ export default {
             store.dispatch('chat/selectUser', user);
         }
 
-        const signout = async () => {
-
-            const user = JSON.parse(localStorage.getItem('user'));
-            
-            await Socket.emit('signout', user);
-
-        }
-
+        const signout =  () => UserService.logout();
 
         return {
             selectUser, 

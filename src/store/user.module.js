@@ -10,13 +10,11 @@ export const userStoreModule = {
             Object.assign(state, user);
         },
         DELETE_USER(state) {
-            console.log('DELETE USER', state);
-            //² state.deleteProperty()
-            // Object.assign(state, () => ({}));
+
             Object.getOwnPropertyNames(state).forEach(property => {
                 delete state[property];
             });
-            console.log('DELETE USER AFTER', state);
+            
         }
     },
     actions: {
@@ -32,19 +30,7 @@ export const userStoreModule = {
 
         },
 
-        async login({commit}, request) {
-
-            const user = await UserService.login(request);
-
-            localStorage.setItem('user', JSON.stringify(user));
-
-            commit('SET_USER', user);
-
-            return user;
-
-        },
-
-        async logout({commit, state}, user) {
+        logout({commit, state}, user) {
 
             localStorage.removeItem('user');
 

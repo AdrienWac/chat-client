@@ -125,15 +125,20 @@ export default {
     });
 
     // Quand un utilisateur se déconnecte
-    Socket.on('user disconected', (userInformation) => store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false}));
+    Socket.on('user disconected', (userInformation) => {
+      console.log(`L'utilisateur ${userInformation.id} s'est déconnecté.`);
+      // store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false})
+    });
 
     Socket.on('signout', async (user) => {
+
+      console.log('SIGNOUT_FROM_BRO');
       
       const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
-      await store.dispatch('user/logout', user);
+      store.dispatch('user/logout', user);
 
-      router.push({name: 'Login'});
+      router.push({name: 'Register'});
       
     });
 
