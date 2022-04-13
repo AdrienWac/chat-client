@@ -31,13 +31,19 @@ export const chatStoreModule = {
     actions: {
         
         generateListUsers({ commit }, arrayUsers) {
-            // TODO refacto => passer par un Map au lieu d'un array avec l'id en key
-            const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
-            
-            formatListUsers(arrayUsers, userFromLocalStorage);
-
+            console.log('generateListUSers', arrayUsers);
             commit('SET_ARRAY_USERS', arrayUsers);
 
+        },
+
+        addUserToList({commit, state}, user) {
+
+            state.arrayUsers.push(user);
+            console.log('state.arrayUsers', state.arrayUsers);
+
+            formatListUsers(state.arrayUsers);
+
+            // commit('SET_ARRAY_USERS', arrayUsers);
         },
 
         setUserConnectedStatus({commit}, { user, status }) {
@@ -130,13 +136,7 @@ export const chatStoreModule = {
 };
 
 
-function formatListUsers(arrayUsers, currentUSer) {
-
-    arrayUsers.forEach(userData => {
-        userData.self = userData.id === currentUSer.id;
-        userData.hasNewMessages = 0;
-        userData.messages = [];
-    });
+function formatListUsers(arrayUsers) {
 
     return arrayUsers.sort((a, b) => {
         // a sera placé avant b
