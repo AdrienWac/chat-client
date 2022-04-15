@@ -119,23 +119,16 @@ export default {
 
     Socket.on("connect_error", (err) => { console.log('errr', err, err.message); });
 
-    // Socket.on('user connected', (userInformation) => {
-    //   console.log('user connected', userInformation);
-    //   store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: true})
-    //   store.dispatch('chat/addUserToList', userInformation);
-    // });
-
     Socket.on('users', (arrayUsers) => store.dispatch('chat/generateListUsers', arrayUsers));
 
     // Quand un autre socket se déconnecte
     Socket.on('user disconected', (userInformation) => {
       console.log(`L'utilisateur ${userInformation.id} s'est déconnecté.`);
-      // store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false})
+      store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false})
     });
 
+    // Signout event from Bro
     Socket.on('signout', async (user) => {
-
-      console.log('SIGNOUT_FROM_BRO');
       
       const userFromStorage = JSON.parse(localStorage.getItem('user'));
 

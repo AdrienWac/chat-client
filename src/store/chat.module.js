@@ -12,7 +12,7 @@ export const chatStoreModule = {
             state.arrayUsers = users;
         },
         SET_USER_PROPERTY(state, { userId, propertyName, propertyValue}) {
-
+            
             for (let index = 0; index < state.arrayUsers.length; index++) {
 
                 const element = state.arrayUsers[index];
@@ -34,16 +34,6 @@ export const chatStoreModule = {
             console.log('generateListUSers', arrayUsers);
             commit('SET_ARRAY_USERS', arrayUsers);
 
-        },
-
-        addUserToList({commit, state}, user) {
-
-            state.arrayUsers.push(user);
-            console.log('state.arrayUsers', state.arrayUsers);
-
-            formatListUsers(state.arrayUsers);
-
-            // commit('SET_ARRAY_USERS', arrayUsers);
         },
 
         setUserConnectedStatus({commit}, { user, status }) {
@@ -134,20 +124,3 @@ export const chatStoreModule = {
         } 
     }
 };
-
-
-function formatListUsers(arrayUsers) {
-
-    return arrayUsers.sort((a, b) => {
-        // a sera placé avant b
-        if (a.self) return -1;
-        // b sera placé avant a
-        if (b.self) return 1;
-        // Si b est supérieur a a, b sera placé avant a
-        if (a.username < b.username) return 1;
-        // Si a est supérieur a b, a sera placé avant b
-        if (a.username > b.username) return -1;
-        // Sinon a & b sont égaux on retourne 0
-        return 0;
-    });
-}
