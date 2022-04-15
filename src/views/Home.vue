@@ -56,7 +56,7 @@
 
       </div>
 
-      <div class="main__form">
+      <div v-if="selectedUser.is_connected" class="main__form">
 
         <div class="form__header" :data-visibility="`${selectedUser.is_typing ? 'show' : 'hidden'}`">
           <div class="header__test">
@@ -112,27 +112,26 @@ export default {
       Socket.connect();
     }
 
-    Socket.on('user connected', (userInformation) => store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: true}));
-
     onMounted(() => {
       initSocket();
     });
-    
+
+    Socket.on("connect_error", (err) => { console.log('errr', err, err.message); });
+
     Socket.on('users', (arrayUsers) => store.dispatch('chat/generateListUsers', arrayUsers));
 
-    Socket.on("connect_error", (err) => {
-      console.log('errr', err, err.message);
-    });
-
-    // Quand un utilisateur se déconnecte
+    // Quand un autre socket se déconnecte
     Socket.on('user disconected', (userInformation) => {
-      console.log(`L'utilisateur ${userInformation.id} s'est déconnecté.`);
-      // store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false})
+      console.log(`L'utilisateur ${userInformation.id} s'est déconnecté.`, store.getters['chat/selectedUser']);
+      store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false});
+      // Si c'est l'utilisateur sélectionné, il faut mettre à jour son état de sélection
+      if (store.getters['chat/selectedUser']?.id === userInformation.id) {
+        store.dispatch('chat/setSelectedUserConnectedStatus', false);
+      }
     });
 
+    // Signout event from Bro
     Socket.on('signout', async (user) => {
-
-      console.log('SIGNOUT_FROM_BRO');
       
       const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
@@ -178,7 +177,7 @@ export default {
     AlertPage,
     CommentSlash,
     MousePointer,
-    TypingAnimation
+    TypingAnimation,
   }
 }
 </script>

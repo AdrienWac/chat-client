@@ -12,7 +12,7 @@ export const chatStoreModule = {
             state.arrayUsers = users;
         },
         SET_USER_PROPERTY(state, { userId, propertyName, propertyValue}) {
-
+            
             for (let index = 0; index < state.arrayUsers.length; index++) {
 
                 const element = state.arrayUsers[index];
@@ -26,16 +26,17 @@ export const chatStoreModule = {
         },
         SET_SELECTED_USER(state, user) {
             state.selectedUser = user;
+        },
+        SET_SELECTED_USER_PROPERTY(state, {propertyName, propertyValue}) {
+            if (state.selectedUser.hasOwnProperty(propertyName)) {
+                state.selectedUser[index][propertyName] = propertyValue;
+            }
         }
     },
     actions: {
         
         generateListUsers({ commit }, arrayUsers) {
-            // TODO refacto => passer par un Map au lieu d'un array avec l'id en key
-            const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
-            
-            formatListUsers(arrayUsers, userFromLocalStorage);
-
+            console.log('generateListUSers', arrayUsers);
             commit('SET_ARRAY_USERS', arrayUsers);
 
         },
@@ -44,12 +45,16 @@ export const chatStoreModule = {
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_connected', propertyValue: status});
         },
 
-        selectUser({ commit, state}, user) {
+        selectUser({ commit}, user) {
     
             commit('SET_SELECTED_USER', user);
 
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'hasNewMessages', propertyValue: 0 });
 
+        },
+
+        setSelectedUserConnectedStatus({ commit}, statusValue) {
+            commit('SET_SELECTED_USER_PROPERTY', 'is_connected', statusValue);
         },
 
         sendMessage({ commit, state }, { content, senderUser, recipientUser }) {
@@ -75,6 +80,7 @@ export const chatStoreModule = {
             
 
         },
+
         receiveMessage({commit, state}, {content, senderUser, recipientUser, fromSelf}) {
 
             const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
@@ -128,26 +134,3 @@ export const chatStoreModule = {
         } 
     }
 };
-
-
-function formatListUsers(arrayUsers, currentUSer) {
-
-    arrayUsers.forEach(userData => {
-        userData.self = userData.id === currentUSer.id;
-        userData.hasNewMessages = 0;
-        userData.messages = [];
-    });
-
-    return arrayUsers.sort((a, b) => {
-        // a sera placé avant b
-        if (a.self) return -1;
-        // b sera placé avant a
-        if (b.self) return 1;
-        // Si b est supérieur a a, b sera placé avant a
-        if (a.username < b.username) return 1;
-        // Si a est supérieur a b, a sera placé avant b
-        if (a.username > b.username) return -1;
-        // Sinon a & b sont égaux on retourne 0
-        return 0;
-    });
-}
