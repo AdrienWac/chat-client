@@ -26,6 +26,11 @@ export const chatStoreModule = {
         },
         SET_SELECTED_USER(state, user) {
             state.selectedUser = user;
+        },
+        SET_SELECTED_USER_PROPERTY(state, {propertyName, propertyValue}) {
+            if (state.selectedUser.hasOwnProperty(propertyName)) {
+                state.selectedUser[index][propertyName] = propertyValue;
+            }
         }
     },
     actions: {
@@ -40,12 +45,16 @@ export const chatStoreModule = {
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_connected', propertyValue: status});
         },
 
-        selectUser({ commit, state}, user) {
+        selectUser({ commit}, user) {
     
             commit('SET_SELECTED_USER', user);
 
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'hasNewMessages', propertyValue: 0 });
 
+        },
+
+        setSelectedUserConnectedStatus({ commit}, statusValue) {
+            commit('SET_SELECTED_USER_PROPERTY', 'is_connected', statusValue);
         },
 
         sendMessage({ commit, state }, { content, senderUser, recipientUser }) {
@@ -71,6 +80,7 @@ export const chatStoreModule = {
             
 
         },
+
         receiveMessage({commit, state}, {content, senderUser, recipientUser, fromSelf}) {
 
             const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));

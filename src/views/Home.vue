@@ -15,6 +15,8 @@
 
         <div class="forum__list">
 
+          <btn @click="simumlateDeconnection" >Simulation déconnexion</btn>
+
           <ul v-if ="selectedUser.id">
 
             <li v-if ="selectedUser.messages?.length > 0" class="message__card" v-for="message in selectedUser.messages">
@@ -56,7 +58,7 @@
 
       </div>
 
-      <div class="main__form">
+      <div v-if="selectedUser.is_connected" class="main__form">
 
         <div class="form__header" :data-visibility="`${selectedUser.is_typing ? 'show' : 'hidden'}`">
           <div class="header__test">
@@ -112,7 +114,6 @@ export default {
       Socket.connect();
     }
 
-
     onMounted(() => {
       initSocket();
     });
@@ -121,10 +122,29 @@ export default {
 
     Socket.on('users', (arrayUsers) => store.dispatch('chat/generateListUsers', arrayUsers));
 
+    const simumlateDeconnection = () => {
+      console.log('SIMULATION D\'UNE DECONNECTION');
+      store.dispatch('chat/setUserConnectedStatus', {user: {
+        created: "2022-04-15T11:27:44.000Z",
+        hasNewMessages: 0,
+        id: 60,
+        is_connected: true,
+        messages: [],
+        self: true,
+        sessionId: "babf81d7822607fd",
+        updated: "2022-04-15T11:27:44.000Z",
+        username: "player113",
+      }, status: false})
+    }
+
     // Quand un autre socket se déconnecte
     Socket.on('user disconected', (userInformation) => {
-      console.log(`L'utilisateur ${userInformation.id} s'est déconnecté.`);
-      store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false})
+      console.log(`L'utilisateur ${userInformation.id} s'est déconnecté.`, store.getters['chat/selectedUser']);
+      store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false});
+      // TODO si c'est l'utilisateur sélectionné, il faut mettre à jour son état de sélection
+      if (store.getters['chat/selectedUser']?.id === userInformation.id) {
+        store.dispatch('chat/setSelectedUserConnectedStatus', false);
+      }
     });
 
     // Signout event from Bro
@@ -165,7 +185,7 @@ export default {
 
     });
     
-    return { user, listUsers, selectedUser, sendMessage };
+    return { user, listUsers, selectedUser, sendMessage, simumlateDeconnection };
 
   },
   components: {
@@ -174,7 +194,7 @@ export default {
     AlertPage,
     CommentSlash,
     MousePointer,
-    TypingAnimation
+    TypingAnimation,
   }
 }
 </script>
