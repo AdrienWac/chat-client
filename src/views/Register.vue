@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <div class="container__register">
+            <p class="paragraph__title">Le chaat'</p>
             <form @submit.prevent="createUsername" class="register__form">
                 <label class="form__label--username" for="username">Renseigner votre nom d'utilisateur</label>
                     <input class="form__input--username" v-model="form.username" name="username" type="text" placeholder="Username"/>
@@ -36,7 +37,7 @@ export default {
             } catch (error) {
 
                 throw new CustomError(400, error.message);
-                
+
             }
 
         },
@@ -62,6 +63,8 @@ export default {
             flex-direction: column;
             justify-content: center;
         }
+
+        p.paragraph__title {font-family:$courgette; font-size: 100px;color: map-get($colors, second);}
        
         form {
             
