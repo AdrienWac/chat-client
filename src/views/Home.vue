@@ -1,6 +1,12 @@
 <template>
   <div class="home">
-    
+    <Header>
+      <template v-slot:central>
+        <div :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="user header__user" v-if="selectedUser.id">
+          {{selectedUser.username}}
+        </div>
+      </template>
+    </Header>
     <Aside :listUsers="listUsers"/>
 
     <main :class="`${selectedUser.id ? 'main--full' : ''}`">
@@ -79,6 +85,7 @@
 // @ is an alias to /src
 import Socket from '../socket'
 import {ref, onMounted, watch, computed} from 'vue'
+import Header from '../components/chat/Header.vue'
 import Aside from '../components/chat/Aside.vue'
 import Form from '../components/chat/Form.vue'
 import AlertPage from '../components/chat/Alert.vue'
@@ -177,6 +184,7 @@ export default {
     AlertPage,
     CommentSlash,
     MousePointer,
+    Header,
     TypingAnimation,
   }
 }
