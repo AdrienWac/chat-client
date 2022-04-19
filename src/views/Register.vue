@@ -1,7 +1,9 @@
 <template>
     <div class="container">
-        <div class="container__register">
+        <div class="container__title">
             <p class="paragraph__title">Le chaat'</p>
+        </div>
+        <div class="container__register">
             <form @submit.prevent="createUsername" class="register__form">
                 <label class="form__label--username" for="username">Renseigner votre nom d'utilisateur</label>
                     <input class="form__input--username" v-model="form.username" name="username" type="text" placeholder="Username"/>
@@ -54,17 +56,42 @@ export default {
         height: 100vh;
         display: grid;
         grid-template-columns: 2fr 8fr 2fr;
-        grid-template-rows: 2fr 8fr 2fr;
+        grid-template-rows: 5fr 5fr 2fr;
+
+        .container__title {
+
+            // grid-row-start / grid-column-start / grid-row-end / grid-column-end
+            grid-area: 1 / 2 / 2 / 3;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            
+        }
+
+        .paragraph__title {
+            font-family:$courgette; 
+            color: map-get($colors, second);
+            text-align: center;
+        }
 
         .container__register {
             // grid-row-start / grid-column-start / grid-row-end / grid-column-end:
             grid-area: 2 / 2 / 3 / 3;
             display: flex;
             flex-direction: column;
-            justify-content: center;
         }
 
-        p.paragraph__title {font-family:$courgette; font-size: 100px;color: map-get($colors, second);}
+        @media only screen and (max-width: 64em) {
+            .container__title {justify-content: center;}
+            .paragraph__title {font-size: 3rem;}
+            .container__register {justify-content: start;}
+        }
+
+        @media only screen and (min-width: 64.063em) {
+            .container__title {justify-content: end;}
+            .paragraph__title {font-size: 7rem;}
+            .container__register {justify-content: center;}
+        }
        
         form {
             
@@ -96,7 +123,7 @@ export default {
 
             @media only screen and (max-width: 64em) { 
 
-                label[for="username"] { font-size: 1.3rem;display: flex; align-items: center; }
+                label[for="username"] { font-size: 1.2rem;display: flex; align-items: center; }
 
                 input[name="username"] { grid-area: 2 / 1 / 3 / 5; font: size 1.5rem; padding: 10px 5px; }
 
