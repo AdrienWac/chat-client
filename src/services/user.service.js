@@ -25,14 +25,15 @@ class UserService {
             const regexHtppSuccessStatus = new RegExp(/^20[0-8]$/g);
 
             if (!regexHtppSuccessStatus.test(response.status)) {
-                throw new CustomError(response.status, response.message);
+               
+                throw new Error(response.data.message);
             }
 
             return response.data.result;
 
         } catch (error) {
-
-            throw new CustomError(400, error.message);
+            
+            throw new Error(error.message);
 
         }
         
