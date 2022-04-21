@@ -16,7 +16,7 @@
                 <div class="item__profil-pic">
                     <img alt="Vue logo" src="../../assets/logo.png">
                 </div>
-                <div class="item__informations">
+                <div class="item__informations" v-tooltip="'You have  new messages.'">
                     <span class="item__username">{{user.username}}</span>
                     <span v-if="!user.is_typing" class="item__last-message">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure qui iusto accusantium necessitatibus 

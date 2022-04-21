@@ -1,9 +1,7 @@
 <template>
   <div class="home">
     <Aside />
-    <main>
-
-    </main>
+    <main> </main>
 
   </div>
 
