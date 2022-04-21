@@ -1,28 +1,45 @@
 <template>
-    <aside>
-        <div class="title">
-            <h2 class="title__content">Utilisateurs</h2>
-            <router-link :to="{ name: 'Logout'}">Logout</router-link>
+    <aside :class="asideIsOpen ? `aside--open` : `aside--close`">
+        <div class="aside__icons" @click="setAsideState()" >
+            <Hamburger v-if="!asideIsOpen" :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="40" width="40" />
+            <XmarkSvg v-if="asideIsOpen" :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="40" width="40"/>
         </div>
-        <div class="list-users">
-            <ul>
-                <li v-for="user in arrayUsers" :key="user.userId" v-on="user.is_connected? {click: () => selectUser(user)} : {}" :class=" `${selectedUser === user ? 'selected' : ''} list-users__item`" :data-state="`${user.is_connected ? 'online' : 'offline'}`" > 
-                    <div class="item__profil-pic">
-                        <img alt="Vue logo" src="../../assets/logo.png">
-                    </div>
-                    <div class="item__username">
-                        <span>{{user.username}}</span>
-                        <TypingAnimation v-if="user.is_typing" :showText="false" />
-                    </div>
-                    <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
-                </li>
-            </ul>
+        
+        <ul class="aside__users">
+            <li 
+                v-for="user in arrayUsers" 
+                :key="user.userId" 
+                v-on="user.is_connected? {click: () => selectUser(user)} : {}" 
+                :class=" `${selectedUser === user ? 'selected' : ''} aside-users__item`" 
+                :data-state="`${user.is_connected ? 'online' : 'offline'}`" 
+            > 
+                <div class="item__profil-pic">
+                    <img alt="Vue logo" src="../../assets/logo.png">
+                </div>
+                <div class="item__informations">
+                    <span class="item__username">{{user.username}}</span>
+                    <span v-if="!user.is_typing" class="item__last-message">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure qui iusto accusantium necessitatibus 
+                        molestiae omnis. Omnis et sed voluptates, culpa vero nobis ad nostrum pariatur. Aspernatur sint exercitationem voluptas doloremque.
+                    </span>
+                    <TypingAnimation v-if="user.is_typing" :showText="false" />
+                </div>
+                <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
+            </li>
+        </ul>
+        <div class="aside__logout">
+            <router-link :to="{ name: 'Logout'}">
+                <PowerOff :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="30" width="30" />
+            </router-link>
         </div>
     </aside>
 </template>
 
 <script>
 import TypingAnimation from '../../components/chat/TypingAnimation.vue'
+import Hamburger from '../../components/svg/Hamburger.vue'
+import XmarkSvg from '../../components/svg/Xmark.vue'
+import PowerOff from '../../components/svg/PowerOff.vue'
 import {onMounted, ref, reactive, computed} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -46,74 +63,95 @@ export default {
 
         const signout =  () => UserService.logout();
 
+        let asideIsOpen = ref(true);
+        const setAsideState = () => {
+            asideIsOpen.value  = !asideIsOpen.value;
+        }
+
         return {
             selectUser, 
             signout,
             arrayUsers,
-            selectedUser
+            selectedUser,
+            setAsideState,
+            asideIsOpen
         };
     },
     components: {
-        TypingAnimation
+        TypingAnimation,
+        Hamburger,
+        XmarkSvg,
+        PowerOff
     }
 }
 </script>
 
 <style scoped lang="scss">
 
-aside {
+@media only screen and (max-width: 64em) {
+    .aside--open { width: 250px; }
+    .aside--close { width: 75px; }
+  }
+  @media only screen and (min-width: 64.063em) {
+    .aside--open { width: 300px; }
+    .aside--close { width: 100px; }
+  }
+
+  aside {
+    
     display: grid;
-    grid-template-rows: 8% 92%;
-    border-right: 1px solid map-get($colors, primary);
-    .title {
-        padding: 10px 5px;
-        border-bottom: 1px solid map-get($colors, primary);
+    grid-template-rows: 1fr 10fr 1fr;
+    height: 100vh;
+    transition: width 1s;
+
+    .aside__icons, .aside__logout {
+        background-color: map-get($colors, second);
+        color: map-get($colors, primary);
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
-        h2{font-size: 2rem;text-transform: uppercase;color: map-get($colors, second);}
     }
-}
-.list-users {
-    
-    .list-users__item[data-state="offline"] .item__profil-pic img { border-color: map-get($colors, offline );}
-    .list-users__item[data-state="online"] .item__profil-pic img { border-color: map-get($colors, online );}
 
-    .list-users__item:hover, .list-users__item.selected {
+    .aside__icons:hover {
         cursor: pointer;
-        background: rgba(0 , 0, 0, 0.05);
     }
 
-    .list-users__item {
+    .aside__users {
 
-        margin: 5px 0;
-        padding: 10px;
-        display: grid;
-        grid-template-columns: 2fr 9fr 1fr;
+        .aside-users__item[data-state="offline"] .item__profil-pic img { border-color: map-get($colors, offline );}
+        .aside-users__item[data-state="online"] .item__profil-pic img { border-color: map-get($colors, online );}
 
-        .item__profil-pic img {
-            border: 2px solid;
-            border-radius: 50%;
-            padding: 5px;
-            width:32px;
-            height:32px;
+        .aside-users__item:hover, .list-users__item.selected {
+            cursor: pointer;
+            background: rgba(0 , 0, 0, 0.05);
         }
 
-        .item__username {
-            
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            font-weight: normal;
-            font-size: 1.2rem;
-            padding: 0 5px;
-        }
+        .aside-users__item {
 
-        .item__notification {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            
+        //   margin: 5px 0;
+          padding: 10px;
+          display: grid;
+          grid-template-columns: 2fr 9fr 1fr;
+
+          .item__profil-pic img {
+
+              border: 2px solid;
+              border-radius: 50%;
+              padding: 5px;
+
+          }
+
+          .item__username {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              font-weight: normal;
+              font-size: 1.2rem;
+              padding: 0 5px;
+          }
+
+          .item__notification {
             .badge {
                 display: block;
                 height: 24px;
@@ -126,10 +164,67 @@ aside {
                 color: #fff;
                 font-size: 0.7rem;
             }
+          }
 
         }
-
     }
 
-}
+  }
+
+  .aside--open {
+
+    .aside__users {
+      
+      .aside-users__item {
+
+          .item__profil-pic img { width:32px; height:32px; }
+          
+          .item__last-message {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 190px;
+            display: block;
+            white-space: nowrap;
+            padding: 0 5px;
+          }
+
+          .item__notification {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              
+          }
+
+      }
+
+    }
+    
+  }
+
+  .aside--close {
+
+    .aside__users {
+      
+      .aside-users__item {
+
+          position: relative;
+
+          .item__profil-pic img { width:40px; height:40px; }
+
+          .item__username { display: none; }
+
+          .item__last-message { display: none; }
+
+          .item__notification {
+
+              position: absolute;
+              bottom: 0px;
+              right: 30%;
+
+          }
+
+      }
+
+    }
+  }
 </style>
