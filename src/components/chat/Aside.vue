@@ -113,9 +113,7 @@ export default {
         justify-content: center;
     }
 
-    .aside__icons:hover {
-        cursor: pointer;
-    }
+    .aside__icons:hover { cursor: pointer; }
 
     .aside__users {
 
@@ -129,18 +127,15 @@ export default {
 
         .aside-users__item {
 
-        //   margin: 5px 0;
           padding: 10px;
-          display: grid;
-          grid-template-columns: 2fr 9fr 1fr;
 
-          .item__profil-pic img {
+            .item__profil-pic img {
 
-              border: 2px solid;
-              border-radius: 50%;
-              padding: 5px;
+                border: 2px solid;
+                border-radius: 50%;
+                padding: 5px;
 
-          }
+            }
 
           .item__username {
               display: flex;
@@ -177,6 +172,9 @@ export default {
       
       .aside-users__item {
 
+          display: grid;
+          grid-template-columns: 2fr 9fr 1fr;
+
           .item__profil-pic img { width:32px; height:32px; }
           
           .item__last-message {
@@ -204,6 +202,8 @@ export default {
   .aside--close {
 
     .aside__users {
+
+        text-align: center;
       
       .aside-users__item {
 
@@ -219,12 +219,13 @@ export default {
 
               position: absolute;
               bottom: 0px;
-              right: 30%;
+              right: 15%;
 
           }
 
       }
 
     }
+
   }
 </style>
