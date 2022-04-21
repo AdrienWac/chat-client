@@ -1,79 +1,57 @@
 <template>
   <div class="home">
-    <Header>
-      <template v-slot:central>
-        <div :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="user header__user" v-if="selectedUser.id">
-          {{selectedUser.username}}
-        </div>
-      </template>
-    </Header>
-    <Aside :listUsers="listUsers"/>
-
-    <main :class="`${selectedUser.id ? 'main--full' : ''}`">
-
-      <div class="forum">
-
-        <div class="forum__header">
-          <div :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="user header__user" v-if="selectedUser.id">
-            {{selectedUser.username}}
-          </div>
-        </div>
-
-        <div class="forum__list">
-
-          <ul v-if ="selectedUser.id">
-
-            <li v-if ="selectedUser.messages?.length > 0" class="message__card" v-for="message in selectedUser.messages">
-              
-              <div class="message__aside">
+    <aside :class="asideIsOpen ? `aside--open` : `aside--close`">
+      <div class="aside__icons">
+        <Hamburger v-if="!asideIsOpen" :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="40" width="40" @click="setAsideState()" />
+        <XmarkSvg v-if="asideIsOpen" :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="40" width="40" @click="setAsideState()" />
+      </div>
+      <ul class="aside__users">
+        <!-- Connecté avec message et notifications -->
+        <li class="aside-users__item" data-state="online" > 
+            <div class="item__profil-pic">
                 <img alt="Vue logo" src="../assets/logo.png">
-              </div>
-
-              <div class="message__main">
-
-                <div class="message__main-header"> 
-                  <span :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="message__sender user"> {{ message.fromSelf ? user.username : selectedUser.username }} </span> 
-                  <span class="message__time"> 04/02/2022 - 14h55 </span> 
-                </div>
-
-                <div class="message__content"> {{ message.content }} </div>
-
-              </div>
-        
-            </li>
-
-            <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
-              <template v-slot:icon>
-                <CommentSlash :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
-              </template>
-              <template v-slot:message>Aucun message à afficher</template>
-            </AlertPage>
+            </div>
+            <div class="item__informations">
+                <span class="item__username">Adrien Lambert</span>
+                <span class="item__last-message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure qui iusto accusantium necessitatibus 
+                  molestiae omnis. Omnis et sed voluptates, culpa vero nobis ad nostrum pariatur. Aspernatur sint exercitationem voluptas doloremque.</span>
+            </div>
+            <div class="item__notification"><span class="badge">10+</span></div>
+        </li>
+        <!-- Connecté sans message avec notification -->
+        <li class="aside-users__item" data-state="online" > 
+            <div class="item__profil-pic">
+                <img alt="Vue logo" src="../assets/logo.png">
+            </div>
+            <div class="item__informations">
+                <span class="item__username">Adrien Lambert</span>
+            </div>
+            <div class="item__notification"><span class="badge">2</span></div>
+        </li>
+        <!-- Connecté avec message sans notification -->
+        <li class="aside-users__item" data-state="online" > 
+            <div class="item__profil-pic">
+                <img alt="Vue logo" src="../assets/logo.png">
+            </div>
+            <div class="item__informations">
+                <span class="item__username">Adrien Lambert</span>
+                <span class="item__last-message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure qui iusto accusantium necessitatibus 
+                  molestiae omnis. Omnis et sed voluptates, culpa vero nobis ad nostrum pariatur. Aspernatur sint exercitationem voluptas doloremque.</span>
+            </div>
             
-          </ul>
-          
-          <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
-            <template v-slot:icon>
-              <MousePointer :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
-            </template>
-            <template v-slot:message>Sélectionner un utilisateur</template>
-          </AlertPage>
-
-        </div>
-
-      </div>
-
-      <div v-if="selectedUser.is_connected" class="main__form">
-
-        <div class="form__header" :data-visibility="`${selectedUser.is_typing ? 'show' : 'hidden'}`">
-          <div class="header__test">
-            <!-- TODO Revoir l'affichage de cette animation -->
-            <TypingAnimation v-if="selectedUser?.is_typing" :text="`${selectedUser.username} écrit`" :showText="true"/>
-          </div>
-        </div>
-
-        <Form @sendMessage="sendMessage"/>
-
-      </div>
+        </li>
+        <!-- Non Connecté sans message sans notification -->
+        <li class="aside-users__item" data-state="offline" > 
+            <div class="item__profil-pic">
+                <img alt="Vue logo" src="../assets/logo.png">
+            </div>
+            <div class="item__informations">
+                <span class="item__username">Adrien Lambert</span>
+            </div>
+        </li>
+      </ul>
+    </aside>
+    <main>
 
     </main>
 
@@ -92,6 +70,8 @@ import AlertPage from '../components/chat/Alert.vue'
 import TypingAnimation from '../components/chat/TypingAnimation.vue'
 import CommentSlash from '../components/svg/CommentSlash.vue'
 import MousePointer from '../components/svg/MousePointer.vue'
+import Hamburger from '../components/svg/Hamburger.vue'
+import XmarkSvg from '../components/svg/Xmark.vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -174,8 +154,24 @@ export default {
 
 
     });
+
+
+
+
+    // ------------------------- Intégration -------------------------
+    let asideIsOpen = ref(true);
+    const setAsideState = () => {
+      asideIsOpen.value  = !asideIsOpen.value;
+    }
+
+
+
+
+
+
+
     
-    return { user, listUsers, selectedUser, sendMessage };
+    return { user, listUsers, selectedUser, sendMessage, setAsideState, asideIsOpen };
 
   },
   components: {
@@ -184,6 +180,8 @@ export default {
     AlertPage,
     CommentSlash,
     MousePointer,
+    Hamburger,
+    XmarkSvg,
     Header,
     TypingAnimation,
   }
@@ -191,5 +189,164 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import '../assets/scss/home.scss';
+  @import '../assets/scss/home.scss'; 
+
+
+  @media only screen and (max-width: 64em) {
+    .aside--open { width: 250px; }
+    .aside--close { width: 75px; }
+  }
+  @media only screen and (min-width: 64.063em) {
+    .aside--open { width: 300px; }
+    .aside--close { width: 100px; }
+  }
+
+  aside {
+    // background: red;
+    height: 100vh;
+    transition: width 1s;
+  }
+
+  .aside--open {
+
+    .aside__users {
+      
+      .aside-users__item[data-state="offline"] .item__profil-pic img { border-color: map-get($colors, offline );}
+      .aside-users__item[data-state="online"] .item__profil-pic img { border-color: map-get($colors, online );}
+
+      .aside-users__item:hover, .list-users__item.selected {
+          cursor: pointer;
+          background: rgba(0 , 0, 0, 0.05);
+      }
+
+      .aside-users__item {
+
+          margin: 5px 0;
+          padding: 10px;
+          display: grid;
+          grid-template-columns: 2fr 9fr 1fr;
+
+          .item__profil-pic img {
+              border: 2px solid;
+              border-radius: 50%;
+              padding: 5px;
+              width:32px;
+              height:32px;
+          }
+
+          .item__username {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              font-weight: normal;
+              font-size: 1.2rem;
+              padding: 0 5px;
+          }
+          
+          .item__last-message {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 190px;
+            display: block;
+            white-space: nowrap;
+            padding: 0 5px;
+          }
+
+          .item__notification {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              
+              .badge {
+                  display: block;
+                  height: 24px;
+                  width: 24px;
+                  border-radius: 50%;
+                  background: map-get($colors, notification);
+                  text-align: center;
+                  line-height: 22px;
+                  font-weight: bold;
+                  color: #fff;
+                  font-size: 0.7rem;
+              }
+
+          }
+
+      }
+
+}
+  }
+
+  .aside--close {
+
+    .aside__users {
+      
+      .aside-users__item[data-state="offline"] .item__profil-pic img { border-color: map-get($colors, offline );}
+      .aside-users__item[data-state="online"] .item__profil-pic img { border-color: map-get($colors, online );}
+
+      .aside-users__item:hover, .list-users__item.selected {
+          cursor: pointer;
+          background: rgba(0 , 0, 0, 0.05);
+      }
+
+      .aside-users__item {
+
+          margin: 5px 0;
+          padding: 10px;
+          display: grid;
+          grid-template-columns: 2fr 9fr 1fr;
+          position: relative;
+
+          .item__profil-pic img {
+              border: 2px solid;
+              border-radius: 50%;
+              padding: 5px;
+              width:40px;
+              height:40px;
+          }
+
+          .item__username {
+              
+              display: none;
+              flex-direction: column;
+              justify-content: center;
+              font-weight: normal;
+              font-size: 1.2rem;
+              padding: 0 5px;
+          }
+
+          .item__last-message {
+            display: none;
+          }
+
+          .item__notification {
+              position: absolute;
+              bottom: 0px;
+              right: 30%;
+
+              
+              .badge {
+                  display: block;
+                  height: 24px;
+                  width: 24px;
+                  border-radius: 50%;
+                  background: map-get($colors, notification);
+                  text-align: center;
+                  line-height: 22px;
+                  font-weight: bold;
+                  color: #fff;
+                  font-size: 0.7rem;
+              }
+
+          }
+
+      }
+
+    }
+  }
+
+
+  main {
+    background: green;
+  }
 </style>
