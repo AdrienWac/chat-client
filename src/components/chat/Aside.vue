@@ -89,21 +89,22 @@ export default {
 @media only screen and (max-width: 64em) {
     .aside--open { width: 250px; }
     .aside--close { width: 75px; }
+    
   }
   @media only screen and (min-width: 64.063em) {
     .aside--open { width: 300px; }
     .aside--close { width: 100px; }
+    
   }
 
   aside {
     
     display: grid;
-    grid-template-rows: 1fr 9fr 2fr;
     height: 100vh;
     transition: width 0.5s;
     border-right: 1px solid map-get($colors, primary);
 
-    .aside__icons, .aside__logo-app {
+    .aside__icons{
         background-color: map-get($colors, second);
         color: map-get($colors, primary);
         display: flex;
@@ -168,6 +169,8 @@ export default {
   }
 
   .aside--open {
+    
+    grid-template-rows: 1fr 9fr 2fr;
 
     .aside__users {
       
@@ -203,11 +206,22 @@ export default {
       }
 
     }
+
+    .aside__logo-app {
+        background-color: map-get($colors, second);
+        color: map-get($colors, primary);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
     
   }
 
   .aside--close {
-
+    
+    grid-template-rows: 1fr 11fr;
+    
     .aside__users {
 
         text-align: center;
@@ -233,6 +247,8 @@ export default {
       }
 
     }
+
+    .aside__logo-app{display:none;}
 
   }
 </style>
