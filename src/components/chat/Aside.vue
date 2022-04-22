@@ -13,10 +13,10 @@
                 :class=" `${selectedUser === user ? 'selected' : ''} aside-users__item`" 
                 :data-state="`${user.is_connected ? 'online' : 'offline'}`" 
             > 
-                <div class="item__profil-pic">
+                <div class="item__profil-pic" v-tooltip.right="{ content: user.username, disabled: asideIsOpen, theme: 'tooltip'}">
                     <img alt="Vue logo" src="../../assets/logo.png">
                 </div>
-                <div class="item__informations" v-tooltip="'You have  new messages.'">
+                <div class="item__informations">
                     <span class="item__username">{{user.username}}</span>
                     <span v-if="!user.is_typing" class="item__last-message">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure qui iusto accusantium necessitatibus 
@@ -27,10 +27,8 @@
                 <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
             </li>
         </ul>
-        <div class="aside__logout">
-            <router-link :to="{ name: 'Logout'}">
-                <PowerOff :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="30" width="30" />
-            </router-link>
+        <div class="aside__logo-app">
+            Le chaat'
         </div>
     </aside>
 </template>
@@ -100,11 +98,12 @@ export default {
   aside {
     
     display: grid;
-    grid-template-rows: 1fr 10fr 1fr;
+    grid-template-rows: 1fr 9fr 2fr;
     height: 100vh;
-    transition: width 1s;
+    transition: width 0.5s;
+    border-right: 1px solid map-get($colors, primary);
 
-    .aside__icons, .aside__logout {
+    .aside__icons, .aside__logo-app {
         background-color: map-get($colors, second);
         color: map-get($colors, primary);
         display: flex;
@@ -138,9 +137,6 @@ export default {
             }
 
           .item__username {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
               font-weight: normal;
               font-size: 1.2rem;
               padding: 0 5px;
@@ -164,6 +160,11 @@ export default {
         }
     }
 
+    .aside__logo-app {
+        font-family: $courgette;
+        font-size: 2.1rem;
+    }
+
   }
 
   .aside--open {
@@ -176,6 +177,12 @@ export default {
           grid-template-columns: 2fr 9fr 1fr;
 
           .item__profil-pic img { width:32px; height:32px; }
+
+          .item__informations {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+          }
           
           .item__last-message {
             text-overflow: ellipsis;

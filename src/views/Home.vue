@@ -1,7 +1,26 @@
 <template>
   <div class="home">
     <Aside />
-    <main> </main>
+    <main>
+      <header>
+        <div class="header__content">
+          <div class="header__player-selected">
+            <span data-state="online" class="user">player 1 </span>
+            <span class="header__player--is-typing"> est en train d'écrire</span>
+          </div>
+        </div>
+        <div class="header__logout">
+          <router-link :to="{ name: 'Logout'}">
+                <PowerOff :stroke="{color: 'transparent', width:3}" :fill="'#04902f'" height="30" width="30" />
+            </router-link>
+        </div>
+      </header>
+
+      <article></article>
+
+      <footer></footer>
+
+    </main>
 
   </div>
 
@@ -18,6 +37,7 @@ import AlertPage from '../components/chat/Alert.vue'
 import TypingAnimation from '../components/chat/TypingAnimation.vue'
 import CommentSlash from '../components/svg/CommentSlash.vue'
 import MousePointer from '../components/svg/MousePointer.vue'
+import PowerOff from '../components/svg/PowerOff.vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -110,6 +130,7 @@ export default {
     AlertPage,
     CommentSlash,
     MousePointer,
+    PowerOff,
     Header,
     TypingAnimation,
   }
@@ -121,6 +142,49 @@ export default {
 
 
   main {
-    background: green;
+    // background: green;
+    display: grid;
+    grid-template-rows: 1fr 9fr 2fr;
+    
+    @media only screen and (max-width: 64em) {
+      header {}
+      article {}
+      footer {}
+    }
+
+    @media only screen and (min-width: 64.063em) {
+      header {}
+      article {}
+      footer {}
+    }
+
+    header {
+      display: grid; 
+      grid-template-columns: 10fr 2fr;
+      .header__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 10px;
+        .header__player--is-typing {
+          display: inline-block;
+          font-size: 0.8rem
+        }
+      }
+      .header__logout {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-left: 1px solid map-get($colors, primary);
+      }
+    }
+
+    article {
+      border-top: 1px solid map-get($colors, primary);
+      border-bottom: 1px solid map-get($colors, primary);
+    }
+    footer {}
+    
   }
 </style>
