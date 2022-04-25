@@ -1,0 +1,12 @@
+@media only screen and (max-width: 64em) {
+    aside {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        height: 100%;
+        width: 200px;
+        z-index: 2;
+        transition: width 0.5s;
+    }
+
+}

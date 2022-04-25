@@ -140,23 +140,15 @@ export default {
 <style scoped lang="scss">
   @import '../assets/scss/home.scss'; 
 
+  @import url('../assets/scss/mobile/home.scss') screen and (max-width: 64em);
+  @import url('../assets/scss/desktop/home.scss') screen and (min-width: 64.063em);
+
+
 
   main {
     // background: green;
-    display: grid;
-    grid-template-rows: 1fr 9fr 2fr;
     
-    @media only screen and (max-width: 64em) {
-      header {}
-      article {}
-      footer {}
-    }
-
-    @media only screen and (min-width: 64.063em) {
-      header {}
-      article {}
-      footer {}
-    }
+    
 
     header {
       display: grid; 

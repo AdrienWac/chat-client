@@ -2,11 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;600&display=swap');
 
 
-// Colors
+
 $colors: (primary: #0183DA, second: #04902f, white: #fff, black: #000, online: #28a745, offline: #dc3545, notification: #dc3545);
 $alertColorsByType: ( "success", #28a745) , ("danger", #dc3545), ("warning", #fd7e14), ("info", #007bff);
 
-// Extract color map into css variables
+
 :root {
     --color-offline: #dc3545;
     
@@ -16,7 +16,7 @@ $alertColorsByType: ( "success", #28a745) , ("danger", #dc3545), ("warning", #fd
     @return var(--color-#{$color-name});
 }
 
-// Fonts
+
 $oswald: 'Oswald', serif;
 $fontColors: (primary: #000);
 $courgette: 'Courgette', cursive;

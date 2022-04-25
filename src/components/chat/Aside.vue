@@ -85,170 +85,164 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    @import url('../../assets/scss/mobile/aside.scss') screen and (max-width: 64em);
+    @import '../../assets/scss/desktop/aside.scss';
+    aside {
 
-@media only screen and (max-width: 64em) {
-    .aside--open { width: 250px; }
-    .aside--close { width: 75px; }
-    
-  }
-  @media only screen and (min-width: 64.063em) {
-    .aside--open { width: 300px; }
-    .aside--close { width: 100px; }
-    
-  }
+        display: grid;
+        border-right: 1px solid map-get($colors, primary);
 
-  aside {
-    
-    display: grid;
-    height: 100vh;
-    transition: width 0.5s;
-    border-right: 1px solid map-get($colors, primary);
-
-    .aside__icons{
-        background-color: map-get($colors, second);
-        color: map-get($colors, primary);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .aside__icons:hover { cursor: pointer; }
-
-    .aside__users {
-
-        .aside-users__item[data-state="offline"] .item__profil-pic img { border-color: map-get($colors, offline );}
-        .aside-users__item[data-state="online"] .item__profil-pic img { border-color: map-get($colors, online );}
-
-        .aside-users__item:hover, .list-users__item.selected {
-            cursor: pointer;
-            background: rgba(0 , 0, 0, 0.05);
-        }
-
-        .aside-users__item {
-
-          padding: 10px;
-
-            .item__profil-pic img {
-
-                border: 2px solid;
-                border-radius: 50%;
-                padding: 5px;
-
-            }
-
-          .item__username {
-              font-weight: normal;
-              font-size: 1.2rem;
-              padding: 0 5px;
-          }
-
-          .item__notification {
-            .badge {
-                display: block;
-                height: 24px;
-                width: 24px;
-                border-radius: 50%;
-                background: map-get($colors, notification);
-                text-align: center;
-                line-height: 22px;
-                font-weight: bold;
-                color: #fff;
-                font-size: 0.7rem;
-            }
-          }
-
-        }
-    }
-
-    .aside__logo-app {
-        font-family: $courgette;
-        font-size: 2.1rem;
-    }
-
-  }
-
-  .aside--open {
-    
-    grid-template-rows: 1fr 9fr 2fr;
-
-    .aside__users {
-      
-      .aside-users__item {
-
-          display: grid;
-          grid-template-columns: 2fr 9fr 1fr;
-
-          .item__profil-pic img { width:32px; height:32px; }
-
-          .item__informations {
+        .aside__icons {
+            background-color: map-get($colors, second);
+            color: map-get($colors, primary);
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
-          }
-          
-          .item__last-message {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            width: 190px;
-            display: block;
-            white-space: nowrap;
-            padding: 0 5px;
-          }
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .aside__users {
+    
+            .aside-users__item[data-state="offline"] .item__profil-pic img {
+                border-color: map-get($colors, offline);
+            }
+    
+            .aside-users__item[data-state="online"] .item__profil-pic img {
+                border-color: map-get($colors, online);
+            }
 
-          .item__notification {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              
-          }
+            .aside-users__item {
+    
+                padding: 10px;
 
-      }
+                .item__username {
+                    font-weight: normal;
+                    font-size: 1.2rem;
+                    padding: 0 5px;
+                }
+    
+                .item__profil-pic img {
+    
+                    border: 2px solid;
+                    border-radius: 50%;
+                    padding: 5px;
+    
+                }
 
+                .item__notification {
+                    .badge {
+                        display: block;
+                        height: 24px;
+                        width: 24px;
+                        border-radius: 50%;
+                        background: map-get($colors, notification);
+                        text-align: center;
+                        line-height: 22px;
+                        font-weight: bold;
+                        color: #fff;
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+        }
     }
 
-    .aside__logo-app {
-        background-color: map-get($colors, second);
-        color: map-get($colors, primary);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+    .aside--open {
+    
+        grid-template-rows: 1fr 9fr 2fr;
+        width: 300px;
+    
+        .aside__users {
+    
+            .aside-users__item {
+    
+                display: grid;
+                grid-template-columns: 2fr 9fr 1fr;
+    
+                .item__profil-pic img {
+                    width: 32px;
+                    height: 32px;
+                }
+    
+                .item__informations {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                }
+    
+                .item__last-message {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: 190px;
+                    display: block;
+                    white-space: nowrap;
+                    padding: 0 5px;
+                }
+    
+                .item__notification {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+    
+                }
+    
+            }
+    
+        }
+    
+        .aside__logo-app {
+            background-color: map-get($colors, second);
+            color: map-get($colors, primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    
     }
     
-  }
-
-  .aside--close {
+    .aside--close {
     
-    grid-template-rows: 1fr 11fr;
+        grid-template-rows: 1fr 11fr;
+        width: 100px;
     
-    .aside__users {
-
-        text-align: center;
-      
-      .aside-users__item {
-
-          position: relative;
-
-          .item__profil-pic img { width:40px; height:40px; }
-
-          .item__username { display: none; }
-
-          .item__last-message { display: none; }
-
-          .item__notification {
-
-              position: absolute;
-              bottom: 0px;
-              right: 15%;
-
-          }
-
-      }
-
+        .aside__users {
+    
+            text-align: center;
+    
+            .aside-users__item {
+    
+                position: relative;
+    
+                .item__profil-pic img {
+                    width: 40px;
+                    height: 40px;
+                }
+    
+                .item__username {
+                    display: none;
+                }
+    
+                .item__last-message {
+                    display: none;
+                }
+    
+                .item__notification {
+    
+                    position: absolute;
+                    bottom: 0px;
+                    right: 15%;
+    
+                }
+    
+            }
+    
+        }
+    
+        .aside__logo-app {
+            display: none;
+        }
+    
     }
 
-    .aside__logo-app{display:none;}
-
-  }
 </style>
