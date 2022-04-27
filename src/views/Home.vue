@@ -4,9 +4,9 @@
     <main>
       <header>
         <div class="header__content">
-          <div class="header__player-selected">
-            <span data-state="online" class="user">player 1 </span>
-            <span class="header__player--is-typing"> est en train d'écrire</span>
+          <div class="header__player-selected" >
+            <span v-if="selectedUser.id" :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="user"> {{selectedUser.username}} </span>
+            <span v-if="selectedUser.is_typing" class="header__player--is-typing"> est en train d'écrire</span>
           </div>
         </div>
         <div class="header__logout">
@@ -147,7 +147,8 @@ export default {
 
   main {
     // background: green;
-    
+    display: grid;
+    grid-template-rows: 1fr 9fr 2fr;
     
 
     header {

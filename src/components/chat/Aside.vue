@@ -110,6 +110,12 @@ export default {
             .aside-users__item[data-state="online"] .item__profil-pic img {
                 border-color: map-get($colors, online);
             }
+            
+            .aside-users__item:hover,
+            .aside-users__item.selected {
+                cursor: pointer;
+                background: rgba(0, 0, 0, 0.05);
+            }
 
             .aside-users__item {
     
