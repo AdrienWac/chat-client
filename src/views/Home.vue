@@ -1,20 +1,10 @@
 <template>
   <div class="home">
     <Aside />
+    
     <main>
-      <header>
-        <div class="header__content">
-          <div class="header__player-selected" >
-            <span v-if="selectedUser.id" :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="user"> {{selectedUser.username}} </span>
-            <span v-if="selectedUser.is_typing" class="header__player--is-typing"> est en train d'écrire</span>
-          </div>
-        </div>
-        <div class="header__logout">
-          <router-link :to="{ name: 'Logout'}">
-                <PowerOff :stroke="{color: 'transparent', width:3}" :fill="'#04902f'" height="30" width="30" />
-            </router-link>
-        </div>
-      </header>
+      
+      <Header />
 
       <article></article>
 
@@ -55,8 +45,6 @@ export default {
     const store = useStore();
     const router = useRouter();
     let listUsers = ref([]);
-
-    const selectedUser = computed(() => store.getters['chat/selectedUser']);
 
     let user = JSON.parse(localStorage.getItem('user'));
 
@@ -121,7 +109,7 @@ export default {
 
     });
     
-    return { user, listUsers, selectedUser, sendMessage};
+    return { user, listUsers, sendMessage};
 
   },
   components: {
@@ -149,29 +137,6 @@ export default {
     // background: green;
     display: grid;
     grid-template-rows: 1fr 9fr 2fr;
-    
-
-    header {
-      display: grid; 
-      grid-template-columns: 10fr 2fr;
-      .header__content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0 10px;
-        .header__player--is-typing {
-          display: inline-block;
-          font-size: 0.8rem
-        }
-      }
-      .header__logout {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-left: 1px solid map-get($colors, primary);
-      }
-    }
 
     article {
       border-top: 1px solid map-get($colors, primary);
