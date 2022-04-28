@@ -7,7 +7,7 @@
       <Header />
 
       <article>
-
+        <Forum />
         <!-- <div class="messages__container"> -->
 
         <div class="message__card">
@@ -312,6 +312,7 @@ import Socket from '../socket'
 import {ref, onMounted, watch, computed} from 'vue'
 import Header from '../components/chat/Header.vue'
 import Aside from '../components/chat/Aside.vue'
+import Forum from '../components/chat/Forum.vue'
 import Form from '../components/chat/Form.vue'
 import AlertPage from '../components/chat/Alert.vue'
 import TypingAnimation from '../components/chat/TypingAnimation.vue'
@@ -404,12 +405,13 @@ export default {
   },
   components: {
     Aside,
+    Header,
+    Forum,
     Form,
     AlertPage,
     CommentSlash,
     MousePointer,
     PowerOff,
-    Header,
     TypingAnimation,
   }
 }
@@ -435,7 +437,7 @@ export default {
       display: flex;
       flex-direction: column-reverse;
       overflow-y: scroll;
-      
+
       .message__card {
         
         display: grid;
