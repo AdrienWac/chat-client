@@ -1,4 +1,5 @@
 @media only screen and (max-width: 64em) {
+    
     main {
         position: fixed;
         height: 100vh;
@@ -6,5 +7,36 @@
         right: 0;
         left: 100px;
         z-index: 0;
+
+    }
+
+    article {
+        
+        overflow-y: scroll;
+
+        .message__card {
+    
+            grid-template-columns: 12fr;
+    
+            .item__profil-pic {
+                display: none;
+            }
+    
+            .message__main {
+    
+                .message__main-header {
+    
+                    .message__sender {}
+    
+                    .message__time {}
+    
+                }
+    
+                .message__content {}
+    
+            }
+    
+        }
+    
     }
 }

@@ -13,7 +13,7 @@
                 :class=" `${selectedUser === user ? 'selected' : ''} aside-users__item`" 
                 :data-state="`${user.is_connected ? 'online' : 'offline'}`" 
             > 
-                <div class="item__profil-pic" v-tooltip.right="{ content: user.username, disabled: asideIsOpen, theme: 'tooltip'}">
+                <div class="item__profil-pic" :data-state="`${user.is_connected ? 'online' : 'offline'}`" v-tooltip.right="{ content: user.username, disabled: asideIsOpen, theme: 'tooltip'}">
                     <img alt="Vue logo" src="../../assets/logo.png">
                 </div>
                 <div class="item__informations">
@@ -87,6 +87,7 @@ export default {
 <style scoped lang="scss">
     @import url('../../assets/scss/mobile/aside.scss') screen and (max-width: 64em);
     @import '../../assets/scss/desktop/aside.scss';
+    @import '../../assets/scss/common.scss';
     
     aside {
 
@@ -105,14 +106,7 @@ export default {
         .aside__users {
 
             overflow-y: scroll;
-    
-            .aside-users__item[data-state="offline"] .item__profil-pic img {
-                border-color: map-get($colors, offline);
-            }
-    
-            .aside-users__item[data-state="online"] .item__profil-pic img {
-                border-color: map-get($colors, online);
-            }
+
             
             .aside-users__item:hover,
             .aside-users__item.selected {
@@ -128,14 +122,6 @@ export default {
                     font-weight: normal;
                     font-size: 1.2rem;
                     padding: 0 5px;
-                }
-    
-                .item__profil-pic img {
-    
-                    border: 2px solid;
-                    border-radius: 50%;
-                    padding: 5px;
-    
                 }
 
                 .item__notification {
