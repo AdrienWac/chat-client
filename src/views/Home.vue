@@ -7,7 +7,9 @@
       <Header />
 
       <article>
+
         <!-- <div class="messages__container"> -->
+
         <div class="message__card">
 
           <div class="message__aside item__profil-pic" data-state="online">
@@ -27,6 +29,234 @@
 
         </div>
         
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
+        <div class="message__card">
+
+          <div class="message__aside item__profil-pic" data-state="online">
+            <img alt="Vue logo" src="../assets/logo.png">
+          </div>
+
+          <div class="message__main">
+
+            <div class="message__main-header"> 
+              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+              <span class="message__time"> 04/02/2022 - 14h55 </span> 
+            </div>
+
+            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+
+          </div>
+
+        </div>
+
         <div class="message__card">
 
           <div class="message__aside item__profil-pic" data-state="online">
@@ -196,6 +426,7 @@ export default {
 
     display: grid;
     grid-template-rows: 1fr 9fr 2fr;
+    max-height: 100vh;
 
     article {
 
@@ -203,31 +434,26 @@ export default {
       border-bottom: 1px solid map-get($colors, primary);
       display: flex;
       flex-direction: column-reverse;
-    
-      .messages__container {
-        
-        
-      }
-
+      overflow-y: scroll;
+      
       .message__card {
         
         display: grid;
         padding: 15px 10px 15px 5px;
 
-        
-
         .message__main {
+
           text-align: justify;
+
           .message__main-header {
+
             margin-bottom: 5px;
+
             .message__sender {font-weight: bold;}
-            .message__time {}
 
           }
 
-          .message__content {
-            margin-top: 5px;
-          }
+          .message__content { margin-top: 5px; }
 
         }
       
