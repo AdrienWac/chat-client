@@ -3,6 +3,7 @@
     import { useStore } from 'vuex'
     import AlertPage from './Alert.vue'
     import MousePointer from '../svg/MousePointer.vue'
+    import MessageCard from './Message/Card.vue'
 
     const store = useStore();
 
@@ -10,17 +11,42 @@
 
 </script>
 
-<template>
+<template >
 
-    <div v-if="selectedUser.id">
+        <div v-if="selectedUser.id">
+
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            <MessageCard />
+            
+            
+        </div>
+
+        <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
+
+            <template v-slot:icon>
+                <MousePointer :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
+            </template>
+
+            <template v-slot:message>Sélectionner un utilisateur</template>
         
-    </div>
+        </AlertPage>
 
-    <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
-        <template v-slot:icon>
-            <MousePointer :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
-        </template>
-        <template v-slot:message>Sélectionner un utilisateur</template>
-    </AlertPage>
 
 </template>

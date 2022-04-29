@@ -1,300 +1,15 @@
 <template>
   <div class="home">
+
     <Aside />
     
     <main>
       
       <Header />
 
-      <article>
+      <article :class=" `${selectedUser.id ? 'article--user-selected' : 'article--user-not-selected'} forum__container` ">
+
         <Forum />
-        <!-- <div class="messages__container"> -->
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-        
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-
-        <div class="message__card">
-
-          <div class="message__aside item__profil-pic" data-state="online">
-            <img alt="Vue logo" src="../assets/logo.png">
-          </div>
-
-          <div class="message__main">
-
-            <div class="message__main-header"> 
-              <span data-state="online" class="message__sender"> Adrien Lambert </span> 
-              <span class="message__time"> 04/02/2022 - 14h55 </span> 
-            </div>
-
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
-
-          </div>
-
-        </div>
-        <!-- </div> -->
 
       </article>
 
@@ -338,6 +53,8 @@ export default {
     let listUsers = ref([]);
 
     let user = JSON.parse(localStorage.getItem('user'));
+
+    let selectedUser = computed(() => store.getters['chat/selectedUser']);
 
     const initSocket = () => { 
       Socket.auth = {...user};
@@ -400,7 +117,7 @@ export default {
 
     });
     
-    return { user, listUsers, sendMessage};
+    return { user, selectedUser, listUsers, sendMessage};
 
   },
   components: {
@@ -436,31 +153,14 @@ export default {
       border-bottom: 1px solid map-get($colors, primary);
       display: flex;
       flex-direction: column-reverse;
-      overflow-y: scroll;
 
-      .message__card {
-        
-        display: grid;
-        padding: 15px 10px 15px 5px;
+    }
 
-        .message__main {
+    .article--user-selected { overflow-y: scroll; } 
 
-          text-align: justify;
-
-          .message__main-header {
-
-            margin-bottom: 5px;
-
-            .message__sender {font-weight: bold;}
-
-          }
-
-          .message__content { margin-top: 5px; }
-
-        }
-      
-      }
-
+    .article--user-not-selected {
+      align-items: center;
+      justify-content: center;
     }
 
     footer {}

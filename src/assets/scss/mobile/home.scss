@@ -10,31 +10,4 @@
 
     }
 
-    article {
-        
-        .message__card {
-    
-            grid-template-columns: 12fr;
-    
-            .item__profil-pic {
-                display: none;
-            }
-    
-            .message__main {
-    
-                .message__main-header {
-    
-                    .message__sender {}
-    
-                    .message__time {}
-    
-                }
-    
-                .message__content {}
-    
-            }
-    
-        }
-    
-    }
 }
