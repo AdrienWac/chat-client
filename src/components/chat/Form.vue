@@ -1,29 +1,33 @@
 <template>
   
-  <div>
-    
     <form @submit.prevent="onSubmit" class="form">
+      
       <!-- FIXME Changer le @keyup pour faire une combinaison CTRL + Entrée -->
-      <textarea v-model="content" placeholder="Your message..." class="input" @keyup.ctrl.exact="onSubmit"/>
+      <textarea 
+        v-model="content" 
+        placeholder="Your message..."
+        required=true
+        class="input" 
+        @keyup.ctrl.exact="onSubmit"
+      />
       <button :disabled="!isValid" class="send-button">
         <PaperPlane :stroke="{color: 'transparent', width:3}" :fill="'#fff'" height="24" width="24" />
       </button>
     </form>
 
-  </div>
 
 </template>
 
 <script>
 
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch } from 'vue'
 import {useStore} from 'vuex'
 import PaperPlane from '../svg/PaperPlane.vue'
 import Socket from '../../socket'
 
 export default {
     components: {
-      PaperPlane
+      PaperPlane,
     },
     setup(props, context) {
 
@@ -55,11 +59,33 @@ export default {
 
           Socket.on('start typing', ({user: userWhoTyping}) => store.dispatch('chat/detectTypingMessage', {user: userWhoTyping, state: true}));
 
+
         return {content, isValid, onSubmit};   
     }
 }
 </script>
 
 <style scoped lang="scss">
-button{display:flex; flex-direction: row;align-items: center;justify-content: center;}
+form {
+  display: grid;
+  grid-template-columns: 10fr 2fr;
+  height: 50%;
+}
+textarea {border: 1px solid map-get($colors, second);}
+button {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: map-get($colors, primary);
+  border: 1px solid map-get($colors, second);
+}
+button:hover {
+  cursor: pointer;
+  background-color: lighten(map-get($colors, primary), 20%);
+}
+button:disabled {
+background-color: lighten(map-get($colors, black), 50%);
+cursor: not-allowed;
+}
 </style>

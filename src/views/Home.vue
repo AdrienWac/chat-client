@@ -13,7 +13,9 @@
 
       </article>
 
-      <footer></footer>
+      <footer>
+        <Form v-if="selectedUser.id"/>
+      </footer>
 
     </main>
 
@@ -146,6 +148,7 @@ export default {
     display: grid;
     grid-template-rows: 1fr 9fr 2fr;
     max-height: 100vh;
+    overflow: hidden;
 
     article {
 
@@ -163,7 +166,10 @@ export default {
       justify-content: center;
     }
 
-    footer {}
+    footer {
+      height: 100%;
+      padding: 10px;
+    }
     
   }
 </style>
