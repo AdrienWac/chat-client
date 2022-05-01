@@ -86,6 +86,10 @@ class UserService {
 
     }
 
+    sendMessage({to, from, content}) {
+        console.log('SEND MESSAGE', to, from, content);
+    }
+
 }
 
 export default new UserService();

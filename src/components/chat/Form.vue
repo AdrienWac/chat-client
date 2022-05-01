@@ -24,6 +24,7 @@ import { ref, computed, watch } from 'vue'
 import {useStore} from 'vuex'
 import PaperPlane from '../svg/PaperPlane.vue'
 import Socket from '../../socket'
+import UserService from '../../services/user.service';
 
 export default {
     components: {
@@ -39,6 +40,7 @@ export default {
 
         const onSubmit = () => {
             context.emit('sendMessage', content.value);
+            // UserService.sendMessage({content: content.value, to: {username: 'Player1'}, from: {username: 'Player2'}});
             content.value = '';
         }
 

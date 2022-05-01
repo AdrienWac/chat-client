@@ -73,8 +73,8 @@ export const chatStoreModule = {
                 } 
                 
             }
-
-            messages.push({ content: content, fromSelf: true });
+           
+            messages.push({ content: content, fromSelf: true, sender: senderUser });
 
             commit('SET_USER_PROPERTY', { userId: state.selectedUser.id, propertyName: 'messages', propertyValue: messages });
             
@@ -96,7 +96,8 @@ export const chatStoreModule = {
             }
 
             // J'y ajoute le nouveau message
-            messages.push({ content: content, fromSelf: fromSelf});
+            console.log('ICICICICI', senderUser, recipientUser);
+            messages.push({ content: content, fromSelf: fromSelf, sender: senderUser});
 
             // Je met à jour la propriété dans le state
             commit('SET_USER_PROPERTY', { userId: senderUser.id, propertyName: 'messages', propertyValue: messages });

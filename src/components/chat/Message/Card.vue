@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 
-const count = ref(0)
+const props = defineProps(['message']);
+
+console.log('MESSAGE CARD', props.message);
 </script>
 
 <template>
@@ -14,11 +16,11 @@ const count = ref(0)
         <div class="message__main">
 
             <div class="message__main-header"> 
-                <span data-state="online" class="message__sender"> Adrien Lambert </span> 
+                <span data-state="online" class="message__sender"> {{message.sender.username}} </span> 
                 <span class="message__time"> 04/02/2022 - 14h55 </span> 
             </div>
 
-            <div class="message__content"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam illo dignissimos ad? Fugiat debitis fugit sint molestiae reprehenderit, expedita in soluta quisquam explicabo perspiciatis, ipsa necessitatibus, porro ipsam enim! </div>
+            <div class="message__content"> {{message.content}} </div>
 
         </div>
 

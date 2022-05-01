@@ -14,7 +14,7 @@
       </article>
 
       <footer>
-        <Form v-if="selectedUser.id"/>
+        <Form v-if="selectedUser.id" @sendMessage="sendMessage"/>
       </footer>
 
     </main>

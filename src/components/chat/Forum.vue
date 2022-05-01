@@ -14,27 +14,8 @@
 <template >
 
         <div v-if="selectedUser.id">
-
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
-            <MessageCard />
             
+            <MessageCard v-for="(message, keyMessage) in selectedUser.messages" :key="keyMessage" :message="message" />
             
         </div>
 
