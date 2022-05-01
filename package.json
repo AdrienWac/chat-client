@@ -10,6 +10,7 @@
     "test:custom": "./node_modules/.bin/jest unit/services/user.service.test --detectOpenHandles"
   },
   "dependencies": {
+    "@tiptap/vue-3": "^2.0.0-beta.91",
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
     "floating-vue": "^2.0.0-beta.15",
