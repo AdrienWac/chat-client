@@ -85,7 +85,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    @import url('../../assets/scss/mobile/aside.scss') screen and (max-width: 64em);
+    @import '../../assets/scss/mobile/aside.scss';
     @import '../../assets/scss/desktop/aside.scss';
     @import '../../assets/scss/common.scss';
     
@@ -199,7 +199,6 @@ export default {
     .aside--close {
     
         grid-template-rows: 1fr 11fr;
-        width: 100px;
     
         .aside__users {
     
@@ -208,12 +207,7 @@ export default {
             .aside-users__item {
     
                 position: relative;
-    
-                .item__profil-pic img {
-                    width: 40px;
-                    height: 40px;
-                }
-    
+
                 .item__username {
                     display: none;
                 }
