@@ -18,9 +18,8 @@
                 </div>
                 <div class="item__informations">
                     <span class="item__username">{{user.username}}</span>
-                    <span v-if="!user.is_typing" class="item__last-message">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure qui iusto accusantium necessitatibus 
-                        molestiae omnis. Omnis et sed voluptates, culpa vero nobis ad nostrum pariatur. Aspernatur sint exercitationem voluptas doloremque.
+                    <span v-if="!user.is_typing && user.messages.length" class="item__last-message">
+                        {{user.messages[user.messages.length - 1].content}}
                     </span>
                     <TypingAnimation v-if="user.is_typing" :showText="false" />
                 </div>
