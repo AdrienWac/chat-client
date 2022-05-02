@@ -96,24 +96,23 @@ export default {
       // TODO Refacto passer par chat service (composition avec en attribut Socket)
       console.log('Send Message', content, selectedUser.value.id);
 
-      Socket.emit('private message', {
-        content,
-        recipientUser: selectedUser.value
-      });
+      const messageDatas = {content: content, senderUser: user, recipientUser: selectedUser.value, date: store.getters['chat/currentFormatedDate']};
 
-      store.dispatch('chat/sendMessage', {content: content, senderUser: user, recipientUser: selectedUser.value});
+      Socket.emit('private message', messageDatas);
+
+      store.dispatch('chat/sendMessage', messageDatas);
 
     };
 
-    Socket.on('private message', ({content, from, to}) => {
+    Socket.on('private message', ({content, from, to, date}) => {
 
       console.log('Receive message', content, from, to);
 
       if (from.id === user.id) {
         console.log(`C\'est envoyé depuis un frère pour ${to.username}`);
-        store.dispatch('chat/receiveMessageFromBro', {content: content, senderUser: from, recipientUser: to, fromSelf: true});
+        store.dispatch('chat/receiveMessageFromBro', {content: content, senderUser: from, recipientUser: to, fromSelf: true, date});
       } else {
-        store.dispatch('chat/receiveMessage', {content: content, senderUser: from, recipientUser: to, fromSelf: false});
+        store.dispatch('chat/receiveMessage', {content: content, senderUser: from, recipientUser: to, fromSelf: false, date});
       }
 
 

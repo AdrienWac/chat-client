@@ -17,7 +17,7 @@ console.log('MESSAGE CARD', props.message);
 
             <div class="message__main-header"> 
                 <span data-state="online" class="message__sender"> {{message.sender.username}} </span> 
-                <span class="message__time"> 04/02/2022 - 14h55 </span> 
+                <span class="message__time"> &nbsp;{{message.date}} </span> 
             </div>
 
             <div class="message__content"> {{message.content}} </div>
@@ -107,6 +107,7 @@ console.log('MESSAGE CARD', props.message);
                 margin-bottom: 5px;
 
                 .message__sender {font-weight: bold;}
+                .message__time {font-size: 0.8rem;}
 
             }
 

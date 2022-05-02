@@ -63,7 +63,7 @@ export const chatStoreModule = {
         },
 
         // TODO Refacto le code commun entre sendMessage, receiveMessage, receiveMessageFromBro
-        sendMessage({ commit, state }, { content, senderUser, recipientUser }) {
+        sendMessage({ commit, state }, { content, senderUser, recipientUser, date }) {
             // TODO refacto => passer par un Map au lieu d'un array pour state.arrayUsers
             let messages = [];    
 
@@ -80,14 +80,14 @@ export const chatStoreModule = {
                 
             }
            
-            messages.push({ content: content, fromSelf: true, sender: senderUser });
+            messages.push({ content: content, fromSelf: true, sender: senderUser, date });
 
             commit('SET_USER_PROPERTY', { userId: state.selectedUser.id, propertyName: 'messages', propertyValue: messages });
             
 
         },
 
-        receiveMessage({commit, state}, {content, senderUser, recipientUser, fromSelf}) {
+        receiveMessage({commit, state}, {content, senderUser, recipientUser, fromSelf, date}) {
 
             const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
             
@@ -102,8 +102,7 @@ export const chatStoreModule = {
             }
 
             // J'y ajoute le nouveau message
-            console.log('ICICICICI', senderUser, recipientUser);
-            messages.push({ content: content, fromSelf: fromSelf, sender: senderUser});
+            messages.push({ content: content, fromSelf: fromSelf, sender: senderUser, date});
 
             // Je met à jour la propriété dans le state
             commit('SET_USER_PROPERTY', { userId: senderUser.id, propertyName: 'messages', propertyValue: messages });
@@ -128,7 +127,7 @@ export const chatStoreModule = {
 
         },
 
-        receiveMessageFromBro ({commit, state}, {content, senderUser, recipientUser, fromSelf}) {
+        receiveMessageFromBro ({commit, state}, {content, senderUser, recipientUser, fromSelf, date}) {
 
             const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
 
@@ -149,7 +148,7 @@ export const chatStoreModule = {
             }
 
             // J'y ajoute le nouveau message
-            messages.push({ content: content, fromSelf: fromSelf, sender: senderUser });
+            messages.push({ content: content, fromSelf: fromSelf, sender: senderUser, date });
 
             // Je met à jour la propriété dans le state
             commit('SET_USER_PROPERTY', { userId: recipientUser.id, propertyName: 'messages', propertyValue: messages });
@@ -184,6 +183,22 @@ export const chatStoreModule = {
         },
         selectedUser(state) {
             return state.selectedUser;
-        } 
+        },
+        currentFormatedDate() {
+            
+            const date = new Date();
+
+            const day = date.getDay();
+            const month = date.getMonth() + 1;
+
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
+
+            return `${ day > 9 ? day : "0" + day }/${ month > 9 ? month : "0" + month}/${ date.getFullYear() } ${ hours }:${ minutes > 9 ? minutes : "0" + minutes }:${ seconds > 9 ? seconds : "0" + seconds }`;
+
+        },
+
+        
     }
 };
