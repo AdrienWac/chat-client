@@ -45,11 +45,16 @@ export const chatStoreModule = {
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_connected', propertyValue: status});
         },
 
-        selectUser({ commit}, user) {
-    
-            commit('SET_SELECTED_USER', user);
+        selectUser({ commit, state }, user) {
+            
+            // Si le user nouvellement sélectionner est déjà le user en sélection 
+            if (user.id === state.selectedUser.id) {
+                commit('SET_SELECTED_USER', {});
+            } else {
+                commit('SET_SELECTED_USER', user);
+                commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'hasNewMessages', propertyValue: 0 });
+            }
 
-            commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'hasNewMessages', propertyValue: 0 });
 
         },
 
@@ -57,6 +62,7 @@ export const chatStoreModule = {
             commit('SET_SELECTED_USER_PROPERTY', 'is_connected', statusValue);
         },
 
+        // TODO Refacto le code commun entre sendMessage, receiveMessage, receiveMessageFromBro
         sendMessage({ commit, state }, { content, senderUser, recipientUser }) {
             // TODO refacto => passer par un Map au lieu d'un array pour state.arrayUsers
             let messages = [];    
