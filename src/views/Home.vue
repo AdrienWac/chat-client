@@ -14,7 +14,7 @@
       </article>
 
       <footer>
-        <Form v-if="selectedUser.id" @sendMessage="sendMessage"/>
+        <Form v-if="selectedUser.is_connected" @sendMessage="sendMessage"/>
       </footer>
 
     </main>
