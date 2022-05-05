@@ -1,7 +1,6 @@
 <template>
   
     <form @submit.prevent="onSubmit" class="form">
-      
       <!-- FIXME Changer le @keyup pour faire une combinaison CTRL + Entrée -->
       <textarea 
         v-model="content" 
@@ -9,6 +8,7 @@
         required=true
         class="input" 
         @keyup.ctrl.exact="onSubmit"
+        ref="message"
       />
       <button :disabled="!isValid" class="send-button">
         <PaperPlane :stroke="{color: 'transparent', width:3}" :fill="'#fff'" height="24" width="24" />
@@ -20,7 +20,7 @@
 
 <script>
 
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, watchEffect } from 'vue'
 import {useStore} from 'vuex'
 import PaperPlane from '../svg/PaperPlane.vue'
 import Socket from '../../socket'
@@ -33,6 +33,8 @@ export default {
     setup(props, context) {
 
         let content = ref('');
+
+        let message = ref(null);
         
         let isValid = computed(() => content.value.length > 0);
 
@@ -60,9 +62,17 @@ export default {
           Socket.on('end typing', ({user: userWhoTyping}) => store.dispatch('chat/detectTypingMessage', {user: userWhoTyping, state: false}));
 
           Socket.on('start typing', ({user: userWhoTyping}) => store.dispatch('chat/detectTypingMessage', {user: userWhoTyping, state: true}));
+        
+          const selectedUser = computed(() => store.getters['chat/selectedUser']);
+
+          watchEffect(async () => {
+            if (Object.keys(selectedUser.value).length > 0) {
+              message.value.focus();
+            }
+          });
 
 
-        return {content, isValid, onSubmit};   
+        return {content, isValid, onSubmit, message, selectedUser};   
     }
 }
 </script>
