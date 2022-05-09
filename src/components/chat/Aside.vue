@@ -21,7 +21,7 @@
                     <span v-if="!user.is_typing && user.messages.length" class="item__last-message">
                         {{user.messages[user.messages.length - 1].content}}
                     </span>
-                    <TypingAnimation v-if="user.is_typing" :showText="false" />
+                    <TypingAnimation class="animation" v-if="user.is_typing" :showText="false" />
                 </div>
                 <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
             </li>
@@ -230,7 +230,10 @@ export default {
         .aside__logo-app {
             display: none;
         }
-    
+
+        .animation {
+            background: red;
+        }
     }
 
 </style>
