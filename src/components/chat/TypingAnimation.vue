@@ -6,12 +6,17 @@
         showText: {
             type: Boolean,
             default: false
+        },
+        size: {
+          type: String,
+          default: "10px"
         }
     });
 
      const cssProps = computed(() => {
         return {
-            '--display-dots-loading': props.showText ? 'grid' : 'block'
+            '--display-dots-loading': props.showText ? 'grid' : 'block',
+            '--size-dots': props.size
         }
     });
 
@@ -31,36 +36,43 @@
 //     display: var(--display-dots-loading);
 //     grid-template-columns: 0.5fr 11.5fr;
 // }
-
+$sizeDots: var(--size-dots);
+$animationDuration:1s; 
+$widthContainer: calc($sizeDots * 3);
+$heightContainer: calc($sizeDots * 2);
 .dot-loading__container {
-  width: 10%;
-  height: 20px;
+  width: $widthContainer;
+  height: $heightContainer;
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
+
 .dot-loading__dot {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  animation: dotMoving 0.5s infinite alternate;
+  animation: dotMoving $animationDuration infinite alternate-reverse;
 }
-.dot-loading__dot:nth-of-type(0) {
+
+.dot-loading__dot:nth-of-type(0), .dot-loading__dot:nth-of-type(0)::before {
   animation-delay: 0s;
 }
-.dot-loading__dot:nth-of-type(1) {
-  animation-delay: 0.25s;
-}
-.dot-loading__dot:nth-of-type(2) {
+.dot-loading__dot:nth-of-type(1), .dot-loading__dot:nth-of-type(1)::before {
   animation-delay: 0.5s;
+}
+.dot-loading__dot:nth-of-type(2), .dot-loading__dot:nth-of-type(2)::before {
+  animation-delay: 1s;
 }
 .dot-loading__dot::before {
   content: "";
-  width: 10px;
-  height: 10px;
+  width: $sizeDots;
+  height: $sizeDots;
   border-radius: 50%;
-  background-color: red;
+  background-color: map-get($colors, notification);
+  animation : dotColor $animationDuration infinite alternate-reverse;
 }
+
 @keyframes dotMoving {
   0% {
     justify-content: center;
@@ -70,6 +82,18 @@
   }
   100% {
     justify-content: center;
+  }
+}
+
+@keyframes dotColor {
+  0% {
+    background-color: map-get($colors, notification);
+  }
+  50% {
+    background-color: lighten(map-get($colors, notification), 50%);
+  }
+  100% {
+    background-color: map-get($colors, notification);
   }
 }
 
