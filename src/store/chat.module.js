@@ -36,7 +36,6 @@ export const chatStoreModule = {
     actions: {
         
         generateListUsers({ commit }, arrayUsers) {
-            console.log('generateListUSers', arrayUsers);
             commit('SET_ARRAY_USERS', arrayUsers);
 
         },

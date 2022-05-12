@@ -73,7 +73,6 @@ export default {
 
     // Quand un autre socket se déconnecte
     Socket.on('user disconected', (userInformation) => {
-      console.log(`L'utilisateur ${userInformation.id} s'est déconnecté.`, store.getters['chat/selectedUser']);
       store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false});
       // Si c'est l'utilisateur sélectionné, il faut mettre à jour son état de sélection
       if (store.getters['chat/selectedUser']?.id === userInformation.id) {
@@ -94,22 +93,16 @@ export default {
 
     const sendMessage = (content) => {
       // TODO Refacto passer par chat service (composition avec en attribut Socket)
-      console.log('Send Message', content, selectedUser.value.id);
-
       const messageDatas = {content: content, senderUser: user, recipientUser: selectedUser.value, date: store.getters['chat/currentFormatedDate']};
 
       Socket.emit('private message', messageDatas);
 
       store.dispatch('chat/sendMessage', messageDatas);
-
     };
 
     Socket.on('private message', ({content, from, to, date}) => {
 
-      console.log('Receive message', content, from, to);
-
       if (from.id === user.id) {
-        console.log(`C\'est envoyé depuis un frère pour ${to.username}`);
         store.dispatch('chat/receiveMessageFromBro', {content: content, senderUser: from, recipientUser: to, fromSelf: true, date});
       } else {
         store.dispatch('chat/receiveMessage', {content: content, senderUser: from, recipientUser: to, fromSelf: false, date});

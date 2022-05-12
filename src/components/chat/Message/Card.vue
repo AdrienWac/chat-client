@@ -3,7 +3,6 @@ import { ref } from 'vue'
 
 const props = defineProps(['message']);
 
-console.log('MESSAGE CARD', props.message);
 </script>
 
 <template>

@@ -24,7 +24,6 @@
 
 <template>
     <div :style="cssProps" class="dot-loading__container">
-        <!-- TODO Passer le nombre de dots via props et boucler sur ce nombre -->
         <span class="dot-loading__dot"></span>
         <span class="dot-loading__dot"></span>
         <span class="dot-loading__dot"></span>
@@ -32,14 +31,13 @@
 </template>
 
 <style scoped lang="scss">
-// .dots-loading {
-//     display: var(--display-dots-loading);
-//     grid-template-columns: 0.5fr 11.5fr;
-// }
+
 $sizeDots: var(--size-dots);
 $animationDuration:1s; 
 $widthContainer: calc($sizeDots * 3);
 $heightContainer: calc($sizeDots * 2);
+$colorDots:  map-get($colors, primary);
+
 .dot-loading__container {
   width: $widthContainer;
   height: $heightContainer;
@@ -69,7 +67,7 @@ $heightContainer: calc($sizeDots * 2);
   width: $sizeDots;
   height: $sizeDots;
   border-radius: 50%;
-  background-color: map-get($colors, notification);
+  background-color: $colorDots;
   animation : dotColor $animationDuration infinite alternate-reverse;
 }
 
@@ -87,13 +85,13 @@ $heightContainer: calc($sizeDots * 2);
 
 @keyframes dotColor {
   0% {
-    background-color: map-get($colors, notification);
+    background-color: $colorDots;
   }
   50% {
-    background-color: lighten(map-get($colors, notification), 50%);
+    background-color: lighten($colorDots, 50%);
   }
   100% {
-    background-color: map-get($colors, notification);
+    background-color: $colorDots;
   }
 }
 
