@@ -36,7 +36,6 @@ export const chatStoreModule = {
     actions: {
         
         generateListUsers({ commit }, arrayUsers) {
-            console.log('generateListUSers', arrayUsers);
             commit('SET_ARRAY_USERS', arrayUsers);
 
         },
@@ -45,11 +44,16 @@ export const chatStoreModule = {
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_connected', propertyValue: status});
         },
 
-        selectUser({ commit}, user) {
-    
-            commit('SET_SELECTED_USER', user);
+        selectUser({ commit, state }, user) {
+            
+            // Si le user nouvellement sélectionner est déjà le user en sélection 
+            if (user.id === state.selectedUser.id) {
+                commit('SET_SELECTED_USER', {});
+            } else {
+                commit('SET_SELECTED_USER', user);
+                commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'hasNewMessages', propertyValue: 0 });
+            }
 
-            commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'hasNewMessages', propertyValue: 0 });
 
         },
 
@@ -57,7 +61,8 @@ export const chatStoreModule = {
             commit('SET_SELECTED_USER_PROPERTY', 'is_connected', statusValue);
         },
 
-        sendMessage({ commit, state }, { content, senderUser, recipientUser }) {
+        // TODO Refacto le code commun entre sendMessage, receiveMessage, receiveMessageFromBro
+        sendMessage({ commit, state }, { content, senderUser, recipientUser, date }) {
             // TODO refacto => passer par un Map au lieu d'un array pour state.arrayUsers
             let messages = [];    
 
@@ -73,15 +78,15 @@ export const chatStoreModule = {
                 } 
                 
             }
-
-            messages.push({ content: content, fromSelf: true });
+           
+            messages.push({ content: content, fromSelf: true, sender: senderUser, date });
 
             commit('SET_USER_PROPERTY', { userId: state.selectedUser.id, propertyName: 'messages', propertyValue: messages });
             
 
         },
 
-        receiveMessage({commit, state}, {content, senderUser, recipientUser, fromSelf}) {
+        receiveMessage({commit, state}, {content, senderUser, recipientUser, fromSelf, date}) {
 
             const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
             
@@ -96,7 +101,7 @@ export const chatStoreModule = {
             }
 
             // J'y ajoute le nouveau message
-            messages.push({ content: content, fromSelf: fromSelf});
+            messages.push({ content: content, fromSelf: fromSelf, sender: senderUser, date});
 
             // Je met à jour la propriété dans le state
             commit('SET_USER_PROPERTY', { userId: senderUser.id, propertyName: 'messages', propertyValue: messages });
@@ -121,6 +126,52 @@ export const chatStoreModule = {
 
         },
 
+        receiveMessageFromBro ({commit, state}, {content, senderUser, recipientUser, fromSelf, date}) {
+
+            const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
+
+            // Extraction de la propriété message du destinataire
+            let messages = [];
+
+            for (let index = 0; index < state.arrayUsers.length; index++) {
+
+                const element = state.arrayUsers[index];
+
+                if (element.id === recipientUser.id) {
+
+                    messages = state.arrayUsers[index].messages;
+
+                    break;
+                }
+
+            }
+
+            // J'y ajoute le nouveau message
+            messages.push({ content: content, fromSelf: fromSelf, sender: senderUser, date });
+
+            // Je met à jour la propriété dans le state
+            commit('SET_USER_PROPERTY', { userId: recipientUser.id, propertyName: 'messages', propertyValue: messages });
+
+            // Si le destinataire n'est pas l'utilisateur sélectionné j'incrémente hasNewMessage
+            if (Object.keys(state.selectedUser).length == 0 || recipientUser.id !== state.selectedUser.id) {
+
+                let hasNewMessageValue = 0;
+
+                // J'extrais la propriété message du destinataire
+                for (let index = 0; index < state.arrayUsers.length; index++) {
+                    if (recipientUser.id === state.arrayUsers[index].id) {
+                        hasNewMessageValue = state.arrayUsers[index].hasNewMessages;
+                        break;
+                    }
+                }
+
+                hasNewMessageValue += 1;
+
+                commit('SET_USER_PROPERTY', { userId: recipientUser.id, propertyName: 'hasNewMessages', propertyValue: hasNewMessageValue });
+            }
+
+        },
+
         detectTypingMessage({commit}, {user, state: boolIsTyping}) {
             commit('SET_USER_PROPERTY', { userId: user.id, propertyName: 'is_typing', propertyValue: boolIsTyping });
         }
@@ -131,6 +182,22 @@ export const chatStoreModule = {
         },
         selectedUser(state) {
             return state.selectedUser;
-        } 
+        },
+        currentFormatedDate() {
+            
+            const date = new Date();
+
+            const day = date.getDay();
+            const month = date.getMonth() + 1;
+
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
+
+            return `${ day > 9 ? day : "0" + day }/${ month > 9 ? month : "0" + month}/${ date.getFullYear() } ${ hours }:${ minutes > 9 ? minutes : "0" + minutes }:${ seconds > 9 ? seconds : "0" + seconds }`;
+
+        },
+
+        
     }
 };

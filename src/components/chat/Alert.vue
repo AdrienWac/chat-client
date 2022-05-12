@@ -38,10 +38,10 @@ export default {
 
     .icon, .message {color: var(--color);}
     .alert__container {
-        height: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        text-align: center;
     }
 </style>

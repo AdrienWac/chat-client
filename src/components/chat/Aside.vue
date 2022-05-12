@@ -1,28 +1,42 @@
 <template>
-    <aside>
-        <div class="title">
-            <h2 class="title__content">Utilisateurs</h2>
-            <router-link :to="{ name: 'Logout'}">Logout</router-link>
+    <aside :class="asideIsOpen ? `aside--open` : `aside--close`">
+        <div class="aside__icons" @click="setAsideState()" >
+            <Hamburger v-if="!asideIsOpen" :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="40" width="40" />
+            <XmarkSvg v-if="asideIsOpen" :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="40" width="40"/>
         </div>
-        <div class="list-users">
-            <ul>
-                <li v-for="user in arrayUsers" :key="user.userId" v-on="user.is_connected? {click: () => selectUser(user)} : {}" :class=" `${selectedUser === user ? 'selected' : ''} list-users__item`" :data-state="`${user.is_connected ? 'online' : 'offline'}`" > 
-                    <div class="item__profil-pic">
-                        <img alt="Vue logo" src="../../assets/logo.png">
-                    </div>
-                    <div class="item__username">
-                        <span>{{user.username}}</span>
-                        <TypingAnimation v-if="user.is_typing" :showText="false" />
-                    </div>
-                    <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
-                </li>
-            </ul>
+        
+        <ul class="aside__users">
+            <li 
+                v-for="user in arrayUsers" 
+                :key="user.userId" 
+                v-on="user.is_connected? {click: () => selectUser(user)} : {}" 
+                :class=" `${selectedUser === user ? 'selected' : ''} aside-users__item`" 
+                :data-state="`${user.is_connected ? 'online' : 'offline'}`" 
+            > 
+                <div class="item__profil-pic" :data-state="`${user.is_connected ? 'online' : 'offline'}`" v-tooltip.right="{ content: user.username, disabled: asideIsOpen, theme: 'tooltip'}">
+                    <img alt="Vue logo" src="../../assets/logo.png">
+                </div>
+                <div class="item__informations">
+                    <span class="item__username">{{user.username}}</span>
+                    <span v-if="!user.is_typing && user.messages.length" class="item__last-message">
+                        {{user.messages[user.messages.length - 1].content}}
+                    </span>
+                    <TypingAnimation class="animation" :size="asideIsOpen ? '10px' : '8px'" v-if="user.is_typing" :showText="false" />
+                </div>
+                <div v-if="user.hasNewMessages > 0" class="item__notification"><span class="badge">{{user.hasNewMessages > 10 ? '10+' : user.hasNewMessages}}</span></div>
+            </li>
+        </ul>
+        <div class="aside__logo-app">
+            Le chaat'
         </div>
     </aside>
 </template>
 
 <script>
 import TypingAnimation from '../../components/chat/TypingAnimation.vue'
+import Hamburger from '../../components/svg/Hamburger.vue'
+import XmarkSvg from '../../components/svg/Xmark.vue'
+import PowerOff from '../../components/svg/PowerOff.vue'
 import {onMounted, ref, reactive, computed} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -46,90 +60,183 @@ export default {
 
         const signout =  () => UserService.logout();
 
+        let asideIsOpen = ref(true);
+        const setAsideState = () => {
+            asideIsOpen.value  = !asideIsOpen.value;
+        }
+
         return {
             selectUser, 
             signout,
             arrayUsers,
-            selectedUser
+            selectedUser,
+            setAsideState,
+            asideIsOpen
         };
     },
     components: {
-        TypingAnimation
+        TypingAnimation,
+        Hamburger,
+        XmarkSvg,
+        PowerOff
     }
 }
 </script>
 
 <style scoped lang="scss">
-
-aside {
-    display: grid;
-    grid-template-rows: 8% 92%;
-    border-right: 1px solid map-get($colors, primary);
-    .title {
-        padding: 10px 5px;
-        border-bottom: 1px solid map-get($colors, primary);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        h2{font-size: 2rem;text-transform: uppercase;color: map-get($colors, second);}
-    }
-}
-.list-users {
+    @import '../../assets/scss/mobile/aside.scss';
+    @import '../../assets/scss/desktop/aside.scss';
+    @import '../../assets/scss/common.scss';
     
-    .list-users__item[data-state="offline"] .item__profil-pic img { border-color: map-get($colors, offline );}
-    .list-users__item[data-state="online"] .item__profil-pic img { border-color: map-get($colors, online );}
+    aside {
 
-    .list-users__item:hover, .list-users__item.selected {
-        cursor: pointer;
-        background: rgba(0 , 0, 0, 0.05);
-    }
-
-    .list-users__item {
-
-        margin: 5px 0;
-        padding: 10px;
         display: grid;
-        grid-template-columns: 2fr 9fr 1fr;
+        border-right: 1px solid map-get($colors, primary);
 
-        .item__profil-pic img {
-            border: 2px solid;
-            border-radius: 50%;
-            padding: 5px;
-            width:32px;
-            height:32px;
-        }
-
-        .item__username {
-            
+        .aside__icons {
+            background-color: map-get($colors, second);
+            color: map-get($colors, primary);
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
-            font-weight: normal;
-            font-size: 1.2rem;
-            padding: 0 5px;
         }
 
-        .item__notification {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .aside__users {
+
+            overflow-y: scroll;
+
             
-            .badge {
-                display: block;
-                height: 24px;
-                width: 24px;
-                border-radius: 50%;
-                background: map-get($colors, notification);
-                text-align: center;
-                line-height: 22px;
-                font-weight: bold;
-                color: #fff;
-                font-size: 0.7rem;
+            .aside-users__item:hover,
+            .aside-users__item.selected {
+                cursor: pointer;
+                background: rgba(0, 0, 0, 0.05);
             }
 
-        }
+            .aside-users__item {
+    
+                padding: 10px;
 
+                .item__username {
+                    font-weight: normal;
+                    font-size: 1.2rem;
+                    padding: 0 5px;
+                }
+
+                .item__notification {
+                    .badge {
+                        display: block;
+                        height: 24px;
+                        width: 24px;
+                        border-radius: 50%;
+                        background: map-get($colors, notification);
+                        text-align: center;
+                        line-height: 22px;
+                        font-weight: bold;
+                        color: #fff;
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+        }
     }
 
-}
+    .aside--open {
+    
+        grid-template-rows: 1fr 9fr 2fr;
+        width: 300px;
+    
+        .aside__users {
+    
+            .aside-users__item {
+    
+                display: grid;
+                grid-template-columns: 2fr 9fr 1fr;
+    
+                .item__profil-pic img {
+                    width: 32px;
+                    height: 32px;
+                }
+    
+                .item__informations {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                }
+    
+                .item__last-message {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: 190px;
+                    display: block;
+                    white-space: nowrap;
+                    padding: 0 5px;
+                }
+    
+                .item__notification {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+    
+                }
+    
+            }
+    
+        }
+    
+        .aside__logo-app {
+            background-color: map-get($colors, second);
+            color: map-get($colors, primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    
+    }
+    
+    .aside--close {
+    
+        grid-template-rows: 1fr 11fr;
+    
+        .aside__users {
+    
+            text-align: center;
+    
+            .aside-users__item {
+    
+                position: relative;
+
+                .item__username {
+                    display: none;
+                }
+    
+                .item__last-message {
+                    display: none;
+                }
+    
+                .item__notification {
+    
+                    position: absolute;
+                    bottom: 0px;
+                    right: 15%;
+    
+                }
+    
+            }
+    
+        }
+    
+        .aside__logo-app {
+            display: none;
+        }
+
+        .animation {
+            background: transparent;
+            position: absolute;
+            bottom: 0px;
+            left: 5%;
+        }
+    }
+
 </style>

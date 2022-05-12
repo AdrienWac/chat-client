@@ -1,0 +1,12 @@
+.item__profil-pic[data-state="offline"] img { border-color: map-get($colors, offline); }
+
+.item__profil-pic[data-state="online"] img { border-color: map-get($colors, online); }
+
+.item__profil-pic img {
+
+    border: 2px solid;
+    border-radius: 50%;
+    padding: 5px;
+
+}
+

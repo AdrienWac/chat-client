@@ -1,73 +1,21 @@
 <template>
   <div class="home">
+
+    <Aside />
     
-    <Aside :listUsers="listUsers"/>
+    <main>
+      
+      <Header />
 
-    <main :class="`${selectedUser.id ? 'main--full' : ''}`">
+      <article :class=" `${selectedUser.id ? 'article--user-selected' : 'article--user-not-selected'} forum__container` ">
 
-      <div class="forum">
+        <Forum />
 
-        <div class="forum__header">
-          <div :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="user header__user" v-if="selectedUser.id">
-            {{selectedUser.username}}
-          </div>
-        </div>
+      </article>
 
-        <div class="forum__list">
-
-          <ul v-if ="selectedUser.id">
-
-            <li v-if ="selectedUser.messages?.length > 0" class="message__card" v-for="message in selectedUser.messages">
-              
-              <div class="message__aside">
-                <img alt="Vue logo" src="../assets/logo.png">
-              </div>
-
-              <div class="message__main">
-
-                <div class="message__main-header"> 
-                  <span :data-state="`${selectedUser.is_connected ? 'online' : 'offline'}`" class="message__sender user"> {{ message.fromSelf ? user.username : selectedUser.username }} </span> 
-                  <span class="message__time"> 04/02/2022 - 14h55 </span> 
-                </div>
-
-                <div class="message__content"> {{ message.content }} </div>
-
-              </div>
-        
-            </li>
-
-            <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
-              <template v-slot:icon>
-                <CommentSlash :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
-              </template>
-              <template v-slot:message>Aucun message à afficher</template>
-            </AlertPage>
-            
-          </ul>
-          
-          <AlertPage v-else :colors="{icon: `#000`, message:`#000`}">
-            <template v-slot:icon>
-              <MousePointer :stroke="{color: 'transparent', width:3}" :fill="'#000'" height="32" width="32" />
-            </template>
-            <template v-slot:message>Sélectionner un utilisateur</template>
-          </AlertPage>
-
-        </div>
-
-      </div>
-
-      <div v-if="selectedUser.is_connected" class="main__form">
-
-        <div class="form__header" :data-visibility="`${selectedUser.is_typing ? 'show' : 'hidden'}`">
-          <div class="header__test">
-            <!-- TODO Revoir l'affichage de cette animation -->
-            <TypingAnimation v-if="selectedUser?.is_typing" :text="`${selectedUser.username} écrit`" :showText="true"/>
-          </div>
-        </div>
-
-        <Form @sendMessage="sendMessage"/>
-
-      </div>
+      <footer>
+        <Form v-if="selectedUser.is_connected" @sendMessage="sendMessage"/>
+      </footer>
 
     </main>
 
@@ -79,12 +27,15 @@
 // @ is an alias to /src
 import Socket from '../socket'
 import {ref, onMounted, watch, computed} from 'vue'
+import Header from '../components/chat/Header.vue'
 import Aside from '../components/chat/Aside.vue'
+import Forum from '../components/chat/Forum.vue'
 import Form from '../components/chat/Form.vue'
 import AlertPage from '../components/chat/Alert.vue'
 import TypingAnimation from '../components/chat/TypingAnimation.vue'
 import CommentSlash from '../components/svg/CommentSlash.vue'
 import MousePointer from '../components/svg/MousePointer.vue'
+import PowerOff from '../components/svg/PowerOff.vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -103,9 +54,9 @@ export default {
     const router = useRouter();
     let listUsers = ref([]);
 
-    const selectedUser = computed(() => store.getters['chat/selectedUser']);
-
     let user = JSON.parse(localStorage.getItem('user'));
+
+    let selectedUser = computed(() => store.getters['chat/selectedUser']);
 
     const initSocket = () => { 
       Socket.auth = {...user};
@@ -122,7 +73,6 @@ export default {
 
     // Quand un autre socket se déconnecte
     Socket.on('user disconected', (userInformation) => {
-      console.log(`L'utilisateur ${userInformation.id} s'est déconnecté.`, store.getters['chat/selectedUser']);
       store.dispatch('chat/setUserConnectedStatus', {user: userInformation, status: false});
       // Si c'est l'utilisateur sélectionné, il faut mettre à jour son état de sélection
       if (store.getters['chat/selectedUser']?.id === userInformation.id) {
@@ -143,45 +93,75 @@ export default {
 
     const sendMessage = (content) => {
       // TODO Refacto passer par chat service (composition avec en attribut Socket)
-      console.log('Send Message', content, selectedUser.value.id);
+      const messageDatas = {content: content, senderUser: user, recipientUser: selectedUser.value, date: store.getters['chat/currentFormatedDate']};
 
-      Socket.emit('private message', {
-        content,
-        recipientUser: selectedUser.value
-      });
+      Socket.emit('private message', messageDatas);
 
-      store.dispatch('chat/sendMessage', {content: content, senderUser: user, recipientUser: selectedUser.value});
-
+      store.dispatch('chat/sendMessage', messageDatas);
     };
 
-    Socket.on('private message', ({content, from, to}) => {
-
-      console.log('Receive message', content, from, to);
+    Socket.on('private message', ({content, from, to, date}) => {
 
       if (from.id === user.id) {
-        console.log(`C\'est envoyé depuis un frère pour ${to.username}`);
-        store.dispatch('chat/receiveMessage', {content: content, senderUser: to, recipientUser: from, fromSelf: true});
+        store.dispatch('chat/receiveMessageFromBro', {content: content, senderUser: from, recipientUser: to, fromSelf: true, date});
       } else {
-        store.dispatch('chat/receiveMessage', {content: content, senderUser: from, recipientUser: to, fromSelf: false});
+        store.dispatch('chat/receiveMessage', {content: content, senderUser: from, recipientUser: to, fromSelf: false, date});
       }
 
 
     });
     
-    return { user, listUsers, selectedUser, sendMessage };
+    return { user, selectedUser, listUsers, sendMessage};
 
   },
   components: {
     Aside,
+    Header,
+    Forum,
     Form,
     AlertPage,
     CommentSlash,
     MousePointer,
+    PowerOff,
     TypingAnimation,
   }
 }
 </script>
 
 <style scoped lang="scss">
-  @import '../assets/scss/home.scss';
+  @import '../assets/scss/home.scss'; 
+  @import '../assets/scss/common.scss'; 
+
+  @import '../assets/scss/mobile/home.scss';
+  @import '../assets/scss/desktop/home.scss';
+
+  main {
+
+    display: grid;
+    grid-template-rows: 1fr 9fr 2fr;
+    max-height: 100vh;
+    overflow: hidden;
+
+    article {
+
+      border-top: 1px solid map-get($colors, primary);
+      border-bottom: 1px solid map-get($colors, primary);
+      display: flex;
+      flex-direction: column-reverse;
+
+    }
+
+    .article--user-selected { overflow-y: scroll; } 
+
+    .article--user-not-selected {
+      align-items: center;
+      justify-content: center;
+    }
+
+    footer {
+      height: 100%;
+      padding: 10px;
+    }
+    
+  }
 </style>
